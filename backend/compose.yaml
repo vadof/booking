@@ -1,9 +1,0 @@
-services:
-  postgres:
-    image: postgres:16rc1
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=reservation
-    ports:
-      - '5432:5432'
