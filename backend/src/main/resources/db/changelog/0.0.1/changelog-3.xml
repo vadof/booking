@@ -1,0 +1,52 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="3" author="vadim">
+
+        <!-- Create HousingDetails table -->
+
+        <createTable tableName="housing_details">
+
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+
+            <column name="check_in" type="time(6)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="check_out" type="time(6)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="m2" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="min_rental_age" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="min_nights" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="rooms" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>
