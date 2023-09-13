@@ -5,6 +5,8 @@
 
     <changeSet id="1" author="vadim">
 
+        <!-- Create User table -->
+
         <createTable tableName="my_user">
 
             <column name="id" type="bigint" autoIncrement="true">
@@ -34,6 +36,7 @@
             <column name="role" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+
         </createTable>
 
     </changeSet>

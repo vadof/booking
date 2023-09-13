@@ -4,6 +4,9 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="4" author="vadim">
+
+        <!-- Create Location table -->
+
         <createTable tableName="location">
 
             <column name="id" type="bigint" autoIncrement="true">
@@ -11,10 +14,11 @@
             </column>
 
             <column name="name" type="varchar(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
 
         </createTable>
+
     </changeSet>
 
 </databaseChangeLog>

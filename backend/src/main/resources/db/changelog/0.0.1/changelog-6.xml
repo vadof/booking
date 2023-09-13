@@ -4,6 +4,9 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="6" author="vadim">
+
+        <!-- Create Image table -->
+
         <createTable tableName="image">
 
             <column name="id" type="bigint" autoIncrement="true">
@@ -15,6 +18,7 @@
             </column>
 
         </createTable>
+
     </changeSet>
 
 </databaseChangeLog>

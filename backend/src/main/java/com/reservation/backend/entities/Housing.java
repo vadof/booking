@@ -41,7 +41,7 @@ public class Housing {
     @Column(nullable = false)
     private Integer people;
 
-    @Column(nullable = false, columnDefinition = "DECIMAL(2,1)")
+    @Column(nullable = false, columnDefinition = "DECIMAL(3,1)")
     private BigDecimal rating;
 
     @OneToMany

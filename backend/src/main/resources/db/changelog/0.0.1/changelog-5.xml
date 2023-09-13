@@ -4,6 +4,9 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="5" author="vadim">
+
+        <!-- Create Review table -->
+
         <createTable tableName="review">
 
             <column name="id" type="bigint" autoIncrement="true">
@@ -27,6 +30,7 @@
             </column>
 
         </createTable>
+
     </changeSet>
 
 </databaseChangeLog>

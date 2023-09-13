@@ -4,6 +4,9 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="2" author="vadim">
+
+        <!-- Create Housing table -->
+
         <createTable tableName="housing">
 
             <column name="id" type="bigint" autoIncrement="true">
@@ -42,6 +45,7 @@
             </column>
 
         </createTable>
+
     </changeSet>
 
 </databaseChangeLog>

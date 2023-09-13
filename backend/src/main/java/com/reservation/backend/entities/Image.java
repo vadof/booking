@@ -16,6 +16,7 @@ public class Image {
     private Long id;
 
     @Lob
+    @Column(nullable = false)
     private byte[] imageData;
 
 }

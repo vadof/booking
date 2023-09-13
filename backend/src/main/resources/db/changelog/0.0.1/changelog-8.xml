@@ -4,6 +4,7 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="8" author="vadim">
+
         <createTable tableName="housing_bookings">
 
             <column name="housing_id" type="bigint">
@@ -15,6 +16,7 @@
             </column>
 
         </createTable>
+
     </changeSet>
 
 </databaseChangeLog>

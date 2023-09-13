@@ -21,7 +21,6 @@ import java.util.*;
 @Table(name = "my_user")
 public class User implements UserDetails {
 
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
