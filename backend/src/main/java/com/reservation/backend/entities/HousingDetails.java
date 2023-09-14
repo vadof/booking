@@ -1,5 +1,6 @@
 package com.reservation.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class HousingDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @JoinColumn(nullable = false)
     @OneToOne(mappedBy = "housingDetails")
     private Housing housing;
