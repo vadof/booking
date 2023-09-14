@@ -2,3 +2,9 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+:root {
+  --blue-color: #3057c0;
+  --white-color: #ffffff;
+  --black-color: #000000;
+}

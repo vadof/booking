@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LoginPageComponent,
     MainPageComponent,
     RegisterPageComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
