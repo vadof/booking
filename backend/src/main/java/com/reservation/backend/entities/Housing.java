@@ -1,5 +1,6 @@
 package com.reservation.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class Housing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @JoinColumn(nullable = false)
     @OneToOne
     private HousingDetails housingDetails;
@@ -44,6 +46,7 @@ public class Housing {
     @Column(nullable = false, columnDefinition = "DECIMAL(3,1)")
     private BigDecimal rating;
 
+    @JsonIgnore
     @OneToMany
     private List<Booking> bookings;
 

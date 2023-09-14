@@ -1,5 +1,6 @@
 package com.reservation.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class Review {
     @ManyToOne
     private User reviewer;
 
+    @JsonIgnore
     @JoinColumn(nullable = false)
     @ManyToOne
     private HousingDetails housingDetails;
