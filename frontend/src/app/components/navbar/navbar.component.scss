@@ -1,0 +1,52 @@
+nav {
+  background-color: var(--blue-color);
+}
+
+svg {
+  fill: var(--white-color);
+
+  transition: transform 0.5s;
+  &:hover {
+    transform: scale(1.5);
+  }
+}
+
+.email {
+  padding-left: 0.3rem;
+}
+
+.logo {
+  font-weight: 800;
+  color: var(--black-color);
+}
+
+.profile {
+  color: var(--white-color);
+  cursor: pointer;
+
+  ul {
+    margin-top: 1rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--blue-color);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+
+    a {
+      color: var(--black-color);
+
+      &:hover {
+        background: var(--blue-color);
+        color: var(--white-color);
+      }
+    }
+
+    .logout {
+      border-radius: 0 0 7px 7px;
+    }
+  }
+}
+
+.dropdown-toggle::after {
+  content: none;
+}
