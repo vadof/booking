@@ -5,11 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import {HttpClientModule} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { HousingItemComponent } from './components/housing-item/housing-item.component';
+import { LocationPipe } from './pipes/location.pipe';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {provideAnimations} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -18,15 +25,25 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     MainPageComponent,
     RegisterPageComponent,
     NavbarComponent,
+    HousingItemComponent,
+    LocationPipe,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
+  providers: [
+    provideAnimations()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
