@@ -26,10 +26,14 @@ export class MainPageComponent implements OnInit {
   locationWindow: boolean = false;
   selectedLocation: ILocation | null = null;
 
+  peopleWindow: boolean = false;
+  peopleAmount: number = 2;
+  roomAmount: number = 1;
+
   @ViewChild('picker') datePicker!: MatDateRangePicker<Date>;
 
   range = new FormGroup({
-    start: new FormControl<Date | null>(new Date()),
+    start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
 
@@ -39,6 +43,8 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setLocationWindow();
+    this.trackDateValues();
     // let location: ILocation = {
     //   id: 1,
     //   name: 'Tallinn'
@@ -58,19 +64,54 @@ export class MainPageComponent implements OnInit {
     // this.housings.push(housing);
   }
 
+  private setLocationWindow() {
+    const peopleOptions = document.getElementById('peopleOptions')!;
+    document.onclick = (e) => {
+      if (!peopleOptions.contains(e.target as Node)) {
+        this.peopleWindow = false;
+      }
+    }
+  }
+
+  private trackDateValues() {
+    this.range.valueChanges.subscribe((controls) => {
+      const start = controls.start;
+      const end = controls.end;
+
+      if (start && end && start >= end) {
+        end.setDate(end.getDate() + 1);
+      }
+    })
+  }
+
+  setRoomAmount(value: number) {
+    if (value >= 1) {
+      this.roomAmount = value;
+    }
+  }
+
+  setPeopleAmount(value: number) {
+    if (value >= 1) {
+      this.peopleAmount = value;
+    }
+  }
+
   info() {
-    this.datePicker.open();
-    console.log(this.range.controls.start.value)
-    console.log(this.range.controls.end.value)
+
   }
 
-  changeLocationWindow() {
-    setTimeout(() => {
-      this.locationWindow = !this.locationWindow;
-    }, 200);
+  openLocationWindow(status: boolean) {
+    if (status) {
+      this.locationWindow = status;
+    } else {
+      setTimeout(() => {
+        this.locationWindow = status;
+      }, 200);
+    }
+
   }
 
-  myFilter = (d: Date | null): boolean => {
+  dateFilter = (d: Date | null): boolean => {
     if (!d) {
       d = new Date();
     }

@@ -19,7 +19,61 @@ $border-style: 3px solid var(--blue-color);
   }
 
   .people-option {
+    cursor: pointer;
     border-right: $border-style;
+
+    .people-dropdown {
+      border: 1px solid #dee2e6;
+      border-radius: 0.375rem;
+      top: 55px;
+      left: 67%;
+      background: white;
+      position: absolute;
+      cursor: auto;
+      padding: 10px;
+      width: 25%;
+
+      .btn {
+        font-weight: 500;
+        background: transparent;
+        border-color: var(--blue-color);
+        color: var(--blue-color);
+
+        &:hover {
+          background: var(--blue-color);
+          color: var(--white-color);
+        }
+      }
+
+      .amount {
+        padding: 0 20px;
+      }
+
+      .amount-change {
+        font-size: 18px;
+        border: 2px solid var(--blue-color);
+        border-radius: 5px;
+      }
+
+      .plus, .minus {
+        user-select: none;
+        color: var(--blue-color);
+        font-weight: 500;
+        cursor: pointer;
+        padding: 10px 20px;
+
+        &:hover {
+          background-color: rgba(48, 86, 191, 0.1);
+        }
+      }
+
+      .disabled-minus {
+        cursor: not-allowed;
+        &:hover {
+          background-color: var(--white-color);
+        }
+      }
+    }
   }
 
   .location-name-input {
@@ -97,6 +151,12 @@ $border-style: 3px solid var(--blue-color);
 
   .location-items {
     width: 100%;
+  }
+
+  .people-dropdown {
+    top: 145px !important;
+    left: 0 !important;
+    width: 100% !important;
   }
 }
 
