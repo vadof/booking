@@ -14,6 +14,7 @@ svg {
 
 .email {
   padding-left: 0.3rem;
+  font-weight: 500;
 }
 
 .logo {
@@ -28,8 +29,8 @@ svg {
   ul {
     margin-top: 1rem;
     padding: 0;
-    background: transparent;
-    border: 1px solid var(--blue-color);
+    background: var(--white-color);
+    border: 2px solid var(--blue-color);
     border-top: none;
     border-radius: 0 0 10px 10px;
 

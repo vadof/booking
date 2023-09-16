@@ -5,7 +5,8 @@ export interface IHousing {
   id: number;
   name: string;
   location: ILocation;
-  housingDetails: IHousingDetails;
+  imageSrc: string;
+  housingDetails: IHousingDetails | null;
   coordinates: string;
   pricePerNight: number;
   people: number;
