@@ -79,7 +79,17 @@
   </div>
 
 
-  <div class="content">
+  <div class="content row mb-5">
+
+    <div class="content-options col-lg-3">
+
+    </div>
+
+    <div class="housings col-lg-8">
+      <div *ngFor="let housing of housings">
+        <app-housing-item [housing]="housing"></app-housing-item>
+      </div>
+    </div>
 
   </div>
 

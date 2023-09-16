@@ -44,12 +44,8 @@ $frontend-theme: mat.define-light-theme((
   --black-color: #000000;
 }
 
-footer {
-  margin-top: 1rem;
-  background-color: var(--blue-color);
-  position:fixed;
-  bottom: 0;
-  width:100%;
+.footer {
+  background-color: var(--blue-color) !important;
   height: 5rem;
 
   .container {
@@ -62,6 +58,11 @@ footer {
       margin-bottom: 0;
     }
   }
+}
+
+.btn-primary {
+  background-color: var(--blue-color);
+  border-color: var(--blue-color);
 }
 
 html, body { height: 100%; }
