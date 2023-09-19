@@ -57,5 +57,4 @@ public class AuthenticationService {
             throw new UserRegisterException("Invalid email");
         }
     }
-
 }
