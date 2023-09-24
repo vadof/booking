@@ -1,12 +1,14 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.entities.Housing;
+import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.HousingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.stream.Location;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -27,4 +29,13 @@ public class HousingController {
         return housingService.getAllHousings(locationName, minPrice, maxPrice, amountPeople);
     }
 
+    @PostMapping
+    public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
+        Optional<Housing> res = housingService.addHousing(housingForm, token);
+        if (res.isPresent()) {
+            return ResponseEntity.ok(res.get());
+        } else {
+            return ResponseEntity.badRequest().body("Failed to add housing.");
+        }
+    }
 }
