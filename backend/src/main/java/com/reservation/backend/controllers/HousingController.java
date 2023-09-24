@@ -27,7 +27,7 @@ public class HousingController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader String token) {
+    public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
         Optional<Housing> res = housingService.addHousing(housingForm, token);
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());

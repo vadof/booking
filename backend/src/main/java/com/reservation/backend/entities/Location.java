@@ -26,4 +26,9 @@ public class Location {
     @JsonIgnore
     @OneToMany(mappedBy = "location")
     private List<Housing> housings;
+
+    public Location(String name) {
+        this.name = name;
+    }
+
 }

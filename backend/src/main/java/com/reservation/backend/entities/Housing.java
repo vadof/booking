@@ -3,6 +3,7 @@ package com.reservation.backend.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
 import java.util.List;

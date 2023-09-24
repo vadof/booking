@@ -34,7 +34,7 @@ public class HousingDetails {
     private Time checkOut;
 
     @Column(nullable = false)
-    private Integer minAgeToRent;
+    private Integer minRentalAge;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
