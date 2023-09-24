@@ -39,7 +39,7 @@ public class HousingService {
                     && (housingAddRequest.getPricePerNight().compareTo(BigDecimal.ZERO) >= 0)
                     && (housingAddRequest.getPeople() >= 1)
                     && (checkInIsCorrect(housingAddRequest.getCheckIn()))
-                    && (housingAddRequest.getCheckOut().after(housingAddRequest.getCheckIn()))
+                    && (checkOutIsLater(housingAddRequest.getCheckOut(), housingAddRequest.getCheckIn()))
                     && (housingAddRequest.getMinAgeToRent() > 0)
                     && (housingAddRequest.getRooms() > 0)
                     && (housingAddRequest.getM2() > 0)
@@ -76,13 +76,31 @@ public class HousingService {
         return (locationRepository.findByName(name).isPresent());
     }
 
-    private boolean checkInIsCorrect(Time time) {
-        Date today = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(today);
+    private boolean checkInIsCorrect(Time checkInTime) {
+        Calendar now = Calendar.getInstance();
         Calendar checkInCalendar = Calendar.getInstance();
-        checkInCalendar.setTime(time);
-        return checkInCalendar.before(calendar);
+        checkInCalendar.setTime(checkInTime);
+
+        int nowHour = now.get(Calendar.HOUR_OF_DAY);
+        int nowMinute = now.get(Calendar.MINUTE);
+        int checkInHour = checkInCalendar.get(Calendar.HOUR_OF_DAY);
+        int checkInMinute = checkInCalendar.get(Calendar.MINUTE);
+
+        return checkInHour > nowHour || (checkInHour == nowHour && checkInMinute >= nowMinute);
+    }
+
+    private boolean checkOutIsLater(Time checkOutTime, Time checkInTime) {
+        Calendar checkOutCalendar = Calendar.getInstance();
+        checkOutCalendar.setTime(checkOutTime);
+        Calendar checkInCalendar = Calendar.getInstance();
+        checkInCalendar.setTime(checkInTime);
+
+        int checkOutHour = checkOutCalendar.get(Calendar.HOUR_OF_DAY);
+        int checkOutMinute = checkOutCalendar.get(Calendar.MINUTE);
+        int checkInHour = checkInCalendar.get(Calendar.HOUR_OF_DAY);
+        int checkInMinute = checkInCalendar.get(Calendar.MINUTE);
+
+        return checkOutHour > checkInHour || (checkOutHour == checkInHour && checkOutMinute > checkInMinute);
     }
 }
 
