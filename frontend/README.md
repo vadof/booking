@@ -8,5 +8,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 ## Docker
 
-Run `docker build -t angular` to generate a new image.
+Run `docker build -t angular .` to generate a new image.
 Then run `docker run -d -p 4200:4200 --name frontend angular` to start the container.

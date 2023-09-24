@@ -22,8 +22,11 @@ public class HousingController {
     }
 
     @GetMapping
-    public List<Housing> getAllHousings() {
-        return housingService.getAllHousings();
+    public List<Housing> getAllHousings(@RequestParam(required = false) String locationName,
+                                        @RequestParam(required = false) int minPrice,
+                                        @RequestParam(required = false) int maxPrice,
+                                        @RequestParam(required = false) int amountPeople) {
+        return housingService.getAllHousings(locationName, minPrice, maxPrice, amountPeople);
     }
 
     @PostMapping
