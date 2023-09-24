@@ -54,5 +54,4 @@ public class HousingDetails {
 
     @OneToMany(mappedBy = "housingDetails")
     private List<Review> reviews;
-
 }

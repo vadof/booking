@@ -1,19 +1,9 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.entities.Housing;
-import com.reservation.backend.exceptions.HousingAddException;
-import com.reservation.backend.exceptions.UserRegisterException;
-import com.reservation.backend.repositories.LocationRepository;
 import com.reservation.backend.requests.HousingAddRequest;
-import com.reservation.backend.responses.AuthenticationResponse;
-import com.reservation.backend.responses.HousingAddResponse;
-import com.reservation.backend.responses.ResponseMessage;
 import com.reservation.backend.services.HousingService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.bytecode.internal.bytebuddy.BytecodeProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
