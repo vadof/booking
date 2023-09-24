@@ -23,7 +23,6 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/housings")
-@Slf4j
 public class HousingController {
     private final HousingService housingService;
 
@@ -39,13 +38,7 @@ public class HousingController {
 
     @PostMapping
     public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader String token) {
-        try {
-            Optional<Housing> res = housingService.addHousing(housingForm, token);
-            log.info("Housing saved to database");
-            return ResponseEntity.ok(res);
-        } catch (HousingAddException e) {
-            log.error("Error adding housing to database: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(e.getMessage()));
-        }
+        Optional<Housing> res = housingService.addHousing(housingForm, token);
+        return ResponseEntity.ok(res);
     }
 }

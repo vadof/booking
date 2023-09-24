@@ -50,22 +50,4 @@ public class Housing {
     @JsonIgnore
     @OneToMany
     private List<Booking> bookings;
-
-    @Column(nullable = false)
-    private Time checkInTime;
-
-    @Column(nullable = false)
-    private Time checkOutTime;
-
-    @Column(nullable = false)
-    private Integer minAgeToRent;
-
-    @Column(nullable = false)
-    private Integer rooms;
-
-    @Column(nullable = false)
-    private Integer m2;
-
-    @Column(nullable = false)
-    private Integer minNights;
 }
