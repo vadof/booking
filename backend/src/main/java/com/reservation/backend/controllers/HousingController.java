@@ -29,6 +29,10 @@ public class HousingController {
     @PostMapping
     public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader String token) {
         Optional<Housing> res = housingService.addHousing(housingForm, token);
-        return ResponseEntity.ok(res);
+        if (res.isPresent()) {
+            return ResponseEntity.ok(res.get());
+        } else {
+            return ResponseEntity.badRequest().body("Failed to add housing.");
+        }
     }
 }
