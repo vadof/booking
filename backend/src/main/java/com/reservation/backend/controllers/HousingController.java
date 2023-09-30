@@ -1,5 +1,6 @@
 package com.reservation.backend.controllers;
 
+import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.HousingService;
@@ -22,10 +23,10 @@ public class HousingController {
     }
 
     @GetMapping
-    public List<Housing> getAllHousings(@RequestParam(required = false) String locationName,
-                                        @RequestParam(required = false) int minPrice,
-                                        @RequestParam(required = false) int maxPrice,
-                                        @RequestParam(required = false) int amountPeople) {
+    public List<HousingDTO> getAllHousings(@RequestParam(required = false) String locationName,
+                                           @RequestParam(required = false, defaultValue = "0") int minPrice,
+                                           @RequestParam(required = false, defaultValue = "0") int maxPrice,
+                                           @RequestParam(required = false, defaultValue = "0") int amountPeople) {
         return housingService.getAllHousings(locationName, minPrice, maxPrice, amountPeople);
     }
 
