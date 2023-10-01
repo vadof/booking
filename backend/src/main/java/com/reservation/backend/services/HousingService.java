@@ -1,10 +1,12 @@
 package com.reservation.backend.services;
 
+import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.HousingDetails;
 import com.reservation.backend.entities.User;
 import com.reservation.backend.exceptions.HousingAddException;
 import com.reservation.backend.exceptions.UserNotFoundException;
+import com.reservation.backend.mapper.HousingMapper;
 import com.reservation.backend.repositories.HousingDetailsRepository;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.LocationRepository;
@@ -16,21 +18,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.sql.Time;
-import java.util.Calendar;
+
 import java.util.List;
 
 import java.util.Optional;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class HousingService {
+    private final HousingMapper housingMapper;
     private final HousingRepository housingRepository;
     private final JwtService jwtService;
     private final LocationRepository locationRepository;
@@ -38,8 +38,9 @@ public class HousingService {
     private final HousingDetailsRepository housingDetailsRepository;
     private final Logger logger = LoggerFactory.getLogger(HousingService.class);
 
-    public List<Housing> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
+    public List<HousingDTO> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
         List<Housing> housingList = housingRepository.findAll();
+//        List<Housing> housingList = housingRepository.findAllByLocationNameContainingIgnoreCase(locationName);
         if (locationName != null) {
             housingList = housingList.stream().filter(h -> h.getName() != null &&  h.getName().equals(locationName)).collect(Collectors.toList());
         }
@@ -52,7 +53,8 @@ public class HousingService {
         if (amountPeople != 0) {
             housingList = housingList.stream().filter(h -> h.getPeople() <= amountPeople).collect(Collectors.toList());
         }
-        return housingList;
+
+        return housingMapper.toHousingDTOList(housingList);
     }
 
     @Transactional
