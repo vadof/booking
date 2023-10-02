@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+
+  <div id="multi-step-form-container">
+    <ul class="form-stepper form-stepper-horizontal text-center p-0">
+
+      <li class="form-stepper-active text-center form-stepper-list">
+        <a class="mx-2">
+          <span class="form-stepper-circle">
+            <span>1</span>
+          </span>
+          <div class="label">Housing Details</div>
+        </a>
+      </li>
+
+      <li class="text-center form-stepper-list"
+          [ngClass]="getCurrentStep() > 1 ? 'form-stepper-active' : 'form-stepper-unfinished'">
+        <a class="mx-2">
+          <span class="form-stepper-circle" [ngClass]="{'text-muted': getCurrentStep() < 2}">
+            <span>2</span>
+          </span>
+          <div class="label text-muted">Housing Images</div>
+        </a>
+      </li>
+
+      <li class="ext-center form-stepper-list"
+          [ngClass]="getCurrentStep() === 3 ? 'form-stepper-active' : 'form-stepper-unfinished'">
+        <a class="mx-2">
+          <span class="form-stepper-circle">
+            <span>3</span>
+          </span>
+          <div class="label text-muted">Housing Preview</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <app-housing-form></app-housing-form>
+</div>

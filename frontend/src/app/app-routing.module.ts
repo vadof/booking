@@ -4,11 +4,13 @@ import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {AuthGuard} from "./auth/AuthGuard";
 import {RegisterPageComponent} from "./pages/register-page/register-page.component";
+import {HousingAddPageComponent} from "./pages/housing-add-page/housing-add-page.component";
 
 const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginPageComponent},
   {path: 'register', component: RegisterPageComponent},
+  {path: 'housing/add', component: HousingAddPageComponent}
 ];
 
 @NgModule({

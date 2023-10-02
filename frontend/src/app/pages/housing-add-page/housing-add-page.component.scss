@@ -1,0 +1,108 @@
+.multi-step-form-container {
+  margin-top: 5rem;
+}
+
+.form-stepper {
+  counter-reset: section;
+  margin-bottom: 3rem;
+
+  .form-stepper-circle {
+    position: relative;
+  }
+}
+
+ul.form-stepper {
+  .form-stepper-circle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+}
+
+.form-stepper-horizontal {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+
+  li:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+    transition: margin-bottom 0.4s;
+  }
+}
+
+.form-stepper-horizontal > li:not(:last-of-type) {
+  margin-bottom: 0 !important;
+}
+
+.form-stepper-horizontal li {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: start;
+  transition: 0.5s;
+
+  &:not(:last-child):after {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    content: "";
+    top: 32%;
+  }
+
+  &:after {
+    background-color: #dee2e6;
+  }
+
+  &.form-stepper-completed:after {
+    background-color: var(--blue-color);
+  }
+
+  &:last-child {
+    flex: unset;
+  }
+}
+
+ul.form-stepper li a .form-stepper-circle {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-right: 0;
+  line-height: 1.7rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.38);
+  border-radius: 50%;
+}
+
+.form-stepper .form-stepper-active .form-stepper-circle {
+  background-color: var(--blue-color) !important;
+  color: var(--white-color);
+}
+
+.form-stepper .form-stepper-active .label {
+  color: var(--blue-color) !important;
+}
+
+.form-stepper .form-stepper-active .form-stepper-circle:hover {
+  background-color: var(--blue-color) !important;
+  color: var(--white-color) !important;
+}
+
+.form-stepper .form-stepper-unfinished .form-stepper-circle {
+  background-color: #f8f7ff;
+  span {
+    --bs-text-opacity: 1;
+    color: var(--bs-secondary-color) !important;
+  }
+}
+
+.form-stepper .label {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.form-stepper a {
+  cursor: default;
+  text-decoration: none;
+  color: var(--black-color);
+}

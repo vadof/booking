@@ -1,0 +1,34 @@
+form {
+  margin: 10px auto;
+}
+
+input, textarea, select {
+  border: 1px solid #565656;
+  border-radius: 3px;
+}
+
+label {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--black-color);
+}
+
+form {
+  @media (max-width: 575px) {
+    width: 100% !important;
+  }
+}
+
+.form-buttons {
+  margin-top: 40px;
+  .btn {
+    padding: 5px 0;
+    border-radius: 3px;
+    width: 70px;
+  }
+
+  .save-btn {
+    color: var(--white-color);
+    background-color: var(--blue-color);
+  }
+}
