@@ -1,7 +1,6 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.HousingDTO;
-import com.reservation.backend.entities.Housing;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.HousingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class HousingController {
 
     @PostMapping
     public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
-        Optional<Housing> res = housingService.addHousing(housingForm, token);
+        Optional<HousingDTO> res = housingService.addHousing(housingForm, token);
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {
@@ -43,7 +42,7 @@ public class HousingController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
                                                   @RequestHeader("Authorization") String token) {
-        Optional<Housing> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
+        Optional<HousingDTO> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
         if (optionalHousing.isPresent()) {
             return ResponseEntity.ok(optionalHousing.get());
         } else {

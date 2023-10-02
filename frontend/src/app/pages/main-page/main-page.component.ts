@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpService} from "../../services/http.service";
-import {IHousing} from "../../models/IHousing";
-import {ILocation} from "../../models/ILocation";
 import {MatDateRangePicker} from "@angular/material/datepicker";
 import {FormControl, FormGroup} from "@angular/forms";
+import {LocationService} from "../../services/location.service";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ILocation} from "../../models/ILocation";
+import {IHousing} from "../../models/IHousing";
+import {HttpService} from "../../services/http.service";
 
 @Component({
   selector: 'app-main-page',
@@ -12,14 +13,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class MainPageComponent implements OnInit {
 
-  locations: ILocation[] = [
-    {id: 1, name: 'Tallinn'},
-    {id: 1, name: 'Tqiwan'},
-    {id: 1, name: 'Twhuana'},
-    {id: 4, name: 'Tri'},
-    {id: 2, name: 'Narva'},
-    {id: 3, name: 'Rakvere'}
-  ]
+  locations: ILocation[] = [];
   housings: IHousing[] = [];
 
   locationText: string = '';
@@ -38,52 +32,22 @@ export class MainPageComponent implements OnInit {
   });
 
   constructor(
-    private httpService: HttpService
+    private httpService: HttpService,
+    private locationService: LocationService
   ) {
   }
 
   ngOnInit(): void {
+    this.locationService.getLocations().then(
+      locations => {this.locations = locations;}
+    )
+    this.httpService.sendGetRequest('/v1/housings').subscribe(
+      response => {
+        this.housings = response as IHousing[];
+      }
+    )
     this.setLocationWindow();
     this.trackDateValues();
-    let housing: IHousing = {
-      id: 1,
-      name: 'Bob W Avangard',
-      location: this.locations[0],
-      housingDetails: null,
-      imageSrc: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/473281457.jpg?k=bf5dfaf19efffb5b75ef7da11e8ad1bca51aa1eaa65e25ee367a1eb8d339b4ea&o=&hp=1',
-      coordinates: '53.32131, 36.32134',
-      pricePerNight: 54.32,
-      people: 2,
-      rating: 8.4
-    }
-
-    let housing1: IHousing = {
-      id: 1,
-      name: 'Grand Hotel',
-      location: this.locations[4],
-      housingDetails: null,
-      imageSrc: 'https://static.independent.co.uk/2023/03/24/09/Best%20New%20York%20boutique%20hotels.jpg?width=1200',
-      coordinates: '53.32131, 36.32134',
-      pricePerNight: 117.17,
-      people: 3,
-      rating: 9.3
-    }
-
-    let housing2: IHousing = {
-      id: 1,
-      name: 'The Monks Bunk',
-      location: this.locations[0],
-      housingDetails: null,
-      imageSrc: 'https://www.hotel-lapad.hr/media/qnsfcovf/nrl_6726.jpg?mode=min&width=1920&rnd=132885638239970000',
-      coordinates: '53.32131, 36.32134',
-      pricePerNight: 565,
-      people: 3,
-      rating: 9.9
-    }
-
-    this.housings.push(housing);
-    this.housings.push(housing1);
-    this.housings.push(housing2);
   }
 
   private setLocationWindow() {

@@ -2,7 +2,7 @@
 
   <div class="housing-item d-flex">
 
-    <img class="housing-image" src="{{ housing.imageSrc }}" alt="">
+    <img class="housing-image" [src]="housing.imageSrc ? housing.imageSrc : 'assets/null_image.jpg'" alt="">
 
     <div class="housing-content d-flex justify-content-between">
 
@@ -10,7 +10,7 @@
         <div class="housing-name">{{ housing.name }}</div>
         <div class="housing-location d-flex">
           <a class="housing-location-name">{{ housing.location.name }}</a>
-          <a class="housing-location-coordinates">Show on map</a>
+          <a class="housing-location-coordinates" target="_blank" [href]="'http://maps.google.com?q=' + housing.coordinates">Show on map</a>
         </div>
       </div>
 
