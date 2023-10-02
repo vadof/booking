@@ -1,6 +1,6 @@
 package com.reservation.backend.controllers;
 
-import com.reservation.backend.entities.Location;
+import com.reservation.backend.dto.LocationDTO;
 import com.reservation.backend.services.LocationService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class LocationController {
     }
 
     @GetMapping()
-    public List<Location> getAllLocations() {
+    public List<LocationDTO> getAllLocations() {
         return locationService.getAllLocations();
     }
 
