@@ -5,44 +5,16 @@
 
     <changeSet id="3" author="vadim">
 
-        <!-- Create HousingDetails table -->
+        <!-- Create Location table -->
 
-        <createTable tableName="housing_details">
+        <createTable tableName="location">
 
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
 
-            <column name="check_in" type="time(6)">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="check_out" type="time(6)">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="m2" type="int">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="min_rental_age" type="int">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="min_nights" type="int">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="rooms" type="int">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="description" type="text">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="owner_id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
             </column>
 
         </createTable>

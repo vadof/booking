@@ -5,27 +5,19 @@
 
     <changeSet id="5" author="vadim">
 
-        <!-- Create Review table -->
+        <!-- Create Image table -->
 
-        <createTable tableName="review">
+        <createTable tableName="image">
 
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
 
-            <column name="rating" type="int">
+            <column name="image_data" type="tinyblob">
                 <constraints nullable="false"/>
             </column>
 
-            <column name="text" type="text">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="housing_details_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-
-            <column name="reviewer_id" type="bigint">
+            <column name="housing_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
 

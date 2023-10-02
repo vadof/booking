@@ -4,5 +4,6 @@
                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <includeAll path="/db/changelog/0.0.1/"/>
+    <includeAll path="/db/changelog/0.0.2/"/>
 
 </databaseChangeLog>

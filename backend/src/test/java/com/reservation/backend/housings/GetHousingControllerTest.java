@@ -4,10 +4,8 @@ import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.entities.*;
 import com.reservation.backend.mapper.HousingMapper;
 import com.reservation.backend.services.HousingService;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,19 +34,11 @@ public class GetHousingControllerTest {
     private final Location parnu = new Location(2L, "Parnu", List.of(new Housing()));
     private final Location paide = new Location(3L, "Paide", List.of(new Housing()));
     private final Location narva = new Location(1L, "Narva", List.of(new Housing()));
-    private final Housing housingTallinn = new Housing(1L, new HousingDetails(), "Tallinn", new Image(), tallinn, "1.1, 7.8", new BigDecimal("10"), 4, new BigDecimal("8"), List.of(new Booking()));
-    private final Housing housingParnu = new Housing(2L, new HousingDetails(), "Parnu", new Image(), parnu, "2.8, 5.9", new BigDecimal("20"), 3, new BigDecimal("8.8"), List.of(new Booking()));
-    private final Housing housingPaide = new Housing(3L, new HousingDetails(), "Paide", new Image(), paide, "4.6, 8.1", new BigDecimal("15"), 3, new BigDecimal("8.7"), List.of(new Booking()));
-    private final Housing housingNarva = new Housing(4L, new HousingDetails(), "Narva", new Image(), narva, "6.8, 5.8", new BigDecimal("25"), 6, new BigDecimal("8.9"), List.of(new Booking()));
-    private final HousingDTO housingDTOTallinn = new HousingDTO(5L, "Tallinn", tallinn, new BigDecimal("8"));
+    private final HousingDTO housingDTOTallinn = new HousingDTO(5L, "Tallinn", null, tallinn, "55.34,31.321", new BigDecimal("30"), 5, new BigDecimal("5.3"), true);
 
     @Test
     public void testGetExample() throws Exception {
         List<HousingDTO> housingList = new ArrayList<>();
-//        housingList.add(housingMapper.toHousingDTO(housingPaide));
-//        housingList.add(housingMapper.toHousingDTO(housingNarva));
-//        housingList.add(housingMapper.toHousingDTO(housingParnu));
-//        housingList.add(housingMapper.toHousingDTO(housingTallinn));
         housingList.add(housingDTOTallinn);
         when(housingService.getAllHousings(null, 0,0,0)).thenReturn(housingList);
         System.out.println(housingList);
