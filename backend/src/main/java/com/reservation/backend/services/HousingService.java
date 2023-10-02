@@ -15,8 +15,6 @@ import com.reservation.backend.security.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,11 +34,9 @@ public class HousingService {
     private final LocationRepository locationRepository;
 
     private final HousingDetailsRepository housingDetailsRepository;
-    private final Logger logger = LoggerFactory.getLogger(HousingService.class);
 
     public List<HousingDTO> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
         List<Housing> housingList = housingRepository.findAll();
-//        List<Housing> housingList = housingRepository.findAllByLocationNameContainingIgnoreCase(locationName);
         if (locationName != null) {
             housingList = housingList.stream().filter(h -> h.getName() != null &&  h.getName().equals(locationName)).collect(Collectors.toList());
         }
@@ -58,7 +54,7 @@ public class HousingService {
     }
 
     @Transactional
-    public Optional<Housing> addHousing(HousingAddRequest housingAddRequest, String token) {
+    public Optional<HousingDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
         try {
             Optional<User> userOptional = jwtService.getUserFromBearerToken(token);
             if (userOptional.isEmpty()) {
@@ -73,7 +69,7 @@ public class HousingService {
                 this.saveHousing(housingAddRequest, housing, housingDetails, owner);
 
                 log.info("Housing saved to database");
-                return Optional.of(housing);
+                return Optional.of(this.housingMapper.toHousingDTO(housing));
             } else {
                 throw new HousingAddException("Invalid housing data");
             }
@@ -91,7 +87,7 @@ public class HousingService {
     }
 
     @Transactional
-    public Optional<Housing> updateHousing(Long id, HousingAddRequest housingAddRequest, String token) {
+    public Optional<HousingDTO> updateHousing(Long id, HousingAddRequest housingAddRequest, String token) {
         try {
             Housing housing = this.housingRepository.findById(id).orElseThrow();
             User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
@@ -100,7 +96,7 @@ public class HousingService {
                     && allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
                 this.saveHousing(housingAddRequest, housing, housing.getHousingDetails(), owner);
                 log.info("Housing with id {} updated successfully", id);
-                return Optional.of(housing);
+                return Optional.of(this.housingMapper.toHousingDTO(housing));
             }
         } catch (Exception e) {
             log.error("Failed to update housing {}", e.getMessage());
@@ -135,7 +131,7 @@ public class HousingService {
         housing.setLocation(locationRepository.findByName(housingAddRequest.getLocation().getName()).orElseThrow());
         housing.setPricePerNight(housingAddRequest.getPricePerNight());
         housing.setPeople(housingAddRequest.getPeople());
-        housing.setCoordinates(housingAddRequest.getCoordinates());
+        housing.setCoordinates(housingAddRequest.getCoordinates().replaceAll(" ", ""));
         housing.setName(housingAddRequest.getName());
 
         // TODO update rating based on reviews
