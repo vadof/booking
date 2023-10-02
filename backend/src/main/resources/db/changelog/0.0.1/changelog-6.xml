@@ -5,15 +5,34 @@
 
     <changeSet id="6" author="vadim">
 
-        <!-- Create Image table -->
+        <!-- Create Booking table -->
 
-        <createTable tableName="image">
+        <createTable tableName="booking">
 
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" />
             </column>
 
-            <column name="image_data" type="tinyblob">
+            <column name="additional_info" type="text">
+            </column>
+
+            <column name="check_in_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="check_out_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="nights" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="housing_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="tenant_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
 

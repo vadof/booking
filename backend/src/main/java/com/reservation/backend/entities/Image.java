@@ -19,4 +19,7 @@ public class Image {
     @Column(nullable = false)
     private byte[] imageData;
 
+    @ManyToOne
+    private Housing housing;
+
 }

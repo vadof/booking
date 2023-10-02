@@ -18,4 +18,5 @@ public class HousingDTO {
     private BigDecimal pricePerNight;
     private Integer people;
     private BigDecimal rating;
+    private Boolean published;
 }

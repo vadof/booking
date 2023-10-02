@@ -29,6 +29,6 @@ public class Review {
     @JsonIgnore
     @JoinColumn(nullable = false)
     @ManyToOne
-    private HousingDetails housingDetails;
+    private Housing housing;
 
 }

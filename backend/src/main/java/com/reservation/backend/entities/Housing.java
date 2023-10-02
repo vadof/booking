@@ -1,11 +1,10 @@
 package com.reservation.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.util.List;
 
 @Entity
@@ -20,20 +19,11 @@ public class Housing {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
-    @JoinColumn(nullable = false)
-    @OneToOne
-    private HousingDetails housingDetails;
-
     @Column(nullable = false)
     private String name;
 
     @ManyToOne
     private Image previewImage;
-
-    @JoinColumn(nullable = false)
-    @ManyToOne
-    private Location location;
 
     @Column(nullable = false)
     private String coordinates;
@@ -44,10 +34,47 @@ public class Housing {
     @Column(nullable = false)
     private Integer people;
 
-    @Column(nullable = false, columnDefinition = "DECIMAL(3,1)")
+    @Column(columnDefinition = "DECIMAL(3,1)")
     private BigDecimal rating;
 
-    @JsonIgnore
-    @OneToMany
+    @Column(nullable = false)
+    private Time checkIn;
+
+    @Column(nullable = false)
+    private Time checkOut;
+
+    @Column(nullable = false)
+    private Integer minRentalAge;
+
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private Integer rooms;
+
+    @Column(nullable = false)
+    private Integer m2;
+
+    @Column(nullable = false)
+    private Integer minNights;
+
+    @Column(nullable = false)
+    private Boolean published;
+
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private Location location;
+
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private User owner;
+
+    @OneToMany(mappedBy = "housing")
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "housing")
+    private List<Image> images;
+
+    @OneToMany(mappedBy = "housing")
     private List<Booking> bookings;
 }

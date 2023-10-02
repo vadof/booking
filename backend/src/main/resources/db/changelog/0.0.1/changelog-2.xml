@@ -21,8 +21,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="rating" type="decimal(3,1)">
-                <constraints nullable="false"/>
+            <column name="rating" type="decimal(3,1)" defaultValue="NULL">
             </column>
 
             <column name="coordinates" type="varchar(255)">
@@ -33,8 +32,40 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="housing_details_id" type="bigint">
-                <constraints nullable="false" unique="true"/>
+            <column name="check_in" type="time(6)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="check_out" type="time(6)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="m2" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="min_rental_age" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="min_nights" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="rooms" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="description" type="text">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="published" type="boolean" defaultValue="FALSE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
 
             <column name="preview_image_id" type="bigint">
