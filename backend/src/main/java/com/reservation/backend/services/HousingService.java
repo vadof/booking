@@ -66,39 +66,14 @@ public class HousingService {
             }
             User owner = userOptional.get();
 
-            if (locationInDataBase(housingAddRequest.getLocation().getName())
-                    && (housingAddRequest.getPricePerNight().compareTo(BigDecimal.ZERO) >= 0)
-                    && (housingAddRequest.getPeople() >= 1)
-                    && (housingAddRequest.getMinAgeToRent() > 0)
-                    && (housingAddRequest.getRooms() > 0)
-                    && (housingAddRequest.getM2() > 0)
-                    && (housingAddRequest.getMinNights() >= 1)) {
-
+            if (allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
                 Housing housing = new Housing();
-
                 HousingDetails housingDetails = new HousingDetails();
-                housingDetails.setCheckIn(housingAddRequest.getCheckIn());
-                housingDetails.setCheckOut(housingAddRequest.getCheckOut());
-                housingDetails.setMinRentalAge(housingAddRequest.getMinAgeToRent());
-                housingDetails.setRooms(housingAddRequest.getRooms());
-                housingDetails.setM2(housingAddRequest.getM2());
-                housingDetails.setMinNights(housingAddRequest.getMinNights());
-                housingDetails.setDescription(housingAddRequest.getDescription());
-                housingDetails.setOwner(owner);
 
-                housingDetails = housingDetailsRepository.save(housingDetails);
+                this.saveHousing(housingAddRequest, housing, housingDetails, owner);
 
-                housing.setHousingDetails(housingDetails);
-                housing.setLocation(locationRepository.findByName(housingAddRequest.getLocation().getName()).orElseThrow());
-                housing.setPricePerNight(housingAddRequest.getPricePerNight());
-                housing.setPeople(housingAddRequest.getPeople());
-                housing.setCoordinates(housingAddRequest.getCoordinates());
-                housing.setName(housingAddRequest.getName());
-                housing.setRating(BigDecimal.valueOf(10));
-
-                Housing savedHousing = housingRepository.save(housing);
                 log.info("Housing saved to database");
-                return Optional.of(savedHousing);
+                return Optional.of(housing);
             } else {
                 throw new HousingAddException("Invalid housing data");
             }
@@ -113,6 +88,60 @@ public class HousingService {
 
     private boolean locationInDataBase(String name) {
         return (locationRepository.findByName(name).isPresent());
+    }
+
+    @Transactional
+    public Optional<Housing> updateHousing(Long id, HousingAddRequest housingAddRequest, String token) {
+        try {
+            Housing housing = this.housingRepository.findById(id).orElseThrow();
+            User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+
+            if (housing.getHousingDetails().getOwner().equals(owner)
+                    && allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
+                this.saveHousing(housingAddRequest, housing, housing.getHousingDetails(), owner);
+                log.info("Housing with id {} updated successfully", id);
+                return Optional.of(housing);
+            }
+        } catch (Exception e) {
+            log.error("Failed to update housing {}", e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    private boolean allHousingAddRequestFieldsAreCorrect(HousingAddRequest housingAddRequest) {
+        return locationInDataBase(housingAddRequest.getLocation().getName())
+                && (housingAddRequest.getPricePerNight().compareTo(BigDecimal.ZERO) >= 0)
+                && (housingAddRequest.getPeople() >= 1)
+                && (housingAddRequest.getMinAgeToRent() > 0)
+                && (housingAddRequest.getRooms() > 0)
+                && (housingAddRequest.getM2() > 0)
+                && (housingAddRequest.getMinNights() >= 1);
+    }
+
+    private void saveHousing(HousingAddRequest housingAddRequest, Housing housing,
+                                     HousingDetails housingDetails, User owner) {
+        housingDetails.setCheckIn(housingAddRequest.getCheckIn());
+        housingDetails.setCheckOut(housingAddRequest.getCheckOut());
+        housingDetails.setMinRentalAge(housingAddRequest.getMinAgeToRent());
+        housingDetails.setRooms(housingAddRequest.getRooms());
+        housingDetails.setM2(housingAddRequest.getM2());
+        housingDetails.setMinNights(housingAddRequest.getMinNights());
+        housingDetails.setDescription(housingAddRequest.getDescription());
+        housingDetails.setOwner(owner);
+
+        this.housingDetailsRepository.save(housingDetails);
+
+        housing.setHousingDetails(housingDetails);
+        housing.setLocation(locationRepository.findByName(housingAddRequest.getLocation().getName()).orElseThrow());
+        housing.setPricePerNight(housingAddRequest.getPricePerNight());
+        housing.setPeople(housingAddRequest.getPeople());
+        housing.setCoordinates(housingAddRequest.getCoordinates());
+        housing.setName(housingAddRequest.getName());
+
+        // TODO update rating based on reviews
+        housing.setRating(BigDecimal.valueOf(10));
+
+        this.housingRepository.save(housing);
     }
 }
 

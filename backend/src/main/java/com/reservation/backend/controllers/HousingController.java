@@ -36,7 +36,18 @@ public class HousingController {
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {
-            return ResponseEntity.badRequest().body("Failed to add housing.");
+            return ResponseEntity.badRequest().body("Failed to add housing");
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
+                                                  @RequestHeader("Authorization") String token) {
+        Optional<Housing> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
+        if (optionalHousing.isPresent()) {
+            return ResponseEntity.ok(optionalHousing.get());
+        } else {
+            return ResponseEntity.badRequest().body("Failed to update housing");
         }
     }
 }
