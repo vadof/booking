@@ -17,6 +17,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {provideAnimations} from "@angular/platform-browser/animations";
+import { HousingAddPageComponent } from './pages/housing-add-page/housing-add-page.component';
+import { HousingFormComponent } from './components/housing-form/housing-form.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import {provideAnimations} from "@angular/platform-browser/animations";
     NavbarComponent,
     HousingItemComponent,
     LocationPipe,
+    HousingAddPageComponent,
+    HousingFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,145 @@
+<form [formGroup]="housingForm" (ngSubmit)="addHousing()" class="w-50">
+  <div class="mb-3 row">
+    <label for="name" class="col-lg-4 col-form-label">Name <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="name" formControlName="name" placeholder="Tallinn Hotel">
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="location" class="col-lg-4 col-form-label">Location <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <select class="form-select" id="location" formControlName="location">
+        <option *ngFor="let location of locations" [value]="location.id">{{ location.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="coordinates" class="col-lg-4 col-form-label">Coordinates <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="coordinates" formControlName="coordinates" placeholder="59.393985,24.673309">
+      <div *ngIf="housingForm.controls.coordinates.invalid
+                  && (housingForm.controls.coordinates.dirty || housingForm.controls.coordinates.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.coordinates.errors?.['invalidCoordinates']">
+          Invalid coordinates
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="pricePerNight" class="col-lg-4 col-form-label">Price per night <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="pricePerNight" formControlName="pricePerNight" placeholder="43.65">
+      <div *ngIf="housingForm.controls.pricePerNight.invalid
+                  && (housingForm.controls.pricePerNight.dirty || housingForm.controls.pricePerNight.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.pricePerNight.errors?.['negativeNumber']">
+          The number must be positive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="people" class="col-lg-4 col-form-label">People <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="people" formControlName="people" placeholder="2">
+      <div *ngIf="housingForm.controls.people.invalid
+                  && (housingForm.controls.people.dirty || housingForm.controls.people.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.people.errors?.['negativeNumber']">
+          The number must be positive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="check" class="col-lg-4 col-form-label">Check in - Check out <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="check" formControlName="check" placeholder="14:00 - 12:00">
+      <div *ngIf="housingForm.controls.check.invalid
+                  && (housingForm.controls.check.dirty || housingForm.controls.check.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.check.errors?.['invalidCheckRange']">
+          Wrong check-in/check-out time
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="minRentalAge" class="col-lg-4 col-form-label">Min rental age <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="minRentalAge" formControlName="minRentalAge" placeholder="18">
+      <div *ngIf="housingForm.controls.minRentalAge.invalid
+                  && (housingForm.controls.minRentalAge.dirty || housingForm.controls.minRentalAge.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.minRentalAge.errors?.['negativeNumber']">
+          The number must be positive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="minNights" class="col-lg-4 col-form-label">Min nights <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="minNights" formControlName="minNights" placeholder="1">
+      <div *ngIf="housingForm.controls.minNights.invalid
+                  && (housingForm.controls.minNights.dirty || housingForm.controls.minNights.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.minNights.errors?.['negativeNumber']">
+          The number must be positive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="m2" class="col-lg-4 col-form-label">m2 <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="m2" formControlName="m2" placeholder="23.2">
+      <div *ngIf="housingForm.controls.m2.invalid
+                  && (housingForm.controls.m2.dirty || housingForm.controls.m2.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.m2.errors?.['negativeNumber']">
+          The number must be positive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="rooms" class="col-lg-4 col-form-label">Rooms <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <input type="text" class="form-control" id="rooms" formControlName="rooms" placeholder="2">
+      <div *ngIf="housingForm.controls.rooms.invalid
+                  && (housingForm.controls.rooms.dirty || housingForm.controls.rooms.touched)"
+           class="text-danger mt-2 fw-bold">
+        <div *ngIf="housingForm.controls.rooms.errors?.['negativeNumber']">
+          The number must be positive
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row">
+    <label for="description" class="col-lg-4 col-form-label">Description <span class="text-danger">*</span></label>
+    <div class="col-lg-8">
+      <textarea [maxLength]="5000" class="form-control" id="description" rows="3" formControlName="description"></textarea>
+    </div>
+  </div>
+
+  <div class="form-buttons d-flex justify-content-end">
+    <button type="submit" class="btn save-btn">Next</button>
+  </div>
+
+<!--  TODO make error message on the same height as button-->
+  <div class="error-message text-danger fw-bold text-center mt-3" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</form>
