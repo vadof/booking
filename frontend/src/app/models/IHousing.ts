@@ -1,12 +1,13 @@
 import {ILocation} from "./ILocation";
 import {IUser} from "./IUser";
 import {IReview} from "./IReview";
+import {IImage} from "./IImage";
 
 export interface IHousing {
   id: number;
   name: string;
   location: ILocation;
-  imageSrc: string;
+  previewImage: IImage;
   coordinates: string;
   pricePerNight: number;
   people: number;
@@ -20,4 +21,5 @@ export interface IHousing {
   minNights: number;
   owner: IUser;
   reviews: IReview[];
+  images: IImage[];
 }

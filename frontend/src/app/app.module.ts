@@ -19,6 +19,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import { HousingAddPageComponent } from './pages/housing-add-page/housing-add-page.component';
 import { HousingFormComponent } from './components/housing-form/housing-form.component';
+import { HousingImagesFormComponent } from './components/housing-images-form/housing-images-form.component';
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { HousingFormComponent } from './components/housing-form/housing-form.com
     LocationPipe,
     HousingAddPageComponent,
     HousingFormComponent,
+    HousingImagesFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,8 @@ import { HousingFormComponent } from './components/housing-form/housing-form.com
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxDropzoneModule,
   ],
   providers: [
     provideAnimations()

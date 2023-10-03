@@ -19,7 +19,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/{housingId}/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile imageFile, @PathVariable Long housingId,
+    public ResponseEntity<?> uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable Long housingId,
                                          @RequestHeader("Authorization") String token) {
         Optional<ImageDTO> optionalImage = this.imageService.addImageToHousing(imageFile, housingId, token);
         if (optionalImage.isPresent()) {

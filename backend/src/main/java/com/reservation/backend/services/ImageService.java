@@ -37,9 +37,8 @@ public class ImageService {
         try {
             User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
             Housing housing = this.housingRepository.findById(housingId).orElseThrow();
-
-            if (user.equals(housing.getOwner())) {
-                Image image = saveImage(imageFile).orElseThrow();
+            if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
+                Image image = saveImage(imageFile, housing).orElseThrow();
                 housing.getImages().add(image);
                 this.housingRepository.save(housing);
                 return Optional.of(imageMapper.toImageDTO(image));
@@ -48,13 +47,13 @@ public class ImageService {
         return Optional.empty();
     }
 
-    private Optional<Image> saveImage(MultipartFile imageFile) {
+    private Optional<Image> saveImage(MultipartFile imageFile, Housing housing) {
         try {
             Image image = Image.builder()
                     .name(imageFile.getOriginalFilename())
                     .contentType(imageFile.getContentType())
                     .bytes(compressImage(imageFile.getBytes()))
-                    .housing(housingRepository.findAll().get(0))
+                    .housing(housing)
                     .build();
 
             this.imageRepository.save(image);

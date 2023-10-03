@@ -79,7 +79,7 @@ export class HousingFormComponent implements OnInit {
       minAgeToRent: this.housingForm.controls.minRentalAge.value,
       description: this.housingForm.controls.description.value,
       rooms: this.housingForm.controls.rooms.value,
-      m2: this.housingForm.controls.m2.value,
+      m2: Math.round(+this.housingForm.controls.m2.value!),
       minNights: this.housingForm.controls.minNights.value,
     }
   }
