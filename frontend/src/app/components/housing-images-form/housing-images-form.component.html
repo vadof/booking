@@ -1,4 +1,4 @@
-<ngx-dropzone (change)="onSelect($event)" [class]="'dropzone'">
+<ngx-dropzone (change)="onSelect($event)" [class]="'dropzone'" accept="image/*">
   <ngx-dropzone-label>Drop images here!</ngx-dropzone-label>
   <ngx-dropzone-preview *ngFor="let f of files; index as i"
                         [removable]="true" (removed)="removeFile(i)"
@@ -22,6 +22,7 @@
 </ul>
 
 <div class="back-button mb-2 p-0 d-flex justify-content-between" *ngIf="!loading">
+  <!--  TODO  back to step 1 -->
   <a class="btn btn-primary">Back</a>
   <button class="btn btn-primary" (click)="uploadFiles()">Next</button>
 </div>
