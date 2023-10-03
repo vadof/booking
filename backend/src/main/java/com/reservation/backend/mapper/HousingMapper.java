@@ -7,7 +7,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = ImageMapper.class)
 public interface HousingMapper {
     HousingDTO toHousingDTO(Housing housing);
     List<HousingDTO> toHousingDTOList(List<Housing> housingList);

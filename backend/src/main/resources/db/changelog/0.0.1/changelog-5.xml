@@ -13,7 +13,13 @@
                 <constraints primaryKey="true" nullable="false" />
             </column>
 
-            <column name="image_data" type="tinyblob">
+            <column name="name" type="varchar(255)">
+            </column>
+
+            <column name="content_type" type="varchar(255)">
+            </column>
+
+            <column name="bytes" type="tinyblob">
                 <constraints nullable="false"/>
             </column>
 
