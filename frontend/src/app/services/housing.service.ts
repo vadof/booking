@@ -6,7 +6,7 @@ import {IHousing} from "../models/IHousing";
 })
 export class HousingService {
 
-  currentStep = 2;
+  currentStep = 1;
   housing: IHousing | null = null;
 
   constructor() {

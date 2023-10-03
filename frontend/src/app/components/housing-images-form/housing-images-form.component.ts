@@ -23,7 +23,6 @@ export class HousingImagesFormComponent implements OnInit {
   selectedPreviewFile: File | null = null;
   loading: boolean = false;
 
-  // TODO accept only images
   onSelect(event: any) {
     this.files.push(...event.addedFiles);
     this.images = [];
@@ -94,47 +93,23 @@ export class HousingImagesFormComponent implements OnInit {
   }
 
   dragImageToRight(image: Image) {
-    let index = this.images.indexOf(image);
-
-    if (index === this.images.length - 1) {
-      let temp = this.images[0];
-      this.images[0] = this.images[index];
-      this.images[index] = temp;
-
-      let temp1 = this.files[0];
-      this.files[0] = this.files[index];
-      this.files[index] = temp1;
-    } else {
-      let temp = this.images[index + 1]
-      this.images[index + 1] = this.images[index];
-      this.images[index] = temp;
-
-      let temp1 = this.files[index + 1]
-      this.files[index + 1] = this.files[index];
-      this.files[index] = temp1;
-    }
+    let pos1 = this.images.indexOf(image);
+    let pos2 = pos1 === this.images.length - 1 ? 0 : pos1 + 1
+    this.switchElementsInArray(this.images, pos1, pos2);
+    this.switchElementsInArray(this.files, pos1, pos2);
   }
 
   dragImageToLeft(image: Image) {
-    let index = this.images.indexOf(image);
+    let pos1: number = this.images.indexOf(image);
+    let pos2: number = pos1 !== 0 ? pos1 - 1 : this.images.length - 1;
+    this.switchElementsInArray(this.images, pos1, pos2);
+    this.switchElementsInArray(this.files, pos1, pos2);
+  }
 
-    if (index === 0) {
-      let temp = this.images[this.images.length - 1];
-      this.images[this.images.length - 1] = this.images[0];
-      this.images[0] = temp;
-
-      let temp1 = this.files[this.images.length - 1];
-      this.files[this.images.length - 1] = this.files[0];
-      this.files[0] = temp1;
-    } else {
-      let temp = this.images[index - 1]
-      this.images[index - 1] = this.images[index];
-      this.images[index] = temp;
-
-      let temp1 = this.files[index - 1];
-      this.files[index - 1] = this.files[index];
-      this.files[index] = temp1;
-    }
+  private switchElementsInArray(arr: any[], pos1: number, pos2: number): void {
+    let temp: any = arr[pos2];
+    arr[pos2] = arr[pos1];
+    arr[pos1] = temp;
   }
 }
 
