@@ -1,12 +1,16 @@
 package com.reservation.backend.services;
 
 import com.reservation.backend.dto.HousingDTO;
+import com.reservation.backend.dto.ImageDTO;
 import com.reservation.backend.entities.Housing;
+import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
 import com.reservation.backend.exceptions.HousingAddException;
 import com.reservation.backend.exceptions.UserNotFoundException;
 import com.reservation.backend.mapper.HousingMapper;
+import com.reservation.backend.mapper.ImageMapper;
 import com.reservation.backend.repositories.HousingRepository;
+import com.reservation.backend.repositories.ImageRepository;
 import com.reservation.backend.repositories.LocationRepository;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.security.JwtService;
@@ -30,6 +34,8 @@ public class HousingService {
     private final HousingRepository housingRepository;
     private final JwtService jwtService;
     private final LocationRepository locationRepository;
+    private final ImageRepository imageRepository;
+    private final ImageMapper imageMapper;
 
     public List<HousingDTO> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
         List<Housing> housingList = housingRepository.findAll();
@@ -125,6 +131,21 @@ public class HousingService {
         housing.setPublished(false);
 
         this.housingRepository.save(housing);
+    }
+
+    public Optional<ImageDTO> changeImagePreview(Long housingId, Long imageId, String token) {
+        try {
+            Housing housing = this.housingRepository.findById(housingId).orElseThrow();
+            User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+            Image image = this.imageRepository.findById(imageId).orElseThrow();
+
+            if (image.getHousing().equals(housing) && housing.getOwner().equals(user)) {
+                housing.setPreviewImage(image);
+                this.housingRepository.save(housing);
+                return Optional.of(this.imageMapper.toImageDTO(image));
+            }
+        } catch (Exception ignored) {}
+        return Optional.empty();
     }
 }
 

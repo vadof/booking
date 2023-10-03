@@ -1,9 +1,11 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.HousingDTO;
+import com.reservation.backend.dto.ImageDTO;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.HousingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +49,17 @@ public class HousingController {
             return ResponseEntity.ok(optionalHousing.get());
         } else {
             return ResponseEntity.badRequest().body("Failed to update housing");
+        }
+    }
+
+    @PutMapping("/{housingId}/previewImage/{imageId}")
+    public ResponseEntity<?> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId,
+                                                @RequestHeader("Authorization") String token) {
+        Optional<ImageDTO> optionalImageDTO = this.housingService.changeImagePreview(housingId, imageId, token);
+        if (optionalImageDTO.isPresent()) {
+            return ResponseEntity.ok(optionalImageDTO.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to change preview image");
         }
     }
 }

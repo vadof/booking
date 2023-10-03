@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -77,4 +78,16 @@ public class Housing {
 
     @OneToMany(mappedBy = "housing")
     private List<Booking> bookings;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Housing other)) return false;
+        return Objects.equals(this.id, other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
