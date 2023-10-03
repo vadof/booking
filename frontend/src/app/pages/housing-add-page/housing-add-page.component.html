@@ -36,5 +36,6 @@
     </ul>
   </div>
 
-  <app-housing-form></app-housing-form>
+  <app-housing-form *ngIf="getCurrentStep() === 1"></app-housing-form>
+  <app-housing-images-form *ngIf="getCurrentStep() === 2"></app-housing-images-form>
 </div>
