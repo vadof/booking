@@ -147,6 +147,17 @@ public class HousingService {
         } catch (Exception ignored) {}
         return Optional.empty();
     }
+
+    public Optional<HousingDTO> publishHousing(Long housingId, String token, Boolean published) {
+        Housing housing = this.housingRepository.findById(housingId).orElseThrow();
+        User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (housing.getOwner().equals(owner)) {
+            housing.setPublished(published);
+            return Optional.of(this.housingMapper.toHousingDTO(housing));
+        }
+        return Optional.empty();
+    }
 }
 
 

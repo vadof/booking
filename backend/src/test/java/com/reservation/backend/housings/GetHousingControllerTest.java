@@ -1,6 +1,7 @@
 package com.reservation.backend.housings;
 
 import com.reservation.backend.dto.HousingDTO;
+import com.reservation.backend.dto.LocationDTO;
 import com.reservation.backend.entities.*;
 import com.reservation.backend.mapper.HousingMapper;
 import com.reservation.backend.services.HousingService;

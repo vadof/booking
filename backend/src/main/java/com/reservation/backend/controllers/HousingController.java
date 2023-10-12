@@ -62,4 +62,14 @@ public class HousingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to change preview image");
         }
     }
+
+    @PutMapping("/publish/{housingId}")
+    public ResponseEntity<?> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
+        Optional<HousingDTO> optionalHousingDTO = this.housingService.publishHousing(housingId, token, value);
+        if (optionalHousingDTO.isPresent()) {
+            return ResponseEntity.ok(optionalHousingDTO.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to publish housing");
+        }
+    }
 }
