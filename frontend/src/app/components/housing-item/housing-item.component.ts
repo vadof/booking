@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
+import {IImage} from "../../models/IImage";
 
 @Component({
   selector: 'app-housing-item',
@@ -7,11 +8,14 @@ import {IHousing} from "../../models/IHousing";
   styleUrls: ['./housing-item.component.scss']
 })
 export class HousingItemComponent implements OnInit {
-  @Input() housing!: IHousing;
-  @Input() nights: number = 1;
-  totalPrice: number = 0;
+  @Input({required: true}) housing!: IHousing;
+
+  sideImages: IImage[] = [];
+  bottomImages: IImage[] = [];
 
   ngOnInit(): void {
-    this.totalPrice = Math.round(this.housing.pricePerNight * this.nights * 100) / 100;
+    this.housing.images.sort((a, b) => a.id - b.id);
+    this.sideImages = this.housing.images.slice(0, 2);
+    this.bottomImages = this.housing.images.slice(2, 4);
   }
 }
