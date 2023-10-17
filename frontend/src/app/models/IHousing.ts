@@ -19,7 +19,6 @@ export interface IHousing {
   rooms: number;
   m2: number;
   minNights: number;
-  owner: IUser;
   reviews: IReview[];
   images: IImage[];
 }

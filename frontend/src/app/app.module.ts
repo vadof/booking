@@ -10,7 +10,7 @@ import { MainPageComponent } from './pages/main-page/main-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HousingItemComponent } from './components/housing-item/housing-item.component';
+import { HousingPreviewItemComponent } from './components/housing-preview-item/housing-preview-item.component';
 import { LocationPipe } from './pipes/location.pipe';
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -21,6 +21,8 @@ import { HousingAddPageComponent } from './pages/housing-add-page/housing-add-pa
 import { HousingFormComponent } from './components/housing-form/housing-form.component';
 import { HousingImagesFormComponent } from './components/housing-images-form/housing-images-form.component';
 import {NgxDropzoneModule} from "ngx-dropzone";
+import { HousingPageComponent } from './pages/housing-page/housing-page.component';
+import { HousingItemComponent } from './components/housing-item/housing-item.component';
 
 @NgModule({
   declarations: [
@@ -29,11 +31,13 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     MainPageComponent,
     RegisterPageComponent,
     NavbarComponent,
-    HousingItemComponent,
+    HousingPreviewItemComponent,
     LocationPipe,
     HousingAddPageComponent,
     HousingFormComponent,
     HousingImagesFormComponent,
+    HousingPageComponent,
+    HousingItemComponent,
   ],
   imports: [
     BrowserModule,

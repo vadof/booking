@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<div class="container">
+
+  <div class="housing-wrapper d-flex">
+
+    <div class="sidebar">
+      <div class="sidebar-area">
+        <div class="check-in-date option">
+          <label>Check-in date</label>
+          <div>Saturday 28 October 2023</div>
+        </div>
+
+        <div class="check-out-date option">
+          <label>Check-in date</label>
+          <div>Saturday 28 October 2023</div>
+        </div>
+
+        <div class="nights">1 night · 2 people</div>
+
+        <div class="save-options-button btn btn-primary">Save</div>
+      </div>
+
+    </div>
+
+    <app-housing-item *ngIf="housing" [housing]="housing"></app-housing-item>
+  </div>
+
+  <div class="reviews">
+
+  </div>
+
+</div>
