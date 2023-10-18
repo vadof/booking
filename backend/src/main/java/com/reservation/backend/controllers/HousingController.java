@@ -72,4 +72,11 @@ public class HousingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to publish housing");
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HousingDTO> getHousingById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        Optional<HousingDTO> optionalHousingDTO = housingService.getHousingById(id, token);
+
+        return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

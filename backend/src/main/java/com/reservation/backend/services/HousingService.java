@@ -158,6 +158,21 @@ public class HousingService {
         }
         return Optional.empty();
     }
+
+    public Optional<HousingDTO> getHousingById(Long id, String token) {
+        try {
+            Housing housing = housingRepository.findById(id).orElseThrow();
+            if (!housing.isPublished()) {
+                if (housing.getOwner().equals(jwtService.getUserFromBearerToken(token).orElseThrow())) {
+                    return Optional.of(housingMapper.toHousingDTO(housing));
+                }
+            } else {
+                return Optional.of(housingMapper.toHousingDTO(housing));
+            }
+        } catch (Exception e) {
+            log.error("Error getting unpublished housing by id: " + e.getMessage());
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
 }
-
-
