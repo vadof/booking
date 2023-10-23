@@ -1,5 +1,6 @@
 package com.reservation.backend.controllers;
 
+import com.reservation.backend.dto.PaginatedResponseDTO;
 import com.reservation.backend.dto.ReviewDTO;
 import com.reservation.backend.services.ReviewService;
 import jakarta.validation.Valid;
@@ -8,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -26,6 +29,13 @@ public class ReviewController {
         log.info("REST request to add review");
         ReviewDTO savedReview = this.reviewService.saveReview(housingId, reviewDTO, token);
         return ResponseEntity.ok().body(savedReview);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReviewDTO> getReviewById(@PathVariable Long id) {
+        log.info("REST request to get review {}", id);
+        ReviewDTO foundReview = this.reviewService.findReviewById(id);
+        return ResponseEntity.ok().body(foundReview);
     }
 
 }

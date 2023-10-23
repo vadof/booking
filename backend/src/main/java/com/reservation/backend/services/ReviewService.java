@@ -50,6 +50,12 @@ public class ReviewService {
         return this.reviewMapper.toDto(review);
     }
 
+    public ReviewDTO findReviewById(Long id) {
+        Review review = this.reviewRepository.findById(id).orElseThrow(
+                () -> new AppException(String.format("Review with id %s not found", id), HttpStatus.NOT_FOUND));
+        return this.reviewMapper.toDto(review);
+    }
+
     private void updateHousingRating(Housing housing) {
         Long ratingFromAllReviews = 0L;
         for (Review review : housing.getReviews()) {
