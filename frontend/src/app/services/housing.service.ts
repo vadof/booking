@@ -16,7 +16,7 @@ export class HousingService {
 
   async getHousingById(id: number): Promise<IHousing> {
     return await new Promise<IHousing>((resolve, reject) => {
-      this.httpService.sendGetRequest(`/api/v1/housings/${id}`).subscribe(response => {
+      this.httpService.sendGetRequest(`/v1/housings/${id}`).subscribe(response => {
         resolve(response);
       }, error => {
         reject(error);
