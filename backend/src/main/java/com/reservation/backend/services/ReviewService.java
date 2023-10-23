@@ -51,14 +51,13 @@ public class ReviewService {
     }
 
     public ReviewDTO findReviewById(Long id) {
-        Review review = this.reviewRepository.findById(id).orElseThrow(
-                () -> new AppException(String.format("Review with id %s not found", id), HttpStatus.NOT_FOUND));
+        Review review = this.getReviewById(id);
         return this.reviewMapper.toDto(review);
     }
 
+    @Transactional
     public ReviewDTO updateReview(ReviewDTO reviewDTO, String token) {
-        Review review = this.reviewRepository.findById(reviewDTO.getId()).orElseThrow(
-                () -> new AppException(String.format("Review with id %s not found", reviewDTO.getId()), HttpStatus.NOT_FOUND));
+        Review review = this.getReviewById(reviewDTO.getId());
         User reviewer = this.jwtService.getUserFromBearerToken(token).orElseThrow();
 
         if (!reviewer.equals(review.getReviewer())) {
@@ -74,6 +73,19 @@ public class ReviewService {
         return this.reviewMapper.toDto(review);
     }
 
+    @Transactional
+    public ReviewDTO deleteReview(Long id, String token) {
+        Review review = this.getReviewById(id);
+        User reviewer = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (!review.getReviewer().equals(reviewer)) {
+            throw new AppException("Access to delete review denied", HttpStatus.FORBIDDEN);
+        }
+
+        this.reviewRepository.delete(review);
+        return this.reviewMapper.toDto(review);
+    }
+
     private void updateHousingRating(Housing housing) {
         Long ratingFromAllReviews = 0L;
         for (Review review : housing.getReviews()) {
@@ -85,5 +97,10 @@ public class ReviewService {
 
     private boolean userAlreadyLeftReview(Housing housing, User user) {
         return housing.getReviews().stream().anyMatch(r -> r.getReviewer().equals(user));
+    }
+
+    private Review getReviewById(Long id) {
+        return this.reviewRepository.findById(id).orElseThrow(
+                () -> new AppException(String.format("Review with id %s not found", id), HttpStatus.NOT_FOUND));
     }
 }

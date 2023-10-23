@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/api/v1/reviews")
@@ -43,6 +41,13 @@ public class ReviewController {
         log.info("REST request to update review {}", reviewDTO.getId());
         ReviewDTO updatedReview = this.reviewService.updateReview(reviewDTO, token);
         return ResponseEntity.ok().body(updatedReview);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable Long id, String token) {
+        log.info("REST request to delete review {}", id);
+        ReviewDTO deletedReview = this.reviewService.deleteReview(id, token);
+        return ResponseEntity.ok().body(deletedReview);
     }
 
 }
