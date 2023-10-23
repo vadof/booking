@@ -1,6 +1,7 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.HousingDTO;
+import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.dto.ImageDTO;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.HousingService;
@@ -24,16 +25,16 @@ public class HousingController {
     }
 
     @GetMapping
-    public List<HousingDTO> getAllHousings(@RequestParam(required = false) String locationName,
-                                           @RequestParam(required = false, defaultValue = "0") int minPrice,
-                                           @RequestParam(required = false, defaultValue = "0") int maxPrice,
-                                           @RequestParam(required = false, defaultValue = "0") int amountPeople) {
+    public List<HousingPreviewDTO> getAllHousings(@RequestParam(required = false) String locationName,
+                                                  @RequestParam(required = false, defaultValue = "0") int minPrice,
+                                                  @RequestParam(required = false, defaultValue = "0") int maxPrice,
+                                                  @RequestParam(required = false, defaultValue = "0") int amountPeople) {
         return housingService.getAllHousings(locationName, minPrice, maxPrice, amountPeople);
     }
 
     @PostMapping
     public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> res = housingService.addHousing(housingForm, token);
+        Optional<HousingPreviewDTO> res = housingService.addHousing(housingForm, token);
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {
@@ -44,7 +45,7 @@ public class HousingController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
                                                   @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
+        Optional<HousingPreviewDTO> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
         if (optionalHousing.isPresent()) {
             return ResponseEntity.ok(optionalHousing.get());
         } else {
@@ -65,7 +66,7 @@ public class HousingController {
 
     @PutMapping("/publish/{housingId}")
     public ResponseEntity<?> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
-        Optional<HousingDTO> optionalHousingDTO = this.housingService.publishHousing(housingId, token, value);
+        Optional<HousingPreviewDTO> optionalHousingDTO = this.housingService.publishHousing(housingId, token, value);
         if (optionalHousingDTO.isPresent()) {
             return ResponseEntity.ok(optionalHousingDTO.get());
         } else {
