@@ -2,7 +2,6 @@ package com.reservation.backend.controllers.common;
 
 import com.reservation.backend.controllers.ReviewController;
 import com.reservation.backend.exceptions.AppException;
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

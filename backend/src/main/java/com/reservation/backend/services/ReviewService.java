@@ -15,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -82,16 +80,22 @@ public class ReviewService {
             throw new AppException("Access to delete review denied", HttpStatus.FORBIDDEN);
         }
 
+        Housing housing = review.getHousing();
         this.reviewRepository.delete(review);
+        this.updateHousingRating(housing);
         return this.reviewMapper.toDto(review);
     }
 
     private void updateHousingRating(Housing housing) {
         Long ratingFromAllReviews = 0L;
-        for (Review review : housing.getReviews()) {
-            ratingFromAllReviews += review.getRating();
+        if (housing.getReviews().size() == 0) {
+            housing.setRating(null);
+        } else {
+            for (Review review : housing.getReviews()) {
+                ratingFromAllReviews += review.getRating();
+            }
+            housing.setRating(new BigDecimal(ratingFromAllReviews / housing.getReviews().size()));
         }
-        housing.setRating(new BigDecimal(ratingFromAllReviews / housing.getReviews().size()));
         this.housingRepository.save(housing);
     }
 

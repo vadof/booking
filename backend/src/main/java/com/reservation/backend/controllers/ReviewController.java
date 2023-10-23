@@ -1,6 +1,5 @@
 package com.reservation.backend.controllers;
 
-import com.reservation.backend.dto.PaginatedResponseDTO;
 import com.reservation.backend.dto.ReviewDTO;
 import com.reservation.backend.services.ReviewService;
 import jakarta.validation.Valid;
@@ -37,14 +36,16 @@ public class ReviewController {
     }
 
     @PutMapping
-    public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO, String token) {
+    public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO,
+                                                  @RequestHeader("Authorization") String token) {
         log.info("REST request to update review {}", reviewDTO.getId());
         ReviewDTO updatedReview = this.reviewService.updateReview(reviewDTO, token);
         return ResponseEntity.ok().body(updatedReview);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable Long id, String token) {
+    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable Long id,
+                                                  @RequestHeader("Authorization") String token) {
         log.info("REST request to delete review {}", id);
         ReviewDTO deletedReview = this.reviewService.deleteReview(id, token);
         return ResponseEntity.ok().body(deletedReview);
