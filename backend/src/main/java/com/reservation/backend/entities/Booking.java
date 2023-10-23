@@ -1,5 +1,6 @@
 package com.reservation.backend.entities;
 
+import com.reservation.backend.config.Constants;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,11 +28,11 @@ public class Booking {
     private Housing housing;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = Constants.DATE_FORMAT_DD_MM_YYYY)
     private LocalDate checkInDate;
 
     @Column(nullable = false)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = Constants.DATE_FORMAT_DD_MM_YYYY)
     private LocalDate checkOutDate;
 
     @Column(nullable = false)

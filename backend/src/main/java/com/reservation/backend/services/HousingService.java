@@ -3,6 +3,8 @@ package com.reservation.backend.services;
 import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.dto.ImageDTO;
+import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
@@ -19,6 +21,7 @@ import com.reservation.backend.security.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,7 +29,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,22 +42,18 @@ public class HousingService {
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
 
-    public List<HousingPreviewDTO> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
-        List<Housing> housingList = housingRepository.findAll();
-        if (locationName != null) {
-            housingList = housingList.stream().filter(h -> h.getName() != null &&  h.getName().equals(locationName)).collect(Collectors.toList());
-        }
-        if (minPrice != 0) {
-            housingList = housingList.stream().filter(h -> h.getPricePerNight().compareTo(new BigDecimal(minPrice)) >= 0).collect(Collectors.toList());
-        }
-        if (maxPrice != 0) {
-            housingList = housingList.stream().filter(h -> h.getPricePerNight().compareTo(new BigDecimal(maxPrice)) < 0).collect(Collectors.toList());
-        }
-        if (amountPeople != 0) {
-            housingList = housingList.stream().filter(h -> h.getPeople() <= amountPeople).collect(Collectors.toList());
-        }
+    public PaginatedResponseDTO<HousingPreviewDTO> getAllHousings(HousingSearchDTO housingSearchDTO) {
+        Page<Housing> housingPage = this.housingRepository.findAll(housingSearchDTO.getSpecification(), housingSearchDTO.getPageable());
+        List<HousingPreviewDTO> housingPreviewDTOList = this.housingPreviewMapper.toDtos(housingPage.getContent());
 
-        return housingPreviewMapper.toDtos(housingList);
+        return PaginatedResponseDTO.<HousingPreviewDTO>builder()
+                .page(housingPage.getNumber())
+                .totalPages(housingPage.getTotalPages())
+                .size(housingPreviewDTOList.size())
+                .sortingFields(housingSearchDTO.getSortingFields())
+                .sortDirection(housingSearchDTO.getSortDirection().toString())
+                .data(housingPreviewDTOList)
+                .build();
     }
 
     @Transactional
