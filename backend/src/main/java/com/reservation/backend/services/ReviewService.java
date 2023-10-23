@@ -56,6 +56,24 @@ public class ReviewService {
         return this.reviewMapper.toDto(review);
     }
 
+    public ReviewDTO updateReview(ReviewDTO reviewDTO, String token) {
+        Review review = this.reviewRepository.findById(reviewDTO.getId()).orElseThrow(
+                () -> new AppException(String.format("Review with id %s not found", reviewDTO.getId()), HttpStatus.NOT_FOUND));
+        User reviewer = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (!reviewer.equals(review.getReviewer())) {
+            throw new AppException("Access to update review denied", HttpStatus.FORBIDDEN);
+        }
+
+        review.setText(review.getText());
+        review.setRating(review.getRating());
+        this.reviewRepository.save(review);
+
+        this.updateHousingRating(review.getHousing());
+
+        return this.reviewMapper.toDto(review);
+    }
+
     private void updateHousingRating(Housing housing) {
         Long ratingFromAllReviews = 0L;
         for (Review review : housing.getReviews()) {

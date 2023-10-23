@@ -38,4 +38,11 @@ public class ReviewController {
         return ResponseEntity.ok().body(foundReview);
     }
 
+    @PutMapping
+    public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO, String token) {
+        log.info("REST request to update review {}", reviewDTO.getId());
+        ReviewDTO updatedReview = this.reviewService.updateReview(reviewDTO, token);
+        return ResponseEntity.ok().body(updatedReview);
+    }
+
 }
