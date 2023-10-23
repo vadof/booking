@@ -1,6 +1,7 @@
 package com.reservation.backend.services;
 
 import com.reservation.backend.dto.HousingDTO;
+import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.dto.ImageDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
@@ -8,6 +9,7 @@ import com.reservation.backend.entities.User;
 import com.reservation.backend.exceptions.HousingAddException;
 import com.reservation.backend.exceptions.UserNotFoundException;
 import com.reservation.backend.mapper.HousingMapper;
+import com.reservation.backend.mapper.HousingPreviewMapper;
 import com.reservation.backend.mapper.ImageMapper;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.ImageRepository;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class HousingService {
+    private final HousingPreviewMapper housingPreviewMapper;
     private final HousingMapper housingMapper;
     private final HousingRepository housingRepository;
     private final JwtService jwtService;
@@ -37,7 +40,7 @@ public class HousingService {
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
 
-    public List<HousingDTO> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
+    public List<HousingPreviewDTO> getAllHousings(String locationName, int minPrice, int maxPrice, int amountPeople) {
         List<Housing> housingList = housingRepository.findAll();
         if (locationName != null) {
             housingList = housingList.stream().filter(h -> h.getName() != null &&  h.getName().equals(locationName)).collect(Collectors.toList());
@@ -52,11 +55,11 @@ public class HousingService {
             housingList = housingList.stream().filter(h -> h.getPeople() <= amountPeople).collect(Collectors.toList());
         }
 
-        return housingMapper.toHousingDTOList(housingList);
+        return housingPreviewMapper.toDtos(housingList);
     }
 
     @Transactional
-    public Optional<HousingDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
+    public Optional<HousingPreviewDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
         try {
             Optional<User> userOptional = jwtService.getUserFromBearerToken(token);
             if (userOptional.isEmpty()) {
@@ -69,7 +72,7 @@ public class HousingService {
                 this.saveHousing(housingAddRequest, housing, owner);
 
                 log.info("Housing saved to database");
-                return Optional.of(this.housingMapper.toHousingDTO(housing));
+                return Optional.of(this.housingPreviewMapper.toDto(housing));
             } else {
                 throw new HousingAddException("Invalid housing data");
             }
@@ -87,7 +90,7 @@ public class HousingService {
     }
 
     @Transactional
-    public Optional<HousingDTO> updateHousing(Long id, HousingAddRequest housingAddRequest, String token) {
+    public Optional<HousingPreviewDTO> updateHousing(Long id, HousingAddRequest housingAddRequest, String token) {
         try {
             Housing housing = this.housingRepository.findById(id).orElseThrow();
             User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
@@ -96,7 +99,7 @@ public class HousingService {
                     && allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
                 this.saveHousing(housingAddRequest, housing, owner);
                 log.info("Housing with id {} updated successfully", id);
-                return Optional.of(this.housingMapper.toHousingDTO(housing));
+                return Optional.of(this.housingPreviewMapper.toDto(housing));
             }
         } catch (Exception e) {
             log.error("Failed to update housing {}", e.getMessage());
@@ -142,19 +145,19 @@ public class HousingService {
             if (image.getHousing().equals(housing) && housing.getOwner().equals(user)) {
                 housing.setPreviewImage(image);
                 this.housingRepository.save(housing);
-                return Optional.of(this.imageMapper.toImageDTO(image));
+                return Optional.of(this.imageMapper.toDto(image));
             }
         } catch (Exception ignored) {}
         return Optional.empty();
     }
 
-    public Optional<HousingDTO> publishHousing(Long housingId, String token, Boolean published) {
+    public Optional<HousingPreviewDTO> publishHousing(Long housingId, String token, Boolean published) {
         Housing housing = this.housingRepository.findById(housingId).orElseThrow();
         User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
 
         if (housing.getOwner().equals(owner)) {
             housing.setPublished(published);
-            return Optional.of(this.housingMapper.toHousingDTO(housing));
+            return Optional.of(this.housingPreviewMapper.toDto(housing));
         }
         return Optional.empty();
     }
@@ -164,10 +167,10 @@ public class HousingService {
             Housing housing = housingRepository.findById(id).orElseThrow();
             if (!housing.isPublished()) {
                 if (housing.getOwner().equals(jwtService.getUserFromBearerToken(token).orElseThrow())) {
-                    return Optional.of(housingMapper.toHousingDTO(housing));
+                    return Optional.of(housingMapper.toDto(housing));
                 }
             } else {
-                return Optional.of(housingMapper.toHousingDTO(housing));
+                return Optional.of(housingMapper.toDto(housing));
             }
         } catch (Exception e) {
             log.error("Error getting unpublished housing by id: " + e.getMessage());

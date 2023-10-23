@@ -6,18 +6,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface ImageMapper {
+public interface ImageMapper extends EntityMapper<Image, ImageDTO> {
 
-    @Mapping(target = "imageSrc", expression = "java(getImageSrc(image))")
-    ImageDTO toImageDTO(Image image);
-    List<ImageDTO> toImageDTOList(List<Image> imageList);
+    @Override
+    @Mapping(target = "imageSrc", expression = "java(getImageSrc(entity))")
+    ImageDTO toDto(Image entity);
 
-    default String getImageSrc(Image image) {
-        if (image != null) {
-            return "http://localhost:8080/api/v1/images/" + image.getId();
+    default String getImageSrc(Image entity) {
+        if (entity != null) {
+            return "http://localhost:8080/api/v1/images/" + entity.getId();
         }
         return null;
     }

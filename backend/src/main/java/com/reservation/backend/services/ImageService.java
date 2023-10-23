@@ -41,7 +41,7 @@ public class ImageService {
                 Image image = saveImage(imageFile, housing).orElseThrow();
                 housing.getImages().add(image);
                 this.housingRepository.save(housing);
-                return Optional.of(imageMapper.toImageDTO(image));
+                return Optional.of(imageMapper.toDto(image));
             }
         } catch (Exception ignored) {}
         return Optional.empty();
