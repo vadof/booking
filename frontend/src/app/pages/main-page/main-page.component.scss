@@ -171,3 +171,12 @@ $border-style: 3px solid var(--blue-color);
 .housings {
   padding: 0;
 }
+
+.pagination {
+  margin-top: 1rem;
+  justify-content: center;
+
+  .page-link {
+    cursor: pointer;
+  }
+}

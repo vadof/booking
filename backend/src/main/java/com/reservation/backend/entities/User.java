@@ -1,6 +1,7 @@
 package com.reservation.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.reservation.backend.config.Constants;
 import com.reservation.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,7 +40,7 @@ public class User implements UserDetails {
     private String password;
 
     @JsonIgnore
-    @DateTimeFormat(pattern="dd/MM/yyyy")
+    @DateTimeFormat(pattern = Constants.DATE_FORMAT_DD_MM_YYYY)
     private LocalDate registerDate;
 
     @JsonIgnore

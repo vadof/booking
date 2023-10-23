@@ -3,6 +3,8 @@ package com.reservation.backend.controllers;
 import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.dto.ImageDTO;
+import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.HousingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -25,11 +26,9 @@ public class HousingController {
     }
 
     @GetMapping
-    public List<HousingPreviewDTO> getAllHousings(@RequestParam(required = false) String locationName,
-                                                  @RequestParam(required = false, defaultValue = "0") int minPrice,
-                                                  @RequestParam(required = false, defaultValue = "0") int maxPrice,
-                                                  @RequestParam(required = false, defaultValue = "0") int amountPeople) {
-        return housingService.getAllHousings(locationName, minPrice, maxPrice, amountPeople);
+    public ResponseEntity<PaginatedResponseDTO<HousingPreviewDTO>> getAllHousings(HousingSearchDTO housingSearchDTO) {
+        PaginatedResponseDTO<HousingPreviewDTO> paginatedResponse = this.housingService.getAllHousings(housingSearchDTO);
+        return ResponseEntity.ok().body(paginatedResponse);
     }
 
     @PostMapping
