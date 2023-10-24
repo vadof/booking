@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -37,6 +38,9 @@ public class Booking {
 
     @Column(nullable = false)
     private Integer nights;
+
+    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
+    private BigDecimal totalPrice;
 
     @Column(columnDefinition = "TEXT")
     private String additionalInfo;
