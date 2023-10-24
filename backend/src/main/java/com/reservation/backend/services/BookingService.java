@@ -58,10 +58,27 @@ public class BookingService {
         Booking booking = this.getBookingById(id);
         User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
 
-        if (!booking.getTenant().equals(user) || !booking.getHousing().getOwner().equals(user)) {
+        if (booking.getTenant().equals(user) || booking.getHousing().getOwner().equals(user)) {
+            return this.bookingMapper.toDto(booking);
+        } else {
+            throw new AppException("Access denied", HttpStatus.FORBIDDEN);
+        }
+    }
+
+    public BookingDTO deleteBooking(Long id, String token) {
+        Booking booking = getBookingById(id);
+        User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (!user.equals(booking.getTenant())) {
             throw new AppException("Access denied", HttpStatus.FORBIDDEN);
         }
 
+        LocalDate currentDate = LocalDate.now();
+        if (currentDate.isAfter(booking.getCheckInDate()) || currentDate.isEqual(booking.getCheckInDate())) {
+            throw new AppException("It is not possible to cancel a booking on the same day or after check-in", HttpStatus.FORBIDDEN);
+        }
+
+        this.bookingRepository.delete(booking);
         return this.bookingMapper.toDto(booking);
     }
 
