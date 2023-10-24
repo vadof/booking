@@ -53,8 +53,25 @@ public class BookingService {
         return this.bookingMapper.toDto(booking);
     }
 
+    // Only housing owner or tenant can get Booking
+    public BookingDTO findBookingById(Long id, String token) {
+        Booking booking = this.getBookingById(id);
+        User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (!booking.getTenant().equals(user) || !booking.getHousing().getOwner().equals(user)) {
+            throw new AppException("Access denied", HttpStatus.FORBIDDEN);
+        }
+
+        return this.bookingMapper.toDto(booking);
+    }
+
     private boolean dateOfHousingAvailableForBooking(Housing housing, LocalDate checkIn, LocalDate checkOut) {
         return this.bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).size() == 0;
+    }
+
+    private Booking getBookingById(Long id) {
+        return this.bookingRepository.findById(id).orElseThrow(
+                () -> new AppException(String.format("Booking with id %s not found", id), HttpStatus.NOT_FOUND));
     }
 
 }
