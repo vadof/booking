@@ -1,6 +1,8 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.BookingDTO;
+import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.search.BookingSearchDTO;
 import com.reservation.backend.services.BookingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,14 @@ public class BookingController {
         log.info("REST request to cancel Booking {}", id);
         BookingDTO deletedBooking = this.bookingService.deleteBooking(id, token);
         return ResponseEntity.ok().body(deletedBooking);
+    }
+
+    @GetMapping
+    public ResponseEntity<PaginatedResponseDTO<BookingDTO>> getAllUserBookings(
+            BookingSearchDTO bookingSearchDTO, @RequestHeader("Authorization") String token) {
+        log.info("REST request to get all user Bookings");
+        PaginatedResponseDTO<BookingDTO> paginatedResponse = this.bookingService.findAllUserBookings(bookingSearchDTO, token);
+        return ResponseEntity.ok().body(paginatedResponse);
     }
 
 

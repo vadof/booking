@@ -1,6 +1,8 @@
 package com.reservation.backend.services;
 
 import com.reservation.backend.dto.BookingDTO;
+import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.search.BookingSearchDTO;
 import com.reservation.backend.entities.Booking;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.User;
@@ -11,12 +13,14 @@ import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.security.JwtService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +84,22 @@ public class BookingService {
 
         this.bookingRepository.delete(booking);
         return this.bookingMapper.toDto(booking);
+    }
+
+    public PaginatedResponseDTO<BookingDTO> findAllUserBookings(BookingSearchDTO bookingSearchDTO, String token) {
+        User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        bookingSearchDTO.setUserId(user.getId());
+        Page<Booking> bookingPage = this.bookingRepository.findAll(bookingSearchDTO.getSpecification(), bookingSearchDTO.getPageable());
+        List<BookingDTO> bookings = this.bookingMapper.toDtos(bookingPage.getContent());
+
+        return PaginatedResponseDTO.<BookingDTO>builder()
+                .page(bookingPage.getNumber())
+                .totalPages(bookingPage.getTotalPages())
+                .size(bookings.size())
+                .sortingFields(bookingSearchDTO.getSortingFields())
+                .sortDirection(bookingSearchDTO.getSortDirection().toString())
+                .data(bookings)
+                .build();
     }
 
     private boolean dateOfHousingAvailableForBooking(Housing housing, LocalDate checkIn, LocalDate checkOut) {
