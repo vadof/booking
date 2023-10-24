@@ -1,29 +1,29 @@
 package com.reservation.backend.controllers;
 
-import com.reservation.backend.dto.HousingDTO;
-import com.reservation.backend.dto.HousingPreviewDTO;
-import com.reservation.backend.dto.ImageDTO;
-import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.requests.HousingAddRequest;
+import com.reservation.backend.services.BookingService;
 import com.reservation.backend.services.HousingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @CrossOrigin
 @RestController
+@Slf4j
+@Validated
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/housings")
 public class HousingController {
     private final HousingService housingService;
-
-    @Autowired
-    public HousingController(HousingService housingService) {
-        this.housingService = housingService;
-    }
+    private final BookingService bookingService;
 
     @GetMapping
     public ResponseEntity<PaginatedResponseDTO<HousingPreviewDTO>> getAllHousings(HousingSearchDTO housingSearchDTO) {
@@ -78,5 +78,13 @@ public class HousingController {
         Optional<HousingDTO> optionalHousingDTO = housingService.getHousingById(id, token);
 
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{housingId}/book")
+    public ResponseEntity<BookingDTO> bookHousing(@PathVariable Long housingId, @Valid @RequestBody BookingDTO bookingDTO,
+                                                  @RequestHeader("Authorization") String token) {
+        log.info("REST request to book housing with id {}", housingId);
+        BookingDTO savedBooking = this.bookingService.bookHousing(housingId, bookingDTO, token);
+        return ResponseEntity.ok().body(savedBooking);
     }
 }

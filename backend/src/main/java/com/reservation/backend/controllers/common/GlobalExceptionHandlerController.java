@@ -1,5 +1,6 @@
 package com.reservation.backend.controllers.common;
 
+import com.reservation.backend.controllers.HousingController;
 import com.reservation.backend.controllers.ReviewController;
 import com.reservation.backend.exceptions.AppException;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestControllerAdvice(assignableTypes = {ReviewController.class})
+@RestControllerAdvice(assignableTypes = {ReviewController.class, HousingController.class})
 public class GlobalExceptionHandlerController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
