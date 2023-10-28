@@ -1,0 +1,28 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  only:
+    refs:
+      - main
+  tags:
+    - server
+  script:
+    - cd ./backend
+    - ./mvnw package
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - main
+  tags:
+    - server
+  script:
+    - echo 'start'
+    - cd /opt/server-app
+    - docker-compose down
+    - docker-compose up -d
+    - docker-compose ps
