@@ -26,7 +26,25 @@
   </div>
 
   <div class="reviews">
-
+    <header>Reviews</header>
   </div>
+
+  <div class="reviews col-lg-8">
+    <div *ngFor="let review of reviews">
+      <app-housing-review-item [review]="review"></app-housing-review-item>
+    </div>
+  </div>
+
+  <ul *ngIf="totalPages > 1 "class="pagination">
+    <li class="page-item" [ngClass]="{'disabled': currentPage === 0}">
+      <a class="page-link">Previous</a>
+    </li>
+    <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+      <a class="page-link" (click)="changePage(page)">{{ page + 1 }}</a>
+    </li>ng
+    <li class="page-item">
+      <a class="page-link" href="#" [ngClass]="{'disabled': currentPage === totalPages - 1}">Next</a>
+    </li>
+  </ul>
 
 </div>

@@ -1,0 +1,32 @@
+.review-details {
+  .review-detail {
+    display: flex;
+    font-size: 18px;
+    margin-bottom: .5rem;
+    .detail-title {
+      margin-right: .5rem;
+    }
+
+    .detail-content {
+      font-weight: 500;
+    }
+  }
+
+  .review-text {
+    margin-bottom: .5rem;
+    margin-left: 300px;
+    flex-direction: column;
+  }
+
+  .review-rating {
+    margin-bottom: .5rem;
+    margin-left: 700px;
+    flex-direction: column;
+  }
+
+  .review-reviewer {
+    margin-bottom: .5rem;
+    margin-left: 250px;
+    flex-direction: column;
+  }
+}
