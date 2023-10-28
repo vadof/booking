@@ -1,0 +1,7 @@
+<app-navbar></app-navbar>
+<p>My publications</p>
+<ul>
+  <div *ngFor="let housing typeof housings">
+    <app-housing-preview-item [housing]="housing"></app-housing-preview-item>
+  </div>
+</ul>
