@@ -1,11 +1,10 @@
 package com.reservation.backend.controllers;
 
-import com.reservation.backend.dto.HousingDTO;
-import com.reservation.backend.dto.HousingPreviewDTO;
-import com.reservation.backend.dto.ImageDTO;
-import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
+import com.reservation.backend.entities.User;
 import com.reservation.backend.requests.HousingAddRequest;
+import com.reservation.backend.services.BookingService;
 import com.reservation.backend.services.HousingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +18,12 @@ import java.util.Optional;
 @RequestMapping("/api/v1/housings")
 public class HousingController {
     private final HousingService housingService;
+    private final BookingService bookingService;
 
     @Autowired
-    public HousingController(HousingService housingService) {
+    public HousingController(HousingService housingService, BookingService bookingService) {
         this.housingService = housingService;
+        this.bookingService = bookingService;
     }
 
     @GetMapping
@@ -78,5 +79,13 @@ public class HousingController {
         Optional<HousingDTO> optionalHousingDTO = housingService.getHousingById(id, token);
 
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BookingDTO> getBookingsByUser(@PathVariable Long id, @RequestHeader("Authorization") String token,
+                                                        @PathVariable User user) {
+        Optional<BookingDTO> optionalBookingDTO = bookingService.getAllBookings(user);
+
+        return optionalBookingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
