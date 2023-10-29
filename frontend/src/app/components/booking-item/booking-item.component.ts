@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {IBooking} from "../../models/IBooking";
 
 @Component({
   selector: 'app-booking-item',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./booking-item.component.scss']
 })
 export class BookingItemComponent {
+  @Input() booking!:IBooking;
 
 }

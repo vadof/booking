@@ -6,7 +6,7 @@ import {AuthGuard} from "./auth/AuthGuard";
 import {RegisterPageComponent} from "./pages/register-page/register-page.component";
 import {HousingAddPageComponent} from "./pages/housing-add-page/housing-add-page.component";
 import {HousingPageComponent} from "./pages/housing-page/housing-page.component";
-import {BookingHistoryPageComponent} from "./page/booking-history-page/booking-history-page.component";
+import {BookingHistoryPageComponent} from "./pages/booking-history-page/booking-history-page.component";
 
 const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},

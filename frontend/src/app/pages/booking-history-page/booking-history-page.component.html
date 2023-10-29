@@ -1,0 +1,13 @@
+<p>My Bookings</p>
+
+<div class="booking-items">
+  <ng-container *ngIf="bookings.length; else noBookings">
+    <div class="booking-item" *ngFor="let booking of bookings">
+      <app-booking-item [booking]="booking"></app-booking-item>
+    </div>
+  </ng-container>
+
+  <ng-template #noBookings>
+    <p>You have no bookings.</p>
+  </ng-template>
+</div>

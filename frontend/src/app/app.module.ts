@@ -23,6 +23,8 @@ import { HousingImagesFormComponent } from './components/housing-images-form/hou
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { HousingPageComponent } from './pages/housing-page/housing-page.component';
 import { HousingItemComponent } from './components/housing-item/housing-item.component';
+import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
+import {BookingItemComponent} from "./components/booking-item/booking-item.component";
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { HousingItemComponent } from './components/housing-item/housing-item.com
     HousingImagesFormComponent,
     HousingPageComponent,
     HousingItemComponent,
+    BookingHistoryPageComponent,
+    BookingItemComponent,
   ],
   imports: [
     BrowserModule,
