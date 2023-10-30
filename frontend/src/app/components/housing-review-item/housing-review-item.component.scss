@@ -1,32 +1,50 @@
-.review-details {
-  .review-detail {
-    display: flex;
-    font-size: 18px;
-    margin-bottom: .5rem;
-    .detail-title {
-      margin-right: .5rem;
-    }
+.housing-review {
+  background-color: #e9e9ff;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.review-detail {
+  display: flex;
+  font-size: 18px;
+  margin-bottom: .5rem;
 
-    .detail-content {
-      font-weight: 500;
-    }
+  .detail-title {
+    margin-right: .5rem;
   }
 
-  .review-text {
-    margin-bottom: .5rem;
-    margin-left: 300px;
-    flex-direction: column;
-  }
 
-  .review-rating {
-    margin-bottom: .5rem;
-    margin-left: 700px;
-    flex-direction: column;
+  .detail-content {
+    font-weight: 500;
   }
+}
 
-  .review-reviewer {
-    margin-bottom: .5rem;
-    margin-left: 250px;
-    flex-direction: column;
+.review-text {
+  display: flex;
+  justify-content: center;
+}
+
+.review-rating {
+  span {
+    padding: 10px;
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    font-size: 25px;
+    border-radius: 0.5rem;
   }
+}
+
+.review-reviewer {
+
+}
+
+
+svg {
+  fill: var(--black-color);
+  margin-right: 5px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+
 }
