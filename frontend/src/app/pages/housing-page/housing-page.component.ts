@@ -14,13 +14,6 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class HousingPageComponent implements OnInit {
   @Input() housing: IHousing | null = null;
 
-  @ViewChild('picker') datePicker!: MatDateRangePicker<Date>;
-
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
-
   constructor(private httpService: HttpService,
               private housingService: HousingService,
               private router: Router,
