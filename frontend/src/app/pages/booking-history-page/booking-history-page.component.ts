@@ -17,7 +17,7 @@ export class BookingHistoryPageComponent {
   }
 
   ngOnInit(): void {
-    this.httpService.sendGetRequest('/v1/bookings').subscribe(
+    this.httpService.sendGetRequest('/v1/booking/history').subscribe(
       response => { // json
         this.bookings = response as IBooking[];
       }

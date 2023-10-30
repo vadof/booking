@@ -81,11 +81,4 @@ public class HousingController {
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BookingDTO> getBookingsByUser(@PathVariable Long id, @RequestHeader("Authorization") String token,
-                                                        @PathVariable User user) {
-        Optional<BookingDTO> optionalBookingDTO = bookingService.getAllBookings(user);
-
-        return optionalBookingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 }
