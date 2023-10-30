@@ -1,10 +1,11 @@
 import {MatDateRangePicker} from "@angular/material/datepicker";
 import {FormControl, FormGroup} from "@angular/forms";
-import {LocationService} from "../../../services/location.service";
+import {LocationService} from "../../services/location.service";
 import {Component, OnInit, ViewChild} from "@angular/core";
-import {ILocation} from "../../../models/ILocation";
-import {IHousing} from "../../../models/IHousing";
-import {HttpService} from "../../../services/http.service";
+import {ILocation} from "../../models/ILocation";
+import {IHousing} from "../../models/IHousing";
+import {HttpService} from "../../services/http.service";
+import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
 
 
 @Component({
@@ -18,10 +19,6 @@ export class MyPublicationsPageComponent implements OnInit{
   locations: ILocation[] = [];
   housings: IHousing[] = [];
 
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
 
   constructor(
     private httpService: HttpService,
@@ -33,9 +30,11 @@ export class MyPublicationsPageComponent implements OnInit{
     this.locationService.getLocations().then(
       locations => {this.locations = locations;}
     )
-    this.httpService.sendGetRequest('/v1/housings').subscribe(
+    this.httpService.sendGetRequest('/v1/housings/my').subscribe(
       response => {
+        console.log(response)
         this.housings = response as IHousing[];
+        console.log(this.housings)
       }
     )
   }

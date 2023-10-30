@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -175,5 +176,11 @@ public class HousingService {
             return Optional.empty();
         }
         return Optional.empty();
+    }
+
+    public List<HousingDTO> getHousingsByOwner(String token) {
+        User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        List<Housing> housings = this.housingRepository.findByOwner(owner);
+        return housingMapper.toDtos(housings);
     }
 }

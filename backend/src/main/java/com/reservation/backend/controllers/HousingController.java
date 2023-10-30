@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -78,6 +80,12 @@ public class HousingController {
         Optional<HousingDTO> optionalHousingDTO = housingService.getHousingById(id, token);
 
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<HousingDTO>> getHousingByOwner(@RequestHeader("Authorization") String token) {
+        List<HousingDTO> optionalHousingDTOList = housingService.getHousingsByOwner(token);
+        return ResponseEntity.ok(optionalHousingDTOList);
     }
 
     @PostMapping("/{housingId}/book")
