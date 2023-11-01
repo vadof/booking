@@ -3,8 +3,13 @@
 
 <div class="booking-items">
   <ng-container *ngIf="bookings.length; else noBookings">
-    <div class="booking-item" *ngFor="let booking of bookings">
-      <app-booking-item [booking]="booking"></app-booking-item>
+    <div class="booking-items" *ngFor="let booking of bookings">
+      <app-booking-item
+        [booking]="booking"
+        (bookingDeleted)="handleBookingDeleted($event)">
+      </app-booking-item>
+      <button *ngIf="canDeleteBooking(booking)" class="btn-danger btn" (click)="cancelBooking(booking.id)">Delete Booking</button>
+
     </div>
   </ng-container>
 
@@ -12,3 +17,5 @@
     <p>You have no bookings.</p>
   </ng-template>
 </div>
+
+
