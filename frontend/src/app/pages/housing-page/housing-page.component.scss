@@ -34,6 +34,7 @@
 @media (max-width: 992px) {
   .housing-wrapper {
     flex-direction: column;
+
     .sidebar-area {
       width: 100%;
       margin-right: 0;
@@ -41,3 +42,26 @@
     }
   }
 }
+
+
+.review-header {
+  color: var(--black-color);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.review-item {
+  margin-bottom: 0.7rem;
+}
+
+.reviews {
+  margin-left: 270px;
+}
+
+
+@media (max-width: 992px) {
+  .reviews {
+    margin-left: 0;
+  }
+}
+

@@ -24,6 +24,7 @@ import {NgxDropzoneModule} from "ngx-dropzone";
 import { HousingPageComponent } from './pages/housing-page/housing-page.component';
 import { HousingItemComponent } from './components/housing-item/housing-item.component';
 import { MyPublicationsPageComponent } from './pages/my-publications-page/my-publications-page.component';
+import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MyPublicationsPageComponent } from './pages/my-publications-page/my-pub
     HousingPageComponent,
     HousingItemComponent,
     MyPublicationsPageComponent,
+    HousingReviewItemComponent,
   ],
   imports: [
     BrowserModule,

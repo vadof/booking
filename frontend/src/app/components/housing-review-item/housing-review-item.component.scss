@@ -1,0 +1,50 @@
+.housing-review {
+  background-color: #e9e9ff;
+  padding: 10px;
+  border-radius: 0.5rem;
+}
+.review-detail {
+  display: flex;
+  font-size: 18px;
+  margin-bottom: .5rem;
+
+  .detail-title {
+    margin-right: .5rem;
+  }
+
+
+  .detail-content {
+    font-weight: 500;
+  }
+}
+
+.review-text {
+  display: flex;
+  justify-content: center;
+}
+
+.review-rating {
+  span {
+    padding: 10px;
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    font-size: 25px;
+    border-radius: 0.5rem;
+  }
+}
+
+.review-reviewer {
+
+}
+
+
+svg {
+  fill: var(--black-color);
+  margin-right: 5px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+
+}
