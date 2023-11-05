@@ -3,6 +3,9 @@ import {IBooking} from "../../models/IBooking";
 import {HttpService} from "../../services/http.service";
 import {BookingService} from "../../services/booking.service";
 import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
+import { MatDialog } from '@angular/material/dialog';
+import { ReviewDialogComponent } from '../../review-dialog/review-dialog.component'; // This is your custom component for the review dialog
+
 import {Observable} from "rxjs";
 
 @Component({
@@ -12,9 +15,10 @@ import {Observable} from "rxjs";
 })
 export class BookingHistoryPageComponent implements OnInit{
   bookings: IBooking[] = [];
+  private result: any;
 
 
-  constructor(private httpService: HttpService, private bookingService: BookingService) {
+  constructor(private httpService: HttpService, private bookingService: BookingService, private dialog: MatDialog) {
 
   }
 
@@ -36,12 +40,23 @@ export class BookingHistoryPageComponent implements OnInit{
     );
   }
 
+  openReviewDialog(booking: IBooking): void {
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
+      width: '650px',
+      data: {booking: booking}
+    });
+
+    // @ts-ignore
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed' + result.data);
+    });
+  }
+
   canDeleteBooking(booking: IBooking): boolean {
     const currentDate = new Date();
     const parsedDate = this.parseDate(booking.checkInDate);
 
     if (!parsedDate) {
-      // Handle this case as you see fit, e.g., by defaulting to "cannot delete":
       return false;
     }
 

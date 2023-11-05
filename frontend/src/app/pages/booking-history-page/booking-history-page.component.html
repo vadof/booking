@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<p>My Bookings</p>
+<p class="my-bookings-title">My Bookings</p>
 
 <div class="booking-items">
   <ng-container *ngIf="bookings.length; else noBookings">
@@ -9,7 +9,9 @@
         (bookingDeleted)="handleBookingDeleted($event)">
       </app-booking-item>
       <button *ngIf="canDeleteBooking(booking)" class="btn-danger btn" (click)="cancelBooking(booking.id)">Delete Booking</button>
-
+      <button class="btn btn-primary" (click)="openReviewDialog(booking)">
+        Add Review
+      </button>
     </div>
   </ng-container>
 

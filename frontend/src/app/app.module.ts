@@ -25,6 +25,7 @@ import { HousingPageComponent } from './pages/housing-page/housing-page.componen
 import { HousingItemComponent } from './components/housing-item/housing-item.component';
 import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
 import {BookingItemComponent} from "./components/booking-item/booking-item.component";
+import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {BookingItemComponent} from "./components/booking-item/booking-item.compo
     HousingItemComponent,
     BookingHistoryPageComponent,
     BookingItemComponent,
+    ReviewDialogComponent,
   ],
   imports: [
     BrowserModule,

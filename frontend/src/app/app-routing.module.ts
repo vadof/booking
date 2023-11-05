@@ -7,6 +7,8 @@ import {RegisterPageComponent} from "./pages/register-page/register-page.compone
 import {HousingAddPageComponent} from "./pages/housing-add-page/housing-add-page.component";
 import {HousingPageComponent} from "./pages/housing-page/housing-page.component";
 import {BookingHistoryPageComponent} from "./pages/booking-history-page/booking-history-page.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},
@@ -18,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), MatDialogModule, FormsModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
