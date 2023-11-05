@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
 
-build-job:
+build:
   stage: build
   only:
     refs:
@@ -10,6 +10,7 @@ build-job:
   tags:
     - server
   script:
+    - echo 'start build'
     - cd ./backend
     - ./mvnw package
 
