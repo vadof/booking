@@ -11,8 +11,6 @@ build:
     - server
   script:
     - echo 'start build'
-    - cd ./backend
-    - ./mvnw package
 
 deploy:
   stage: deploy
@@ -23,7 +21,29 @@ deploy:
     - server
   script:
     - echo 'start'
-    - cd /web/server-app
-    - docker-compose down
-    - docker-compose up -d
-    - docker-compose ps
+
+#build:
+#  stage: build
+#  only:
+#    refs:
+#      - main
+#  tags:
+#    - server
+#  script:
+#    - echo 'start build'
+#    - cd ./backend
+#    - ./mvnw package
+#
+#deploy:
+#  stage: deploy
+#  only:
+#    refs:
+#      - main
+#  tags:
+#    - server
+#  script:
+#    - echo 'start'
+#    - cd /web/server-app
+#    - docker-compose down
+#    - docker-compose up -d
+#    - docker-compose ps
