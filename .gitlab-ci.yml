@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
 
-build:
+build-job:
   stage: build
   only:
     refs:
