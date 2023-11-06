@@ -1,3 +1,4 @@
+<script src="main-page.component.ts"></script>
 <app-navbar></app-navbar>
 
 <div class="container">
@@ -77,6 +78,27 @@
     </div>
 
   </div>
+
+  <div class="filtering-options">
+    <div class="price-range">
+      <label class="starting-price" for="startingPrice">Starting Price:</label>
+      <input [(ngModel)]="startingPrice" type="number" id="startingPrice" name="startingPrice" placeholder="Enter starting price" min="1">
+      <br><br>
+      <label class="max-price" for="maxPrice">Maximum Price:</label>
+      <input [(ngModel)]="maximumPrice"  type="number" id="maxPrice" name="maxPrice" placeholder="Enter maximum price" min="1">
+    </div>
+
+    <div class="filters">
+      <button class="filters-button">Filters</button>
+      <div class="filters-content">
+        <a class="most-popular" (click)="sortHousingsMostPopular()">Highest rated</a>
+        <a class="highest-price" (click)="sortHousingsHighestPrice()">Highest price</a>
+        <a class="lowest-price" (click)="sortHousingsLowestPrice()">Lowest price</a>
+        <a class="new-housings" (click)="sortHousingsNewest()">New housings</a>
+      </div>
+    </div>
+  </div>
+
 
 
   <div class="content row mb-5">
