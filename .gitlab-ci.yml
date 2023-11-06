@@ -32,5 +32,6 @@ deploy:
     - pwd
     - ls
     - docker-compose down
+    - docker build -t backend ./backend
     - docker-compose up -d
     - docker-compose ps
