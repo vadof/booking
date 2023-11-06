@@ -14,7 +14,7 @@ build:
     - cd backend
     - chmod +x mvnw
     - ./mvnw clean package
-    - docker build -t backend
+    - docker build -t backend .
 
 deploy:
   stage: deploy
