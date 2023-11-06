@@ -19,6 +19,8 @@ build:
     - ls
     - ls target
     - cd ..
+    - mkdir -p /app
+    - cp backend/target/backend-0.0.1-SNAPSHOT.jar /app/
 
 deploy:
   stage: deploy
@@ -35,7 +37,7 @@ deploy:
     - cd backend
     - pwd
     - ls
-    - ls target
+#    - ls target
 #    - docker build -t backend ./backend
     - docker-compose up -d
     - docker-compose ps
