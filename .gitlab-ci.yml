@@ -28,8 +28,8 @@ deploy:
     - pwd
     - ls
     - docker-compose down
-    - cd backend
     - pwd
     - ls
+    - more docker-compose.yml
     - docker-compose up -d
     - docker-compose ps
