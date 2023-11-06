@@ -10,7 +10,7 @@ build:
   tags:
     - server
   script:
-    - echo "Start build"
+    - echo "Start Build"
     - cd backend
     - ./mvnw clean package
 
