@@ -13,10 +13,12 @@ build:
     - echo "Start Build"
     - cd backend
     - chmod +x mvnw
-    - ls
+    - pwd
     - ./mvnw clean package
+    - pwd
     - ls
     - ls target
+    - cs ..
 
 deploy:
   stage: deploy
