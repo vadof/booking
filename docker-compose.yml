@@ -10,11 +10,11 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
     depends_on:
       - postgres
-  frontend:
-    build: frontend/.
-    restart: always
-    ports:
-      - '4200:4200'
+#  frontend:
+#    build: frontend/.
+#    restart: always
+#    ports:
+#      - '4200:4200'
   postgres:
     image: postgres:16rc1
     environment:
