@@ -31,6 +31,16 @@ export class MainPageComponent implements OnInit {
   peopleAmount: number = 2;
   roomAmount: number = 1;
 
+  startingPrice: number = 0
+  maximumPrice: number = 0
+
+  sortByPriceLowest: boolean = false
+  sortByPriceHighest: boolean = false
+
+  sortByMostPopular: boolean = false
+
+  sortByNewest: boolean = false
+
   @ViewChild('picker') datePicker!: MatDateRangePicker<Date>;
 
   range = new FormGroup({
@@ -87,6 +97,7 @@ export class MainPageComponent implements OnInit {
   }
 
   searchHousings() {
+    console.log(this.startingPrice)
     let path = '/v1/housings?';
     let params: string[] = [];
     params.push(`page=${this.currentPage}`)
@@ -101,13 +112,25 @@ export class MainPageComponent implements OnInit {
       params.push(`checkInDate=${this.dateToFormattedString(startDate)}`);
       params.push(`checkOutDate=${this.dateToFormattedString(endDate)}`)
     }
+
     // TODO add price filter section
+    if (this.startingPrice) params.push(`minPrice=${this.startingPrice}`)
+    if (this.maximumPrice) params.push(`maxPrice=${this.maximumPrice}`)
+
     // TODO add sorting selection
+    if (this.sortByPriceHighest) params.push(`sortingFields=pricePerNight&sortDirection=DESC`)
+    if (this.sortByPriceLowest) params.push(`sortingFields=pricePerNight&sortDirection=ASC`)
+
+    if (this.sortByMostPopular) params.push(`sortingFields=rating&sortDirection=DESC`)
+
+    if (this.sortByNewest) params.push(`sortDirection=DESC`)
 
     for (let i = 0; i < params.length; i++) {
       path += params[i];
       if (i !== params.length - 1) path += '&';
     }
+
+    console.log(path)
 
     this.httpService.sendGetRequest(path).subscribe(
       response => {
@@ -152,5 +175,37 @@ export class MainPageComponent implements OnInit {
     const year = date.getFullYear().toString();
 
     return `${day}/${month}/${year}`;
+  }
+
+  sortHousingsHighestPrice() {
+    this.sortByPriceHighest = true
+    this.sortByPriceLowest = false
+    this.sortByMostPopular = false
+    this.sortByNewest = false
+    this.searchHousings()
+  }
+
+  sortHousingsLowestPrice() {
+    this.sortByPriceHighest = false
+    this.sortByPriceLowest = true
+    this.sortByMostPopular = false
+    this.sortByNewest = false
+    this.searchHousings()
+  }
+
+  sortHousingsMostPopular() {
+    this.sortByPriceHighest = false
+    this.sortByPriceLowest = false
+    this.sortByMostPopular = true
+    this.sortByNewest = false
+    this.searchHousings()
+  }
+
+  sortHousingsNewest() {
+    this.sortByPriceHighest = false
+    this.sortByPriceLowest = false
+    this.sortByMostPopular = false
+    this.sortByNewest = true
+    this.searchHousings()
   }
 }
