@@ -14,8 +14,8 @@ build:
     - cd backend
     - chmod +x mvnw
     - ls
-    - ls target
     - ./mvnw clean package
+    - ls
     - ls target
 
 deploy:
