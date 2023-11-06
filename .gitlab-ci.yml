@@ -12,6 +12,8 @@ build:
   script:
     - echo "Start build"
     - cd backend
+    - ls
+    - pwd
     - ./mvnw clean package
 
 deploy:
