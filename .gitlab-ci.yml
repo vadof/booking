@@ -10,11 +10,12 @@ build:
   tags:
     - server
   script:
-    - echo "Start Build"
     - cd backend
     - chmod +x mvnw
     - ./mvnw clean package
     - docker build -t backend .
+    - cd ../frontend
+    - docker build -t frontend .
 
 deploy:
   stage: deploy
@@ -24,12 +25,6 @@ deploy:
   tags:
     - server
   script:
-    - echo 'Start deploy'
-    - pwd
-    - ls
     - docker-compose down
-    - pwd
-    - ls
-    - more docker-compose.yml
     - docker-compose up -d
     - docker-compose ps

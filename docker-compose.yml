@@ -11,7 +11,7 @@ services:
     depends_on:
       - postgres
   frontend:
-    build: frontend/.
+    image: frontend
     restart: always
     ports:
       - '4200:4200'
