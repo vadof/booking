@@ -11,8 +11,8 @@ build:
     - server
   script:
     - echo "Start Build"
-    - chmod +x mvnw
     - cd backend
+    - chmod +x mvnw
     - ./mvnw clean package
 
 deploy:
