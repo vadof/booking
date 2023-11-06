@@ -13,14 +13,8 @@ build:
     - echo "Start Build"
     - cd backend
     - chmod +x mvnw
-    - pwd
     - ./mvnw clean package
-    - pwd
-    - ls
-    - ls target
-    - cd ..
-    - mkdir -p /app
-    - cp backend/target/backend-0.0.1-SNAPSHOT.jar /app/
+    - docker build -t backend
 
 deploy:
   stage: deploy
@@ -37,7 +31,5 @@ deploy:
     - cd backend
     - pwd
     - ls
-#    - ls target
-#    - docker build -t backend ./backend
     - docker-compose up -d
     - docker-compose ps
