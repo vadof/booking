@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./review-dialog.component.scss']
 })
 export class ReviewDialogComponent {
-  reviewText: string = ''; // Holds the text of the review
+  reviewText: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<ReviewDialogComponent>,
@@ -19,10 +19,8 @@ export class ReviewDialogComponent {
 
   submitReview(): void {
     // Handle the review submission here
-    // You can send `this.reviewText` to your backend or use it as needed
     console.log(this.reviewText);
     this.dialogRef.close(this.reviewText);
   }
 
-  // Implement your methods to handle the review submission
 }
