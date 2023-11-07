@@ -47,9 +47,9 @@ public abstract class SearchDTO<T> {
     }
 
     public Sort getSortSpec() {
-        String[] sortingFields = this.sortingFields.split(",");
+        String[] sortingFields1 = this.sortingFields.split(",");
         return (sortDirection == Sort.Direction.DESC) ?
-                Sort.by(sortingFields).descending() : Sort.by(sortingFields).ascending();
+                Sort.by(sortingFields1).descending() : Sort.by(sortingFields1).ascending();
     }
 
     protected void addFilters(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder, List<Predicate> filters) {

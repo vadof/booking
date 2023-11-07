@@ -1,6 +1,7 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.ImageDTO;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.services.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,14 +20,11 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/{housingId}/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable Long housingId,
-                                         @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ImageDTO> uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable Long housingId,
+                                             @RequestHeader("Authorization") String token) {
         Optional<ImageDTO> optionalImage = this.imageService.addImageToHousing(imageFile, housingId, token);
-        if (optionalImage.isPresent()) {
-            return ResponseEntity.ok(optionalImage.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to upload image");
-        }
+        return ResponseEntity.ok(optionalImage.orElseThrow(
+                () -> new AppException("Failed to upload image", HttpStatus.BAD_REQUEST)));
     }
 
     @GetMapping("/{id}")

@@ -21,7 +21,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LocationTests {
+class LocationTests {
 
     @Autowired
     private MockMvc mockMvc;

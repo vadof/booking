@@ -1,6 +1,7 @@
 package com.reservation.backend.exceptions;
 
-public class UserNotFoundException extends Throwable {
-    public UserNotFoundException(String s) {
+public class UserNotFoundException extends Exception {
+    public UserNotFoundException(String message) {
+        super(message);
     }
 }

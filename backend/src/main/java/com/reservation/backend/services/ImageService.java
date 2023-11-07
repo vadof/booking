@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
@@ -30,21 +31,23 @@ public class ImageService {
     private final JwtService jwtService;
     private final ImageMapper imageMapper;
 
-    public static int BITE_SIZE = 4 * 1024;
+    private static final int BITE_SIZE = 4 * 1024;
 
     @Transactional
     public Optional<ImageDTO> addImageToHousing(MultipartFile imageFile, Long housingId, String token) {
+        Image image = null;
         try {
             User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
             Housing housing = this.housingRepository.findById(housingId).orElseThrow();
-            if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
-                Image image = saveImage(imageFile, housing).orElseThrow();
+            if (user.equals(housing.getOwner()) && Objects.requireNonNull(imageFile.getContentType()).startsWith("image/")) {
+                image = saveImage(imageFile, housing).orElseThrow();
                 housing.getImages().add(image);
                 this.housingRepository.save(housing);
-                return Optional.of(imageMapper.toDto(image));
             }
-        } catch (Exception ignored) {}
-        return Optional.empty();
+        } catch (Exception ignored) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(imageMapper.toDto(image));
     }
 
     private Optional<Image> saveImage(MultipartFile imageFile, Housing housing) {
@@ -70,7 +73,7 @@ public class ImageService {
             Image image = this.imageRepository.findById(id).orElseThrow();
             return decompressImage(image.getBytes());
         } catch (Exception e) {
-            return null;
+            return new byte[0];
         }
     }
 

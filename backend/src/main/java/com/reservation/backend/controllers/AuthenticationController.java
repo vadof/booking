@@ -24,15 +24,10 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        try {
-            AuthenticationResponse res = authenticationService.register(request);
-            log.info("User saved to database");
-            return ResponseEntity.ok(res);
-        } catch (UserRegisterException e) {
-            log.error("Error adding user to database: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(e.getMessage()));
-        }
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) throws UserRegisterException {
+        AuthenticationResponse res = authenticationService.register(request);
+        log.info("User saved to database");
+        return ResponseEntity.ok(res);
     }
 
     @PostMapping("/login")

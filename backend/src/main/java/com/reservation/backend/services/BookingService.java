@@ -103,7 +103,7 @@ public class BookingService {
     }
 
     private boolean dateOfHousingAvailableForBooking(Housing housing, LocalDate checkIn, LocalDate checkOut) {
-        return this.bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).size() == 0;
+        return this.bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).isEmpty();
     }
 
     private Booking getBookingById(Long id) {

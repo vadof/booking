@@ -8,6 +8,7 @@ import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.exceptions.HousingAddException;
 import com.reservation.backend.exceptions.UserNotFoundException;
 import com.reservation.backend.mapper.HousingMapper;
@@ -22,6 +23,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -80,7 +82,7 @@ public class HousingService {
             return Optional.empty();
         } catch (UserNotFoundException e) {
             log.error("User not found in the token error: " + e.getMessage());
-            throw new RuntimeException(e);
+            throw new AppException("User not found in the token error: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -146,7 +148,9 @@ public class HousingService {
                 this.housingRepository.save(housing);
                 return Optional.of(this.imageMapper.toDto(image));
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 

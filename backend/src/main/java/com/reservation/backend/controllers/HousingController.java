@@ -2,7 +2,9 @@ package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.requests.HousingAddRequest;
+import com.reservation.backend.responses.AuthenticationResponse;
 import com.reservation.backend.services.BookingService;
 import com.reservation.backend.services.HousingService;
 import jakarta.validation.Valid;
@@ -34,51 +36,38 @@ public class HousingController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<HousingPreviewDTO> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
         Optional<HousingPreviewDTO> res = housingService.addHousing(housingForm, token);
-        if (res.isPresent()) {
-            return ResponseEntity.ok(res.get());
-        } else {
-            return ResponseEntity.badRequest().body("Failed to add housing");
-        }
+        return ResponseEntity.ok(res.orElseThrow(
+                () -> new AppException("Error adding housing", HttpStatus.BAD_REQUEST)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
+    public ResponseEntity<HousingPreviewDTO> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
                                                   @RequestHeader("Authorization") String token) {
         Optional<HousingPreviewDTO> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
-        if (optionalHousing.isPresent()) {
-            return ResponseEntity.ok(optionalHousing.get());
-        } else {
-            return ResponseEntity.badRequest().body("Failed to update housing");
-        }
+        return ResponseEntity.ok(optionalHousing.orElseThrow(
+                () -> new AppException("Error updating housing", HttpStatus.BAD_REQUEST)));
     }
 
     @PutMapping("/{housingId}/previewImage/{imageId}")
-    public ResponseEntity<?> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId,
+    public ResponseEntity<ImageDTO> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId,
                                                 @RequestHeader("Authorization") String token) {
         Optional<ImageDTO> optionalImageDTO = this.housingService.changeImagePreview(housingId, imageId, token);
-        if (optionalImageDTO.isPresent()) {
-            return ResponseEntity.ok(optionalImageDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to change preview image");
-        }
+        return ResponseEntity.ok(optionalImageDTO.orElseThrow(
+                () -> new AppException("Error changing housing image", HttpStatus.BAD_REQUEST)));
     }
 
     @PutMapping("/publish/{housingId}")
-    public ResponseEntity<?> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
+    public ResponseEntity<HousingPreviewDTO> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
         Optional<HousingPreviewDTO> optionalHousingDTO = this.housingService.publishHousing(housingId, token, value);
-        if (optionalHousingDTO.isPresent()) {
-            return ResponseEntity.ok(optionalHousingDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to publish housing");
-        }
+        return ResponseEntity.ok(optionalHousingDTO.orElseThrow(
+                () -> new AppException("Error publishing housing", HttpStatus.BAD_REQUEST)));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<HousingDTO> getHousingById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         Optional<HousingDTO> optionalHousingDTO = housingService.getHousingById(id, token);
-
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
