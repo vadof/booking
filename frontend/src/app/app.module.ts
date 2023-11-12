@@ -25,6 +25,7 @@ import { HousingPageComponent } from './pages/housing-page/housing-page.componen
 import { HousingItemComponent } from './components/housing-item/housing-item.component';
 import { MyPublicationsPageComponent } from './pages/my-publications-page/my-publications-page.component';
 import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
+import { HousingPublishFormComponent } from './components/housing-publish-form/housing-publish-form.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { HousingReviewItemComponent } from './components/housing-review-item/hou
     HousingItemComponent,
     MyPublicationsPageComponent,
     HousingReviewItemComponent,
+    HousingPublishFormComponent,
   ],
   imports: [
     BrowserModule,

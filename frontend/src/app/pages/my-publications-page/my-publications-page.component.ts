@@ -1,11 +1,8 @@
-import {MatDateRangePicker} from "@angular/material/datepicker";
-import {FormControl, FormGroup} from "@angular/forms";
 import {LocationService} from "../../services/location.service";
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {ILocation} from "../../models/ILocation";
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
-import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
 
 
 @Component({
@@ -19,7 +16,6 @@ export class MyPublicationsPageComponent implements OnInit{
   locations: ILocation[] = [];
   housings: IHousing[] = [];
 
-
   constructor(
     private httpService: HttpService,
     private locationService: LocationService
@@ -32,9 +28,7 @@ export class MyPublicationsPageComponent implements OnInit{
     )
     this.httpService.sendGetRequest('/v1/housings/my').subscribe(
       response => {
-        console.log(response)
         this.housings = response as IHousing[];
-        console.log(this.housings)
       }
     )
   }

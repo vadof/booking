@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
@@ -58,7 +57,7 @@ public class HousingService {
     }
 
     @Transactional
-    public Optional<HousingPreviewDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
+    public Optional<HousingDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
         try {
             Optional<User> userOptional = jwtService.getUserFromBearerToken(token);
             if (userOptional.isEmpty()) {
@@ -71,7 +70,7 @@ public class HousingService {
                 this.saveHousing(housingAddRequest, housing, owner);
 
                 log.info("Housing saved to database");
-                return Optional.of(this.housingPreviewMapper.toDto(housing));
+                return Optional.of(this.housingMapper.toDto(housing));
             } else {
                 throw new HousingAddException("Invalid housing data");
             }
@@ -156,6 +155,7 @@ public class HousingService {
 
         if (housing.getOwner().equals(owner)) {
             housing.setPublished(published);
+            housingRepository.save(housing);
             return Optional.of(this.housingPreviewMapper.toDto(housing));
         }
         return Optional.empty();

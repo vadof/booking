@@ -38,5 +38,5 @@
 
   <app-housing-form *ngIf="getCurrentStep() === 1"></app-housing-form>
   <app-housing-images-form *ngIf="getCurrentStep() === 2"></app-housing-images-form>
-  <!-- TODO display housing preview item and housing full item on step 3 -->
+  <app-housing-publish-form *ngIf="getCurrentStep() === 3"></app-housing-publish-form>
 </div>

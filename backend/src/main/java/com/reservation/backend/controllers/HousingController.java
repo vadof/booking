@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +34,7 @@ public class HousingController {
 
     @PostMapping
     public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
-        Optional<HousingPreviewDTO> res = housingService.addHousing(housingForm, token);
+        Optional<HousingDTO> res = housingService.addHousing(housingForm, token);
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {

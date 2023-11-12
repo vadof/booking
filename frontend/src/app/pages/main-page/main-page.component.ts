@@ -6,7 +6,6 @@ import {ILocation} from "../../models/ILocation";
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
 import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
-import {start} from "@popperjs/core";
 
 @Component({
   selector: 'app-main-page',
@@ -97,7 +96,6 @@ export class MainPageComponent implements OnInit {
   }
 
   searchHousings() {
-    console.log(this.startingPrice)
     let path = '/v1/housings?';
     let params: string[] = [];
     params.push(`page=${this.currentPage}`)
@@ -117,20 +115,16 @@ export class MainPageComponent implements OnInit {
     if (this.startingPrice) params.push(`minPrice=${this.startingPrice}`)
     if (this.maximumPrice) params.push(`maxPrice=${this.maximumPrice}`)
 
-    // TODO add sorting selection
     if (this.sortByPriceHighest) params.push(`sortingFields=pricePerNight&sortDirection=DESC`)
     if (this.sortByPriceLowest) params.push(`sortingFields=pricePerNight&sortDirection=ASC`)
 
     if (this.sortByMostPopular) params.push(`sortingFields=rating&sortDirection=DESC`)
-
     if (this.sortByNewest) params.push(`sortDirection=DESC`)
 
     for (let i = 0; i < params.length; i++) {
       path += params[i];
       if (i !== params.length - 1) path += '&';
     }
-
-    console.log(path)
 
     this.httpService.sendGetRequest(path).subscribe(
       response => {

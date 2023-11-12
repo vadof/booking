@@ -111,6 +111,10 @@ export class HousingImagesFormComponent implements OnInit {
     arr[pos2] = arr[pos1];
     arr[pos1] = temp;
   }
+
+  back() {
+    this.housingService.currentStep--;
+  }
 }
 
 interface Image {
