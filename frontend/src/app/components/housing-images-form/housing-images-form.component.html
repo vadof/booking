@@ -22,7 +22,6 @@
 </ul>
 
 <div class="back-button mb-2 p-0 d-flex justify-content-between" *ngIf="!loading">
-  <!--  TODO  back to step 1 -->
-  <a class="btn btn-primary">Back</a>
+  <a class="btn btn-primary" (click)="back()">Back</a>
   <button class="btn btn-primary" (click)="uploadFiles()">Next</button>
 </div>
