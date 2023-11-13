@@ -8,6 +8,7 @@ import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.exceptions.HousingAddException;
 import com.reservation.backend.exceptions.UserNotFoundException;
 import com.reservation.backend.mapper.HousingMapper;
@@ -22,6 +23,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -182,5 +184,23 @@ public class HousingService {
         User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
         List<Housing> housings = this.housingRepository.findByOwner(owner);
         return housingMapper.toDtos(housings);
+    }
+
+    @Transactional
+    public HousingDTO deleteHousing(Long id, String token) {
+        Housing housing = getHousing(id);
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (!housing.getOwner().equals(user)) {
+            throw new AppException("Access denied", HttpStatus.FORBIDDEN);
+        }
+
+        HousingDTO dto = housingMapper.toDto(housing);
+        housingRepository.delete(housing);
+        return dto;
+    }
+
+    private Housing getHousing(Long id) {
+        return housingRepository.findById(id).orElseThrow(() -> new AppException("Housing#" + id + " not found", HttpStatus.NOT_FOUND));
     }
 }

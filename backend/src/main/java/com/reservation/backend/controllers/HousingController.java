@@ -94,4 +94,11 @@ public class HousingController {
         BookingDTO savedBooking = this.bookingService.bookHousing(housingId, bookingDTO, token);
         return ResponseEntity.ok().body(savedBooking);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HousingDTO> deleteHousing(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        log.info("REST request to delete housing with id {}", id);
+        HousingDTO deletedHousing = housingService.deleteHousing(id, token);
+        return ResponseEntity.ok().body(deletedHousing);
+    }
 }
