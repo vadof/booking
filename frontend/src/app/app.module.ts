@@ -26,6 +26,7 @@ import { HousingItemComponent } from './components/housing-item/housing-item.com
 import { MyPublicationsPageComponent } from './pages/my-publications-page/my-publications-page.component';
 import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
 import { HousingPublishFormComponent } from './components/housing-publish-form/housing-publish-form.component';
+import {MatSliderModule} from "@angular/material/slider";
 
 @NgModule({
   declarations: [
@@ -45,20 +46,21 @@ import { HousingPublishFormComponent } from './components/housing-publish-form/h
     HousingReviewItemComponent,
     HousingPublishFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    NgbModule,
-    FormsModule,
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        NgbModule,
+        FormsModule,
 
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    NgxDropzoneModule,
-  ],
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        NgxDropzoneModule,
+        MatSliderModule,
+    ],
   providers: [
     provideAnimations()
   ],
