@@ -1,9 +1,6 @@
 package com.reservation.backend.services;
 
-import com.reservation.backend.dto.HousingDTO;
-import com.reservation.backend.dto.HousingPreviewDTO;
-import com.reservation.backend.dto.ImageDTO;
-import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
@@ -202,5 +199,9 @@ public class HousingService {
 
     private Housing getHousing(Long id) {
         return housingRepository.findById(id).orElseThrow(() -> new AppException("Housing#" + id + " not found", HttpStatus.NOT_FOUND));
+    }
+
+    public PriceDto getHousingPrices() {
+        return housingRepository.getPrices();
     }
 }
