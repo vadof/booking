@@ -27,6 +27,9 @@ import { MyPublicationsPageComponent } from './pages/my-publications-page/my-pub
 import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
 import { HousingPublishFormComponent } from './components/housing-publish-form/housing-publish-form.component';
 import {MatSliderModule} from "@angular/material/slider";
+import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
+import {BookingItemComponent} from "./components/booking-item/booking-item.component";
+import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import {MatSliderModule} from "@angular/material/slider";
     HousingImagesFormComponent,
     HousingPageComponent,
     HousingItemComponent,
+    BookingHistoryPageComponent,
+    BookingItemComponent,
+    ReviewDialogComponent,
     MyPublicationsPageComponent,
     HousingReviewItemComponent,
     HousingPublishFormComponent,
