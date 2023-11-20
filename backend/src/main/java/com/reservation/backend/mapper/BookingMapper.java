@@ -8,4 +8,3 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {UserMapper.class, HousingPreviewMapper.class})
 public interface BookingMapper extends EntityMapper<Booking, BookingDTO> {
 }
-
