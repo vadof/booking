@@ -26,6 +26,11 @@ import { HousingItemComponent } from './components/housing-item/housing-item.com
 import { MyPublicationsPageComponent } from './pages/my-publications-page/my-publications-page.component';
 import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
 import { HousingPublishFormComponent } from './components/housing-publish-form/housing-publish-form.component';
+import { HousingPreviewDeleteItemComponent } from './components/housing-preview-delete-item/housing-preview-delete-item.component';
+import {NgOptimizedImage} from "@angular/common";
+import { HousingDeleteConfirmationComponent } from './components/housing-delete-confirmation/housing-delete-confirmation.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -44,6 +49,8 @@ import { HousingPublishFormComponent } from './components/housing-publish-form/h
     MyPublicationsPageComponent,
     HousingReviewItemComponent,
     HousingPublishFormComponent,
+    HousingPreviewDeleteItemComponent,
+    HousingDeleteConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +65,9 @@ import { HousingPublishFormComponent } from './components/housing-publish-form/h
     MatDatepickerModule,
     MatNativeDateModule,
     NgxDropzoneModule,
+    NgOptimizedImage,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [
     provideAnimations()
