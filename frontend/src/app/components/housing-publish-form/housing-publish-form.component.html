@@ -1,0 +1,15 @@
+<h2 class="text-center mb-5">Preview</h2>
+<div class="preview">
+  <app-housing-preview-item *ngIf="housing" [housing]="housing"></app-housing-preview-item>
+</div>
+
+<hr class="mt-5 mb-5">
+
+<div class="full">
+  <app-housing-item *ngIf="housing" [housing]="housing"></app-housing-item>
+</div>
+
+<div class="d-flex justify-content-between mt-5 mb-3">
+  <button class="btn btn-primary" (click)="back()">Back</button>
+  <button class="btn btn-primary" (click)="publish()">Publish</button>
+</div>

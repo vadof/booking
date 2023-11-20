@@ -21,4 +21,5 @@ export interface IHousing {
   minNights: number;
   reviews: IReview[];
   images: IImage[];
+  owner: IUser;
 }

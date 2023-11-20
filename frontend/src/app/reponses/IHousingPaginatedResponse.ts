@@ -7,4 +7,7 @@ export interface IHousingPaginatedResponse {
   sortingFields: string;
   sortDirection: string;
   data: any[]
+=======
+  data: any
+>>>>>>> main
 }

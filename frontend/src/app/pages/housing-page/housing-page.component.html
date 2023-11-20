@@ -11,7 +11,7 @@
         </div>
 
         <div class="check-out-date option">
-          <label>Check-in date</label>
+          <label>Check-out date</label>
           <div>Saturday 28 October 2023</div>
         </div>
 
@@ -22,10 +22,19 @@
 
     </div>
 
-    <app-housing-item *ngIf="housing" [housing]="housing"></app-housing-item>
+    <app-housing-item *ngIf="housing" [housing]="housing" class="w-100"></app-housing-item>
   </div>
 
-  <div class="reviews">
+  <div *ngIf="housing" class="reviews">
+    <div *ngIf="housing.reviews.length > 0" class="review-header">
+      <header>Reviews</header>
+    </div>
+
+    <div class="review-items">
+      <div *ngFor="let review of housing.reviews" class="review-item">
+        <app-housing-review-item [review]="review"></app-housing-review-item>
+      </div>
+    </div>
 
   </div>
 

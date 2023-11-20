@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -33,7 +34,7 @@ public class HousingController {
 
     @PostMapping
     public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
-        Optional<HousingPreviewDTO> res = housingService.addHousing(housingForm, token);
+        Optional<HousingDTO> res = housingService.addHousing(housingForm, token);
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {
@@ -80,11 +81,31 @@ public class HousingController {
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/my")
+    public ResponseEntity<List<HousingDTO>> getHousingByOwner(@RequestHeader("Authorization") String token) {
+        List<HousingDTO> optionalHousingDTOList = housingService.getHousingsByOwner(token);
+        return ResponseEntity.ok(optionalHousingDTOList);
+    }
+
     @PostMapping("/{housingId}/book")
     public ResponseEntity<BookingDTO> bookHousing(@PathVariable Long housingId, @Valid @RequestBody BookingDTO bookingDTO,
                                                   @RequestHeader("Authorization") String token) {
         log.info("REST request to book housing with id {}", housingId);
         BookingDTO savedBooking = this.bookingService.bookHousing(housingId, bookingDTO, token);
         return ResponseEntity.ok().body(savedBooking);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HousingDTO> deleteHousing(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        log.info("REST request to delete housing with id {}", id);
+        HousingDTO deletedHousing = housingService.deleteHousing(id, token);
+        return ResponseEntity.ok().body(deletedHousing);
+    }
+
+    @GetMapping("/prices")
+    public ResponseEntity<PriceDto> getHousingPrices() {
+        log.info("REST request to get housing prices");
+        PriceDto priceDto = housingService.getHousingPrices();
+        return ResponseEntity.ok().body(priceDto);
     }
 }

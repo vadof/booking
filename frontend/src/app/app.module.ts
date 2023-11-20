@@ -23,6 +23,10 @@ import { HousingImagesFormComponent } from './components/housing-images-form/hou
 import {NgxDropzoneModule} from "ngx-dropzone";
 import { HousingPageComponent } from './pages/housing-page/housing-page.component';
 import { HousingItemComponent } from './components/housing-item/housing-item.component';
+import { MyPublicationsPageComponent } from './pages/my-publications-page/my-publications-page.component';
+import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
+import { HousingPublishFormComponent } from './components/housing-publish-form/housing-publish-form.component';
+import {MatSliderModule} from "@angular/material/slider";
 import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
 import {BookingItemComponent} from "./components/booking-item/booking-item.component";
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
@@ -44,21 +48,25 @@ import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
     BookingHistoryPageComponent,
     BookingItemComponent,
     ReviewDialogComponent,
+    MyPublicationsPageComponent,
+    HousingReviewItemComponent,
+    HousingPublishFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    NgbModule,
-    FormsModule,
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        NgbModule,
+        FormsModule,
 
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    NgxDropzoneModule,
-  ],
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        NgxDropzoneModule,
+        MatSliderModule,
+    ],
   providers: [
     provideAnimations()
   ],

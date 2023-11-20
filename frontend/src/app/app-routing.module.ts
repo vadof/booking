@@ -9,12 +9,15 @@ import {HousingPageComponent} from "./pages/housing-page/housing-page.component"
 import {BookingHistoryPageComponent} from "./pages/booking-history-page/booking-history-page.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
+import {MyPublicationsPageComponent} from "./pages/my-publications-page/my-publications-page.component";
 
 const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginPageComponent},
   {path: 'register', component: RegisterPageComponent},
   {path: 'housing/add', component: HousingAddPageComponent},
+  {path: 'housing/:id', component: HousingPageComponent},
+  {path: 'mypublications', component: MyPublicationsPageComponent}
   {path: 'housing/:id', component: HousingPageComponent},
   {path: 'booking/history', component: BookingHistoryPageComponent}
 ];

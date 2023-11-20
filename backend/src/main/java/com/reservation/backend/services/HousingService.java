@@ -1,13 +1,11 @@
 package com.reservation.backend.services;
 
-import com.reservation.backend.dto.HousingDTO;
-import com.reservation.backend.dto.HousingPreviewDTO;
-import com.reservation.backend.dto.ImageDTO;
-import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.exceptions.HousingAddException;
 import com.reservation.backend.exceptions.UserNotFoundException;
 import com.reservation.backend.mapper.HousingMapper;
@@ -22,6 +20,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -57,7 +56,7 @@ public class HousingService {
     }
 
     @Transactional
-    public Optional<HousingPreviewDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
+    public Optional<HousingDTO> addHousing(HousingAddRequest housingAddRequest, String token) {
         try {
             Optional<User> userOptional = jwtService.getUserFromBearerToken(token);
             if (userOptional.isEmpty()) {
@@ -70,7 +69,7 @@ public class HousingService {
                 this.saveHousing(housingAddRequest, housing, owner);
 
                 log.info("Housing saved to database");
-                return Optional.of(this.housingPreviewMapper.toDto(housing));
+                return Optional.of(this.housingMapper.toDto(housing));
             } else {
                 throw new HousingAddException("Invalid housing data");
             }
@@ -155,6 +154,7 @@ public class HousingService {
 
         if (housing.getOwner().equals(owner)) {
             housing.setPublished(published);
+            housingRepository.save(housing);
             return Optional.of(this.housingPreviewMapper.toDto(housing));
         }
         return Optional.empty();
@@ -175,5 +175,33 @@ public class HousingService {
             return Optional.empty();
         }
         return Optional.empty();
+    }
+
+    public List<HousingDTO> getHousingsByOwner(String token) {
+        User owner = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        List<Housing> housings = this.housingRepository.findByOwner(owner);
+        return housingMapper.toDtos(housings);
+    }
+
+    @Transactional
+    public HousingDTO deleteHousing(Long id, String token) {
+        Housing housing = getHousing(id);
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+
+        if (!housing.getOwner().equals(user)) {
+            throw new AppException("Access denied", HttpStatus.FORBIDDEN);
+        }
+
+        HousingDTO dto = housingMapper.toDto(housing);
+        housingRepository.delete(housing);
+        return dto;
+    }
+
+    private Housing getHousing(Long id) {
+        return housingRepository.findById(id).orElseThrow(() -> new AppException("Housing#" + id + " not found", HttpStatus.NOT_FOUND));
+    }
+
+    public PriceDto getHousingPrices() {
+        return housingRepository.getPrices();
     }
 }

@@ -1,0 +1,30 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  only:
+    refs:
+      - main
+  tags:
+    - server
+  script:
+    - cd backend
+    - chmod +x mvnw
+    - ./mvnw clean package
+    - docker build -t backend .
+    - cd ../frontend
+    - docker build -t frontend .
+
+deploy:
+  stage: deploy
+  only:
+    refs:
+      - main
+  tags:
+    - server
+  script:
+    - docker-compose down
+    - docker-compose up -d
+    - docker-compose ps

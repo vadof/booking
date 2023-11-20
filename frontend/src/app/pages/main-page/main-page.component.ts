@@ -6,7 +6,7 @@ import {ILocation} from "../../models/ILocation";
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
 import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
-import {start} from "@popperjs/core";
+import {SortType} from "../../enums/SortType";
 
 @Component({
   selector: 'app-main-page',
@@ -31,6 +31,12 @@ export class MainPageComponent implements OnInit {
   peopleAmount: number = 2;
   roomAmount: number = 1;
 
+  minPrice: number = 0
+  maxPrice: number = 0
+  priceRange: PriceRange | null = null;
+
+  sorting: SortType | null = null;
+
   @ViewChild('picker') datePicker!: MatDateRangePicker<Date>;
 
   range = new FormGroup({
@@ -46,9 +52,12 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.locationService.getLocations().then(
-      locations => {this.locations = locations;}
+      locations => {
+        this.locations = locations;
+      }
     )
 
+    this.setSliderPrices();
     this.searchHousings();
     this.setLocationWindow();
     this.trackDateValues();
@@ -71,6 +80,15 @@ export class MainPageComponent implements OnInit {
       if (start && end && start >= end) {
         end.setDate(end.getDate() + 1);
       }
+    })
+  }
+
+  private setSliderPrices(): void {
+    this.httpService.sendGetRequest('/v1/housings/prices').subscribe(res => {
+      const price: PriceRange = res as PriceRange;
+      this.priceRange = price;
+      this.minPrice = price.min;
+      this.maxPrice = price.max;
     })
   }
 
@@ -101,8 +119,17 @@ export class MainPageComponent implements OnInit {
       params.push(`checkInDate=${this.dateToFormattedString(startDate)}`);
       params.push(`checkOutDate=${this.dateToFormattedString(endDate)}`)
     }
+
     // TODO add price filter section
-    // TODO add sorting selection
+    if (this.minPrice) params.push(`minPrice=${this.minPrice}`)
+    if (this.maxPrice) params.push(`maxPrice=${this.maxPrice}`)
+
+    if (this.sorting) {
+      if (this.sorting === SortType.MOST_POPULAR) params.push(`sortingFields=rating&sortDirection=DESC`)
+      else if (this.sorting === SortType.NEWEST) params.push(`sortDirection=DESC`)
+      else if (this.sorting === SortType.PRICE_HIGHEST) params.push(`sortingFields=pricePerNight&sortDirection=DESC`)
+      else if (this.sorting === SortType.PRICE_LOWEST) params.push(`sortingFields=pricePerNight&sortDirection=ASC`)
+    }
 
     for (let i = 0; i < params.length; i++) {
       path += params[i];
@@ -114,7 +141,7 @@ export class MainPageComponent implements OnInit {
         const paginatedResponse: IHousingPaginatedResponse = response as IHousingPaginatedResponse;
         this.totalPages = paginatedResponse.totalPages;
         this.housings = paginatedResponse.data;
-        this.pages = Array.from({ length: this.totalPages }, (_, i) => i);
+        this.pages = Array.from({length: this.totalPages}, (_, i) => i);
       }
     )
   }
@@ -153,4 +180,16 @@ export class MainPageComponent implements OnInit {
 
     return `${day}/${month}/${year}`;
   }
+
+  sortHousings(sorting: SortType) {
+    this.sorting = sorting;
+    this.searchHousings();
+  }
+
+  protected readonly SortType = SortType;
+}
+
+interface PriceRange {
+  min: number;
+  max: number;
 }
