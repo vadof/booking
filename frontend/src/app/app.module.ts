@@ -31,6 +31,12 @@ import {NgOptimizedImage} from "@angular/common";
 import { HousingDeleteConfirmationComponent } from './components/housing-delete-confirmation/housing-delete-confirmation.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
+import {MatSliderModule} from "@angular/material/slider";
+import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
+import {BookingItemComponent} from "./components/booking-item/booking-item.component";
+import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
+
+
 
 @NgModule({
   declarations: [
@@ -68,6 +74,7 @@ import {MatButtonModule} from "@angular/material/button";
     NgOptimizedImage,
     MatDialogModule,
     MatButtonModule,
+    MatSliderModule,
   ],
   providers: [
     provideAnimations()
