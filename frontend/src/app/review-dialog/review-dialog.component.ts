@@ -28,7 +28,7 @@ export class ReviewDialogComponent {
   }
 
   submitReview(data: IBooking): void {
-    this.reviewService.postReview(data, this.reviewText).then((reviewText) => this.reviewText = reviewText.text)
+    this.reviewService.postReview(data, this.reviewText, data.id).then((reviewText) => this.reviewText = reviewText.text)
       .catch(() => this.router.navigate(['']));
     this.dialogRef.close();
 

@@ -4,6 +4,6 @@ export interface IReviewDTO {
   id: number;
   text: string;
   rating: number;
-  date: string;
+  date: Date;
   reviewer: IUser;
 }

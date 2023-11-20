@@ -13,16 +13,17 @@ export class ReviewService {
   constructor(private http: HttpClient, private httpService: HttpService) {}
 
 
-  async postReview(data: IBooking, text: any): Promise<IReviewDTO> {
+  async postReview(data: IBooking, text: any, id: number): Promise<IReviewDTO> {
     return await new Promise<IReviewDTO>((resolve, reject) => {
       const reviewDTO: IReviewDTO = {
-        id: data.id, // Assuming id is the same as the one passed to the method
+        id: id, // Assuming id is the same as the one passed to the method
         text: text, // New text to overwrite
         rating: 5,
-        date: data.checkInDate,
+        date: new Date(),
         reviewer: data.tenant// Set a default or actual rating value
       };
-      this.httpService.sendPostRequest(`/v1/reviews/${data.id}`, reviewDTO).subscribe(response => {
+      console.log(reviewDTO)
+      this.httpService.sendPostRequest(`/v1/reviews/${id}`, reviewDTO).subscribe(response => {
         resolve(response);
       }, error => {
         reject(error);
