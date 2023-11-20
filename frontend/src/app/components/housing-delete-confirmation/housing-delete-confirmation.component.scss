@@ -1,0 +1,19 @@
+mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+button.mat-button.mat-warn {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+
+/* Style for the "Cancel" button */
+button.mat-button {
+  background-color: #e0e0e0;
+  color: #000000;
+}
+
+.mat-dialog-content {
+  color: var(--black-color)
+}
