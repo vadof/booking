@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/v1/auth/**", "/api/v1/images/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

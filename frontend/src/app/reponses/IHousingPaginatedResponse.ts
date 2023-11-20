@@ -6,8 +6,5 @@ export interface IHousingPaginatedResponse {
   size: number;
   sortingFields: string;
   sortDirection: string;
-  data: any[]
-=======
   data: any
->>>>>>> main
 }
