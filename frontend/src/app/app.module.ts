@@ -26,11 +26,6 @@ import { HousingItemComponent } from './components/housing-item/housing-item.com
 import { MyPublicationsPageComponent } from './pages/my-publications-page/my-publications-page.component';
 import { HousingReviewItemComponent } from './components/housing-review-item/housing-review-item.component';
 import { HousingPublishFormComponent } from './components/housing-publish-form/housing-publish-form.component';
-import { HousingPreviewDeleteItemComponent } from './components/housing-preview-delete-item/housing-preview-delete-item.component';
-import {NgOptimizedImage} from "@angular/common";
-import { HousingDeleteConfirmationComponent } from './components/housing-delete-confirmation/housing-delete-confirmation.component';
-import {MatDialogModule} from "@angular/material/dialog";
-import {MatButtonModule} from "@angular/material/button";
 import {MatSliderModule} from "@angular/material/slider";
 import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
 import {BookingItemComponent} from "./components/booking-item/booking-item.component";
@@ -52,19 +47,22 @@ import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
     HousingImagesFormComponent,
     HousingPageComponent,
     HousingItemComponent,
+    BookingHistoryPageComponent,
+    BookingItemComponent,
+    ReviewDialogComponent,
     MyPublicationsPageComponent,
     HousingReviewItemComponent,
     HousingPublishFormComponent,
     HousingPreviewDeleteItemComponent,
     HousingDeleteConfirmationComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    NgbModule,
-    FormsModule,
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        NgbModule,
+        FormsModule,
 
     MatFormFieldModule,
     MatInputModule,

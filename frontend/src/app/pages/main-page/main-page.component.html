@@ -13,7 +13,6 @@
              (focusout)="openLocationWindow(false)">
 
       <div class="search-options-popups d-flex" *ngIf="locationWindow">
-6
         <div class="location-items">
           <ul class="list-group">
             <li class="list-group-item" *ngFor="let location of locations | locationFilter:locationText"
@@ -79,32 +78,19 @@
 
   </div>
 
-  <div class="filtering-options">
-    <div class="price-range">
-      <label class="starting-price" for="startingPrice">Starting Price:</label>
-      <input [(ngModel)]="startingPrice" type="number" id="startingPrice" name="startingPrice" placeholder="Enter starting price" min="1">
-      <br><br>
-      <label class="max-price" for="maxPrice">Maximum Price:</label>
-      <input [(ngModel)]="maximumPrice"  type="number" id="maxPrice" name="maxPrice" placeholder="Enter maximum price" min="1">
-    </div>
-
-    <div class="filters">
-      <button class="filters-button">Filters</button>
-      <div class="filters-content">
-        <a class="most-popular" (click)="sortHousingsMostPopular()">Highest rated</a>
-        <a class="highest-price" (click)="sortHousingsHighestPrice()">Highest price</a>
-        <a class="lowest-price" (click)="sortHousingsLowestPrice()">Lowest price</a>
-        <a class="new-housings" (click)="sortHousingsNewest()">New housings</a>
-      </div>
-    </div>
-  </div>
-
-
-
   <div class="content row mb-5">
 
-    <div class="content-options col-lg-3">
-
+    <div class="content-options col-lg-3 mt-2">
+      <div class="price-options" *ngIf="priceRange">
+        <mat-slider [min]="priceRange.min" [max]="priceRange.max">
+          <input [(ngModel)]="minPrice" matSliderStartThumb>
+          <input [(ngModel)]="maxPrice" matSliderEndThumb>
+        </mat-slider>
+        <div class="price-numbers d-flex justify-content-between">
+          <input class="min-price form-control" [(ngModel)]="minPrice">
+          <input class="max-price form-control" [(ngModel)]="maxPrice">
+        </div>
+      </div>
     </div>
 
     <div class="housings col-lg-8">
@@ -112,18 +98,30 @@
         <app-housing-preview-item [housing]="housing"></app-housing-preview-item>
       </div>
 
-      <ul *ngIf="totalPages > 1 "class="pagination">
+      <ul *ngIf="totalPages > 1" class="pagination">
         <li class="page-item" [ngClass]="{'disabled': currentPage === 0}">
           <a class="page-link">Previous</a>
         </li>
         <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
           <a class="page-link" (click)="changePage(page)">{{ page + 1 }}</a>
-        </li>ng
+        </li>
         <li class="page-item">
           <a class="page-link" href="#" [ngClass]="{'disabled': currentPage === totalPages - 1}">Next</a>
         </li>
       </ul>
 
+    </div>
+
+    <div class="sort col-lg-1 mt-3">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Sort By
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="most-popular dropdown-item" (click)="sortHousings(SortType.MOST_POPULAR)">Highest rated</a></li>
+        <li><a class="highest-price dropdown-item" (click)="sortHousings(SortType.PRICE_HIGHEST)">Highest price</a></li>
+        <li><a class="lowest-price dropdown-item" (click)="sortHousings(SortType.PRICE_LOWEST)">Lowest price</a></li>
+        <li><a class="new-housings dropdown-item" (click)="sortHousings(SortType.NEWEST)">New housings</a></li>
+      </ul>
     </div>
   </div>
 

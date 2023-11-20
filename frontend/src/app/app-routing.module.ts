@@ -6,6 +6,9 @@ import {AuthGuard} from "./auth/AuthGuard";
 import {RegisterPageComponent} from "./pages/register-page/register-page.component";
 import {HousingAddPageComponent} from "./pages/housing-add-page/housing-add-page.component";
 import {HousingPageComponent} from "./pages/housing-page/housing-page.component";
+import {BookingHistoryPageComponent} from "./pages/booking-history-page/booking-history-page.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {FormsModule} from "@angular/forms";
 import {MyPublicationsPageComponent} from "./pages/my-publications-page/my-publications-page.component";
 
 const routes: Routes = [
@@ -15,10 +18,12 @@ const routes: Routes = [
   {path: 'housing/add', component: HousingAddPageComponent},
   {path: 'housing/:id', component: HousingPageComponent},
   {path: 'mypublications', component: MyPublicationsPageComponent}
+  {path: 'housing/:id', component: HousingPageComponent},
+  {path: 'booking/history', component: BookingHistoryPageComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), MatDialogModule, FormsModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -101,4 +101,11 @@ public class HousingController {
         HousingDTO deletedHousing = housingService.deleteHousing(id, token);
         return ResponseEntity.ok().body(deletedHousing);
     }
+
+    @GetMapping("/prices")
+    public ResponseEntity<PriceDto> getHousingPrices() {
+        log.info("REST request to get housing prices");
+        PriceDto priceDto = housingService.getHousingPrices();
+        return ResponseEntity.ok().body(priceDto);
+    }
 }
