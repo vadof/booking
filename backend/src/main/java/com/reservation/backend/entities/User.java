@@ -39,6 +39,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @ManyToMany
+    private List<Housing> favourites;
+
     @JsonIgnore
     @DateTimeFormat(pattern = Constants.DATE_FORMAT_DD_MM_YYYY)
     private LocalDate registerDate;
