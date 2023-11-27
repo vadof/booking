@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterPageComponent},
   {path: 'housing/add', component: HousingAddPageComponent},
   {path: 'housing/:id', component: HousingPageComponent},
-  {path: 'mypublications', component: MyPublicationsPageComponent}
+  {path: 'mypublications', component: MyPublicationsPageComponent},
   {path: 'housing/:id', component: HousingPageComponent},
   {path: 'booking/history', component: BookingHistoryPageComponent}
 ];
