@@ -10,6 +10,8 @@ import {BookingHistoryPageComponent} from "./pages/booking-history-page/booking-
 import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
 import {MyPublicationsPageComponent} from "./pages/my-publications-page/my-publications-page.component";
+import {combineLatestAll} from "rxjs";
+import {MyFavouritesPageComponent} from "./pages/my-favourites-page/my-favourites-page.component";
 
 const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},
@@ -17,9 +19,10 @@ const routes: Routes = [
   {path: 'register', component: RegisterPageComponent},
   {path: 'housing/add', component: HousingAddPageComponent},
   {path: 'housing/:id', component: HousingPageComponent},
-  {path: 'mypublications', component: MyPublicationsPageComponent}
+  {path: 'mypublications', component: MyPublicationsPageComponent},
   {path: 'housing/:id', component: HousingPageComponent},
-  {path: 'booking/history', component: BookingHistoryPageComponent}
+  {path: 'booking/history', component: BookingHistoryPageComponent},
+  {path: 'favourites', component: MyFavouritesPageComponent}
 ];
 
 @NgModule({

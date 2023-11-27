@@ -21,25 +21,16 @@ import java.util.Optional;
 @Slf4j
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/favorites")
+@RequestMapping("/api/v1/favourites")
 public class UserController {
     private final HousingService housingService;
     private final BookingService bookingService;
 
-    @GetMapping
-    public ResponseEntity<PaginatedResponseDTO<HousingPreviewDTO>> getAllHousings(HousingSearchDTO housingSearchDTO) {
-        PaginatedResponseDTO<HousingPreviewDTO> paginatedResponse = this.housingService.getAllHousings(housingSearchDTO);
-        return ResponseEntity.ok().body(paginatedResponse);
-    }
 
-    @PostMapping
-    public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> res = housingService.addHousing(housingForm, token);
-        if (res.isPresent()) {
-            return ResponseEntity.ok(res.get());
-        } else {
-            return ResponseEntity.badRequest().body("Failed to add housing");
-        }
+    @GetMapping
+    public ResponseEntity<List<HousingDTO>> getAllFavourites(@RequestHeader("Authorization") String token) {
+        List<HousingDTO> favourites = this.housingService.getAllFavourites(token);
+        return ResponseEntity.ok().body(favourites);
     }
 
     @PutMapping("/{id}")
@@ -81,31 +72,10 @@ public class UserController {
         return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/my")
-    public ResponseEntity<List<HousingDTO>> getHousingByOwner(@RequestHeader("Authorization") String token) {
-        List<HousingDTO> optionalHousingDTOList = housingService.getHousingsByOwner(token);
-        return ResponseEntity.ok(optionalHousingDTOList);
-    }
-
-    @PostMapping("/{housingId}/book")
-    public ResponseEntity<BookingDTO> bookHousing(@PathVariable Long housingId, @Valid @RequestBody BookingDTO bookingDTO,
-                                                  @RequestHeader("Authorization") String token) {
-        log.info("REST request to book housing with id {}", housingId);
-        BookingDTO savedBooking = this.bookingService.bookHousing(housingId, bookingDTO, token);
-        return ResponseEntity.ok().body(savedBooking);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<HousingDTO> deleteHousing(@PathVariable Long id, @RequestHeader("Authorization") String token) {
         log.info("REST request to delete housing with id {}", id);
         HousingDTO deletedHousing = housingService.deleteHousing(id, token);
         return ResponseEntity.ok().body(deletedHousing);
-    }
-
-    @GetMapping("/prices")
-    public ResponseEntity<PriceDto> getHousingPrices() {
-        log.info("REST request to get housing prices");
-        PriceDto priceDto = housingService.getHousingPrices();
-        return ResponseEntity.ok().body(priceDto);
     }
 }
