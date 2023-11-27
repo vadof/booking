@@ -35,6 +35,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import { BookingHistoryPageComponent } from './pages/booking-history-page/booking-history-page.component';
 import {BookingItemComponent} from "./components/booking-item/booking-item.component";
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
+import { MyFavouritesPageComponent } from './pages/my-favourites-page/my-favourites-page.component';
 
 
 
@@ -60,6 +61,8 @@ import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
     HousingPublishFormComponent,
     HousingPreviewDeleteItemComponent,
     HousingDeleteConfirmationComponent,
+    YourPageNameComponent,
+    MyFavouritesPageComponent,
   ],
     imports: [
         BrowserModule,
