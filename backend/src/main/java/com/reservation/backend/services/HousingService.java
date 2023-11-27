@@ -144,7 +144,8 @@ public class HousingService {
                 this.housingRepository.save(housing);
                 return Optional.of(this.imageMapper.toDto(image));
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return Optional.empty();
     }
 
@@ -203,5 +204,10 @@ public class HousingService {
 
     public PriceDto getHousingPrices() {
         return housingRepository.getPrices();
+    }
+
+    public List<HousingDTO> getAllFavourites(String token) {
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        return housingMapper.toDtos(user.getFavourites());
     }
 }
