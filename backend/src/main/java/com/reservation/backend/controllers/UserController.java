@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequestMapping("/api/v1/favourites")
 public class UserController {
     private final HousingService housingService;
-    @PostMapping
+    @PostMapping("/{housingId}")
     public ResponseEntity<?> addToFavourites(@PathVariable Long housingId, @RequestHeader("Authorization") String token) {
         Optional<HousingDTO> res = housingService.addHousingToFavourites(token, housingId);
         if (res.isPresent()) {

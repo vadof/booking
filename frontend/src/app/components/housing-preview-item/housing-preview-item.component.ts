@@ -7,6 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {coordinatesValidator} from "../../validators/Coordinates";
 import {positiveNumberValidator} from "../../validators/PositiveNumber";
 import {checkInCheckOutValidator} from "../../validators/CheckIn";
+import {HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-housing-preview-item',
@@ -44,15 +45,21 @@ export class HousingPreviewItemComponent implements OnInit {
   })
 
   addToFavourites(housingInput: IHousing) {
-    if (housingInput) {
-      this.housing = housingInput;
-      this.httpService.sendPostRequest(`/v1/favourites`, housingInput.id).subscribe(
+    if (housingInput && housingInput.id) {
+      const headers = new HttpHeaders({
+        'Authorization': 'YourAuthToken' // Replace 'YourAuthToken' with the actual token
+      });
+
+      this.httpService.sendPostRequest(`/favourites/${housingInput.id}`, {}).subscribe(
         response => {
+          // Assuming the response will be the updated housing object
           this.housingService.housing = response as IHousing;
+          // Handle any additional logic or state updates here
+          console.log('Added to favourites successfully');
         }, err => {
-          console.log(err);
+          console.error(err);
         }
-      )
+      );
     }
   }
 
