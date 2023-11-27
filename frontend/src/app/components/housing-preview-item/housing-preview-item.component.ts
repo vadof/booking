@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
+import {HousingService} from "../../services/housing.service";
 
 @Component({
   selector: 'app-housing-preview-item',
@@ -13,29 +14,26 @@ export class HousingPreviewItemComponent implements OnInit {
   totalPrice: number = 0;
 
   constructor(
-    private httpService: HttpService
-  ) {
-  }
+    private httpService: HttpService,
+    private housingService: HousingService
+  ) {}
 
   ngOnInit(): void {
     this.totalPrice = Math.round(this.housing.pricePerNight * this.nights * 100) / 100;
   }
 
-  addToFavourites() {
-    if (this.housing) {
+  addToFavourites(housingInput: IHousing) {
+    if (housingInput) {
+      this.housing = housingInput;
       this.httpService.sendPostRequest(`/v1/favourites`, null).subscribe(
         response => {
-          this.housing = response as IHousing;
-          this.router.navigate([`housing/${this.housing.id}`]).then(
-            () => {
-              this.housingService.currentStep = 1;
-              this.housingService.housing = null;
-            }
-          );
+          this.housingService.housing = response as IHousing;
+          this.housingService.currentStep++;
         }, err => {
           console.log(err);
         }
       )
     }
   }
+
 }
