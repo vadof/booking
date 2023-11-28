@@ -111,4 +111,5 @@ public class BookingService {
                 () -> new AppException(String.format("Booking with id %s not found", id), HttpStatus.NOT_FOUND));
     }
 
+
 }

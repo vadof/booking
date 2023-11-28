@@ -10,6 +10,7 @@ import {BookingHistoryPageComponent} from "./pages/booking-history-page/booking-
 import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
 import {MyPublicationsPageComponent} from "./pages/my-publications-page/my-publications-page.component";
+import {combineLatestAll} from "rxjs";
 import {MyFavouritesPageComponent} from "./pages/my-favourites-page/my-favourites-page.component";
 
 const routes: Routes = [
