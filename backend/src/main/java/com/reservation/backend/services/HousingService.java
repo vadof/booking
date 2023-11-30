@@ -14,6 +14,7 @@ import com.reservation.backend.mapper.ImageMapper;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.ImageRepository;
 import com.reservation.backend.repositories.LocationRepository;
+import com.reservation.backend.repositories.UserRepository;
 import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.security.JwtService;
 import jakarta.transaction.Transactional;
@@ -40,6 +41,7 @@ public class HousingService {
     private final LocationRepository locationRepository;
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
+    private UserRepository userRepository;
 
     public PaginatedResponseDTO<HousingPreviewDTO> getAllHousings(HousingSearchDTO housingSearchDTO) {
         Page<Housing> housingPage = this.housingRepository.findAll(housingSearchDTO.getSpecification(), housingSearchDTO.getPageable());
@@ -209,5 +211,27 @@ public class HousingService {
     public List<HousingDTO> getAllFavourites(String token) {
         User user = jwtService.getUserFromBearerToken(token).orElseThrow();
         return housingMapper.toDtos(user.getFavourites());
+    }
+
+    public Optional<HousingDTO> addHousingToFavourites(String token, Long housingId) {
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        Housing housing = housingRepository.findById(housingId).orElseThrow();
+        user.getFavourites().add(housing);
+        userRepository.save(user);
+        return Optional.of(this.housingMapper.toDto(housing));
+    }
+
+    public HousingDTO deleteFromFavourites(Long id, String token) {
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        Housing housing = housingRepository.findById(id).get();
+        HousingDTO dto = housingMapper.toDto(housing);
+        if (user.getFavourites().contains(housing)) {
+            user.getFavourites().remove(housing);
+            userRepository.save(user);
+            return dto;
+        } else {
+            throw new AppException("Not in user's favourites", HttpStatus.NOT_FOUND);
+        }
+
     }
 }
