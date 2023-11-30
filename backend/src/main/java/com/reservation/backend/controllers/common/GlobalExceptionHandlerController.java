@@ -1,8 +1,6 @@
 package com.reservation.backend.controllers.common;
 
-import com.reservation.backend.controllers.BookingController;
-import com.reservation.backend.controllers.HousingController;
-import com.reservation.backend.controllers.ReviewController;
+import com.reservation.backend.controllers.*;
 import com.reservation.backend.exceptions.AppException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestControllerAdvice(assignableTypes = {ReviewController.class, HousingController.class, BookingController.class})
+@RestControllerAdvice(assignableTypes = {ReviewController.class, HousingController.class, BookingController.class,
+        AuthenticationController.class, UserController.class, ImageController.class})
 public class GlobalExceptionHandlerController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

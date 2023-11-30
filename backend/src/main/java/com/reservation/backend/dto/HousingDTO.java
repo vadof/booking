@@ -10,7 +10,7 @@ import java.sql.Time;
 import java.util.List;
 
 @Data
-@SuperBuilder(toBuilder=true)
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class HousingDTO {
     private Long id;

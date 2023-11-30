@@ -8,13 +8,11 @@ import com.reservation.backend.services.HousingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -28,61 +26,46 @@ public class HousingController {
 
     @GetMapping
     public ResponseEntity<PaginatedResponseDTO<HousingPreviewDTO>> getAllHousings(HousingSearchDTO housingSearchDTO) {
+        log.info("REST request to get all housings");
         PaginatedResponseDTO<HousingPreviewDTO> paginatedResponse = this.housingService.getAllHousings(housingSearchDTO);
         return ResponseEntity.ok().body(paginatedResponse);
     }
 
     @PostMapping
-    public ResponseEntity<?> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> res = housingService.addHousing(housingForm, token);
-        if (res.isPresent()) {
-            return ResponseEntity.ok(res.get());
-        } else {
-            return ResponseEntity.badRequest().body("Failed to add housing");
-        }
+    public ResponseEntity<HousingDTO> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
+        log.info("REST request to add housing {}", housingForm);
+        return ResponseEntity.ok().body(housingService.addHousing(housingForm, token));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
-                                                  @RequestHeader("Authorization") String token) {
-        Optional<HousingPreviewDTO> optionalHousing = housingService.updateHousing(id, housingAddRequest, token);
-        if (optionalHousing.isPresent()) {
-            return ResponseEntity.ok(optionalHousing.get());
-        } else {
-            return ResponseEntity.badRequest().body("Failed to update housing");
-        }
+    public ResponseEntity<HousingPreviewDTO> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
+                                                           @RequestHeader("Authorization") String token) {
+        log.info("REST request to update housing {}", housingAddRequest);
+        return ResponseEntity.ok().body(housingService.updateHousing(id, housingAddRequest, token));
     }
 
     @PutMapping("/{housingId}/previewImage/{imageId}")
-    public ResponseEntity<?> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId,
-                                                @RequestHeader("Authorization") String token) {
-        Optional<ImageDTO> optionalImageDTO = this.housingService.changeImagePreview(housingId, imageId, token);
-        if (optionalImageDTO.isPresent()) {
-            return ResponseEntity.ok(optionalImageDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to change preview image");
-        }
+    public ResponseEntity<ImageDTO> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId,
+                                                       @RequestHeader("Authorization") String token) {
+        log.info("REST request to change Housing#{} preview image", housingId);
+        return ResponseEntity.ok().body(housingService.changeImagePreview(housingId, imageId, token));
     }
 
     @PutMapping("/publish/{housingId}")
-    public ResponseEntity<?> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
-        Optional<HousingPreviewDTO> optionalHousingDTO = this.housingService.publishHousing(housingId, token, value);
-        if (optionalHousingDTO.isPresent()) {
-            return ResponseEntity.ok(optionalHousingDTO.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to publish housing");
-        }
+    public ResponseEntity<HousingPreviewDTO> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
+        log.info("REST request to publish Housing#{}", housingId);
+        return ResponseEntity.ok().body(housingService.publishHousing(housingId, token, value));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<HousingDTO> getHousingById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> optionalHousingDTO = housingService.getHousingById(id, token);
-
-        return optionalHousingDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        log.info("REST request to get Housing#{}", id);
+        return ResponseEntity.ok().body(housingService.getHousingById(id, token));
     }
 
     @GetMapping("/my")
     public ResponseEntity<List<HousingDTO>> getHousingByOwner(@RequestHeader("Authorization") String token) {
+        log.info("REST request to get owner Housings");
         List<HousingDTO> optionalHousingDTOList = housingService.getHousingsByOwner(token);
         return ResponseEntity.ok(optionalHousingDTOList);
     }

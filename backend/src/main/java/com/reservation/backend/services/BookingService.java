@@ -33,8 +33,9 @@ public class BookingService {
 
     @Transactional
     public BookingDTO bookHousing(Long housingId, BookingDTO bookingDTO, String token) {
-        Housing housing = this.housingRepository.findById(housingId).orElseThrow();
-        User tenant = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        Housing housing = housingRepository.findById(housingId).orElseThrow(
+                () -> new AppException("Housing#" + housingId + " not found", HttpStatus.NOT_FOUND));
+        User tenant = jwtService.getUserFromBearerToken(token).orElseThrow();
 
         if (!dateOfHousingAvailableForBooking(housing, bookingDTO.getCheckInDate(), bookingDTO.getCheckOutDate())) {
             throw new AppException("Housing is not available for booking on the specified dates", HttpStatus.BAD_REQUEST);
@@ -46,21 +47,21 @@ public class BookingService {
             throw new AppException("Invalid booking dates", HttpStatus.BAD_REQUEST);
         }
 
-        Booking booking = this.bookingMapper.toEntity(bookingDTO);
+        Booking booking = bookingMapper.toEntity(bookingDTO);
         booking.setTenant(tenant);
         booking.setNights((int) ChronoUnit.DAYS.between(bookingDTO.getCheckInDate(), bookingDTO.getCheckOutDate()));
         booking.setTotalPrice(new BigDecimal(booking.getNights()).multiply(housing.getPricePerNight()));
         booking.setHousing(housing);
 
-        this.bookingRepository.save(booking);
+        bookingRepository.save(booking);
 
-        return this.bookingMapper.toDto(booking);
+        return bookingMapper.toDto(booking);
     }
 
     // Only housing owner or tenant can get Booking
     public BookingDTO findBookingById(Long id, String token) {
-        Booking booking = this.getBookingById(id);
-        User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        Booking booking = getBookingById(id);
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
 
         if (booking.getTenant().equals(user) || booking.getHousing().getOwner().equals(user)) {
             return this.bookingMapper.toDto(booking);
@@ -71,7 +72,7 @@ public class BookingService {
 
     public BookingDTO deleteBooking(Long id, String token) {
         Booking booking = getBookingById(id);
-        User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
 
         if (!user.equals(booking.getTenant())) {
             throw new AppException("Access denied", HttpStatus.FORBIDDEN);
@@ -82,15 +83,15 @@ public class BookingService {
             throw new AppException("It is not possible to cancel a booking on the same day or after check-in", HttpStatus.FORBIDDEN);
         }
 
-        this.bookingRepository.delete(booking);
-        return this.bookingMapper.toDto(booking);
+        bookingRepository.delete(booking);
+        return bookingMapper.toDto(booking);
     }
 
     public PaginatedResponseDTO<BookingDTO> findAllUserBookings(BookingSearchDTO bookingSearchDTO, String token) {
-        User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
         bookingSearchDTO.setUserId(user.getId());
-        Page<Booking> bookingPage = this.bookingRepository.findAll(bookingSearchDTO.getSpecification(), bookingSearchDTO.getPageable());
-        List<BookingDTO> bookings = this.bookingMapper.toDtos(bookingPage.getContent());
+        Page<Booking> bookingPage = bookingRepository.findAll(bookingSearchDTO.getSpecification(), bookingSearchDTO.getPageable());
+        List<BookingDTO> bookings = bookingMapper.toDtos(bookingPage.getContent());
 
         return PaginatedResponseDTO.<BookingDTO>builder()
                 .page(bookingPage.getNumber())
@@ -103,11 +104,11 @@ public class BookingService {
     }
 
     private boolean dateOfHousingAvailableForBooking(Housing housing, LocalDate checkIn, LocalDate checkOut) {
-        return this.bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).size() == 0;
+        return bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).size() == 0;
     }
 
     private Booking getBookingById(Long id) {
-        return this.bookingRepository.findById(id).orElseThrow(
+        return bookingRepository.findById(id).orElseThrow(
                 () -> new AppException(String.format("Booking with id %s not found", id), HttpStatus.NOT_FOUND));
     }
 

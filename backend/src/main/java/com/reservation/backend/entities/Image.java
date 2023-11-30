@@ -2,7 +2,7 @@ package com.reservation.backend.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.JdbcType;
 
 @Entity
 @Getter
