@@ -1,14 +1,15 @@
-package com.reservation.backend.services;
+package com.reservation.backend.services.security;
 
 import com.reservation.backend.entities.User;
 import com.reservation.backend.enums.Role;
-import com.reservation.backend.exceptions.UserRegisterException;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.repositories.UserRepository;
 import com.reservation.backend.requests.AuthenticationRequest;
 import com.reservation.backend.requests.RegisterRequest;
 import com.reservation.backend.responses.AuthenticationResponse;
 import com.reservation.backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +26,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) throws UserRegisterException {
+    public AuthenticationResponse register(RegisterRequest request) {
         validateEmail(request.getEmail());
 
         User user = User.builder()
@@ -50,11 +51,11 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken);
     }
 
-    private void validateEmail(String email) throws UserRegisterException {
+    private void validateEmail(String email) {
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new UserRegisterException("Email already in use");
+            throw new AppException("Email already in use", HttpStatus.BAD_REQUEST);
         } else if (!Pattern.matches("^(.+)@(\\S+)$", email)) {
-            throw new UserRegisterException("Invalid email");
+            throw new AppException("Invalid email", HttpStatus.BAD_REQUEST);
         }
     }
 }

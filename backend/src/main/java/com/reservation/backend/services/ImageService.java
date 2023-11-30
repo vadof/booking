@@ -4,19 +4,21 @@ import com.reservation.backend.dto.ImageDTO;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.mapper.ImageMapper;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.ImageRepository;
-import com.reservation.backend.security.JwtService;
+import com.reservation.backend.services.common.GenericService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -24,54 +26,45 @@ import java.util.zip.Inflater;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ImageService {
+public class ImageService extends GenericService {
     private final ImageRepository imageRepository;
     private final HousingRepository housingRepository;
-    private final JwtService jwtService;
     private final ImageMapper imageMapper;
 
     public static int BITE_SIZE = 4 * 1024;
 
     @Transactional
-    public Optional<ImageDTO> addImageToHousing(MultipartFile imageFile, Long housingId, String token) {
-        try {
-            User user = this.jwtService.getUserFromBearerToken(token).orElseThrow();
-            Housing housing = this.housingRepository.findById(housingId).orElseThrow();
-            if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
-                Image image = saveImage(imageFile, housing).orElseThrow();
-                housing.getImages().add(image);
-                this.housingRepository.save(housing);
-                return Optional.of(imageMapper.toDto(image));
-            }
-        } catch (Exception ignored) {}
-        return Optional.empty();
-    }
-
-    private Optional<Image> saveImage(MultipartFile imageFile, Housing housing) {
-        try {
-            Image image = Image.builder()
-                    .name(imageFile.getOriginalFilename())
-                    .contentType(imageFile.getContentType())
-                    .bytes(compressImage(imageFile.getBytes()))
-                    .housing(housing)
-                    .build();
-
-            this.imageRepository.save(image);
-            log.info("Image saved to database");
-            return Optional.of(image);
-        } catch (Exception e) {
-            log.error("Error adding image to database {}", e.getMessage());
-            return Optional.empty();
+    public ImageDTO addImageToHousing(MultipartFile imageFile, Long housingId) {
+        User user = getCurrentUserAsEntity();
+        Housing housing = housingRepository.findById(housingId).orElseThrow();
+        if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
+            Image image = saveImage(imageFile, housing);
+            housing.getImages().add(image);
+            housingRepository.save(housing);
+            return imageMapper.toDto(image);
+        } else {
+            throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
         }
     }
 
+    @SneakyThrows
+    private Image saveImage(MultipartFile imageFile, Housing housing) {
+        Image image = Image.builder()
+                .name(imageFile.getOriginalFilename())
+                .contentType(imageFile.getContentType())
+                .bytes(compressImage(imageFile.getBytes()))
+                .housing(housing)
+                .build();
+
+        imageRepository.save(image);
+        log.info("Image saved to database");
+        return image;
+    }
+
+    @SneakyThrows
     public byte[] getImage(Long id) {
-        try {
-            Image image = this.imageRepository.findById(id).orElseThrow();
-            return decompressImage(image.getBytes());
-        } catch (Exception e) {
-            return null;
-        }
+        Image image = imageRepository.findById(id).orElseThrow();
+        return decompressImage(image.getBytes());
     }
 
     private byte[] compressImage(byte[] data) throws IOException {
@@ -83,9 +76,9 @@ public class ImageService {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
         byte[] tmp = new byte[BITE_SIZE];
 
-        while(!deflater.finished()) {
+        while (!deflater.finished()) {
             int size = deflater.deflate(tmp);
-            outputStream.write(tmp,0, size);
+            outputStream.write(tmp, 0, size);
         }
 
         outputStream.close();

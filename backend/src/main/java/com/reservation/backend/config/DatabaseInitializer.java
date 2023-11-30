@@ -2,12 +2,11 @@ package com.reservation.backend.config;
 
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Location;
-import com.reservation.backend.exceptions.UserRegisterException;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.LocationRepository;
 import com.reservation.backend.repositories.UserRepository;
 import com.reservation.backend.requests.RegisterRequest;
-import com.reservation.backend.services.AuthenticationService;
+import com.reservation.backend.services.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -78,14 +77,14 @@ public class DatabaseInitializer {
     }
 
     @Bean
-    public void initializeUser() throws UserRegisterException {
+    public void initializeUser() {
         if (userRepository.findById(1L).isEmpty()) {
             RegisterRequest registerRequest = new RegisterRequest();
             registerRequest.setFirstname("test");
             registerRequest.setLastname("test");
             registerRequest.setEmail("test@gmail.com");
             registerRequest.setPassword("test1234");
-            this.authenticationService.register(registerRequest);
+            authenticationService.register(registerRequest);
         }
     }
 
