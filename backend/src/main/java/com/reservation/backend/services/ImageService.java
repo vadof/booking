@@ -8,7 +8,7 @@ import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.mapper.ImageMapper;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.ImageRepository;
-import com.reservation.backend.security.JwtService;
+import com.reservation.backend.services.common.GenericService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -26,22 +26,21 @@ import java.util.zip.Inflater;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ImageService {
+public class ImageService extends GenericService {
     private final ImageRepository imageRepository;
     private final HousingRepository housingRepository;
-    private final JwtService jwtService;
     private final ImageMapper imageMapper;
 
     public static int BITE_SIZE = 4 * 1024;
 
     @Transactional
-    public ImageDTO addImageToHousing(MultipartFile imageFile, Long housingId, String token) {
-        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+    public ImageDTO addImageToHousing(MultipartFile imageFile, Long housingId) {
+        User user = getCurrentUserAsEntity();
         Housing housing = housingRepository.findById(housingId).orElseThrow();
         if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
             Image image = saveImage(imageFile, housing);
             housing.getImages().add(image);
-            this.housingRepository.save(housing);
+            housingRepository.save(housing);
             return imageMapper.toDto(image);
         } else {
             throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
@@ -57,7 +56,7 @@ public class ImageService {
                 .housing(housing)
                 .build();
 
-        this.imageRepository.save(image);
+        imageRepository.save(image);
         log.info("Image saved to database");
         return image;
     }

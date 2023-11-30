@@ -21,26 +21,24 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookingDTO> getBookingById(@PathVariable Long id,
-                                                     @RequestHeader("Authorization") String token) {
+    public ResponseEntity<BookingDTO> getBookingById(@PathVariable Long id) {
         log.info("REST request to get Booking {}", id);
-        BookingDTO foundBooking = this.bookingService.findBookingById(id, token);
+        BookingDTO foundBooking = this.bookingService.findBookingById(id);
         return ResponseEntity.ok().body(foundBooking);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BookingDTO> cancelBooking(@PathVariable Long id,
-                                                    @RequestHeader("Authorization") String token) {
+    public ResponseEntity<BookingDTO> cancelBooking(@PathVariable Long id) {
         log.info("REST request to cancel Booking {}", id);
-        BookingDTO deletedBooking = this.bookingService.deleteBooking(id, token);
+        BookingDTO deletedBooking = this.bookingService.deleteBooking(id);
         return ResponseEntity.ok().body(deletedBooking);
     }
 
     @GetMapping
     public ResponseEntity<PaginatedResponseDTO<BookingDTO>> getAllUserBookings(
-            BookingSearchDTO bookingSearchDTO, @RequestHeader("Authorization") String token) {
+            BookingSearchDTO bookingSearchDTO) {
         log.info("REST request to get all user Bookings");
-        PaginatedResponseDTO<BookingDTO> paginatedResponse = this.bookingService.findAllUserBookings(bookingSearchDTO, token);
+        PaginatedResponseDTO<BookingDTO> paginatedResponse = this.bookingService.findAllUserBookings(bookingSearchDTO);
         return ResponseEntity.ok().body(paginatedResponse);
     }
 

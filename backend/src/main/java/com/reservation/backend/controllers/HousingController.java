@@ -27,61 +27,58 @@ public class HousingController {
     @GetMapping
     public ResponseEntity<PaginatedResponseDTO<HousingPreviewDTO>> getAllHousings(HousingSearchDTO housingSearchDTO) {
         log.info("REST request to get all housings");
-        PaginatedResponseDTO<HousingPreviewDTO> paginatedResponse = this.housingService.getAllHousings(housingSearchDTO);
+        PaginatedResponseDTO<HousingPreviewDTO> paginatedResponse = housingService.getAllHousings(housingSearchDTO);
         return ResponseEntity.ok().body(paginatedResponse);
     }
 
     @PostMapping
-    public ResponseEntity<HousingDTO> addHousing(@RequestBody HousingAddRequest housingForm, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<HousingDTO> addHousing(@RequestBody HousingAddRequest housingForm) {
         log.info("REST request to add housing {}", housingForm);
-        return ResponseEntity.ok().body(housingService.addHousing(housingForm, token));
+        return ResponseEntity.ok().body(housingService.addHousing(housingForm));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HousingPreviewDTO> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest,
-                                                           @RequestHeader("Authorization") String token) {
+    public ResponseEntity<HousingPreviewDTO> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest) {
         log.info("REST request to update housing {}", housingAddRequest);
-        return ResponseEntity.ok().body(housingService.updateHousing(id, housingAddRequest, token));
+        return ResponseEntity.ok().body(housingService.updateHousing(id, housingAddRequest));
     }
 
     @PutMapping("/{housingId}/previewImage/{imageId}")
-    public ResponseEntity<ImageDTO> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId,
-                                                       @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ImageDTO> changePreviewImage(@PathVariable Long housingId, @PathVariable Long imageId) {
         log.info("REST request to change Housing#{} preview image", housingId);
-        return ResponseEntity.ok().body(housingService.changeImagePreview(housingId, imageId, token));
+        return ResponseEntity.ok().body(housingService.changeImagePreview(housingId, imageId));
     }
 
     @PutMapping("/publish/{housingId}")
-    public ResponseEntity<HousingPreviewDTO> publishHousing(@PathVariable Long housingId, @RequestHeader("Authorization") String token, @RequestParam boolean value) {
+    public ResponseEntity<HousingPreviewDTO> publishHousing(@PathVariable Long housingId, @RequestParam boolean value) {
         log.info("REST request to publish Housing#{}", housingId);
-        return ResponseEntity.ok().body(housingService.publishHousing(housingId, token, value));
+        return ResponseEntity.ok().body(housingService.publishHousing(housingId, value));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HousingDTO> getHousingById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<HousingDTO> getHousingById(@PathVariable Long id) {
         log.info("REST request to get Housing#{}", id);
-        return ResponseEntity.ok().body(housingService.getHousingById(id, token));
+        return ResponseEntity.ok().body(housingService.getHousingById(id));
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<HousingDTO>> getHousingByOwner(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<HousingPreviewDTO>> getHousingByOwner() {
         log.info("REST request to get owner Housings");
-        List<HousingDTO> optionalHousingDTOList = housingService.getHousingsByOwner(token);
+        List<HousingPreviewDTO> optionalHousingDTOList = housingService.getHousingsByOwner();
         return ResponseEntity.ok(optionalHousingDTOList);
     }
 
     @PostMapping("/{housingId}/book")
-    public ResponseEntity<BookingDTO> bookHousing(@PathVariable Long housingId, @Valid @RequestBody BookingDTO bookingDTO,
-                                                  @RequestHeader("Authorization") String token) {
+    public ResponseEntity<BookingDTO> bookHousing(@PathVariable Long housingId, @Valid @RequestBody BookingDTO bookingDTO) {
         log.info("REST request to book housing with id {}", housingId);
-        BookingDTO savedBooking = this.bookingService.bookHousing(housingId, bookingDTO, token);
+        BookingDTO savedBooking = bookingService.bookHousing(housingId, bookingDTO);
         return ResponseEntity.ok().body(savedBooking);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HousingDTO> deleteHousing(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<HousingDTO> deleteHousing(@PathVariable Long id) {
         log.info("REST request to delete housing with id {}", id);
-        HousingDTO deletedHousing = housingService.deleteHousing(id, token);
+        HousingDTO deletedHousing = housingService.deleteHousing(id);
         return ResponseEntity.ok().body(deletedHousing);
     }
 

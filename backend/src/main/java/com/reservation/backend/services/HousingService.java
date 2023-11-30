@@ -14,7 +14,7 @@ import com.reservation.backend.repositories.ImageRepository;
 import com.reservation.backend.repositories.LocationRepository;
 import com.reservation.backend.repositories.UserRepository;
 import com.reservation.backend.requests.HousingAddRequest;
-import com.reservation.backend.security.JwtService;
+import com.reservation.backend.services.common.GenericService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +28,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HousingService {
+public class HousingService extends GenericService {
     private final HousingPreviewMapper housingPreviewMapper;
     private final HousingMapper housingMapper;
     private final HousingRepository housingRepository;
-    private final JwtService jwtService;
     private final LocationRepository locationRepository;
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
@@ -53,12 +52,12 @@ public class HousingService {
     }
 
     @Transactional
-    public HousingDTO addHousing(HousingAddRequest housingAddRequest, String token) {
-        User owner = getUser(token);
+    public HousingDTO addHousing(HousingAddRequest housingAddRequest) {
+        User owner = getCurrentUserAsEntity();
 
         if (allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
             Housing housing = new Housing();
-            this.saveHousing(housingAddRequest, housing, owner);
+            saveHousing(housingAddRequest, housing, owner);
             return housingMapper.toDto(housing);
         } else {
             throw new AppException("Invalid housing data", HttpStatus.BAD_REQUEST);
@@ -70,13 +69,13 @@ public class HousingService {
     }
 
     @Transactional
-    public HousingPreviewDTO updateHousing(Long id, HousingAddRequest housingAddRequest, String token) {
+    public HousingPreviewDTO updateHousing(Long id, HousingAddRequest housingAddRequest) {
         Housing housing = getHousing(id);
-        User owner = getUser(token);
+        User owner = getCurrentUserAsEntity();
 
         if (housing.getOwner().equals(owner)
                 && allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
-            this.saveHousing(housingAddRequest, housing, owner);
+            saveHousing(housingAddRequest, housing, owner);
             log.info("Housing with id {} updated successfully", id);
             return housingPreviewMapper.toDto(housing);
         } else {
@@ -110,27 +109,27 @@ public class HousingService {
         housing.setName(housingAddRequest.getName());
         housing.setPublished(false);
 
-        this.housingRepository.save(housing);
+        housingRepository.save(housing);
     }
 
-    public ImageDTO changeImagePreview(Long housingId, Long imageId, String token) {
+    public ImageDTO changeImagePreview(Long housingId, Long imageId) {
         Housing housing = getHousing(housingId);
-        User user = getUser(token);
-        Image image = this.imageRepository.findById(imageId).orElseThrow(
+        User user = getCurrentUserAsEntity();
+        Image image = imageRepository.findById(imageId).orElseThrow(
                 () -> new AppException("Image#" + imageId + " not found", HttpStatus.NOT_FOUND));
 
         if (image.getHousing().equals(housing) && housing.getOwner().equals(user)) {
             housing.setPreviewImage(image);
-            this.housingRepository.save(housing);
+            housingRepository.save(housing);
             return imageMapper.toDto(image);
         } else {
             throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
         }
     }
 
-    public HousingPreviewDTO publishHousing(Long housingId, String token, Boolean published) {
+    public HousingPreviewDTO publishHousing(Long housingId, Boolean published) {
         Housing housing = getHousing(housingId);
-        User owner = getUser(token);
+        User owner = getCurrentUserAsEntity();
 
         if (housing.getOwner().equals(owner)) {
             housing.setPublished(published);
@@ -141,10 +140,10 @@ public class HousingService {
         }
     }
 
-    public HousingDTO getHousingById(Long id, String token) {
+    public HousingDTO getHousingById(Long id) {
         Housing housing = getHousing(id);
         if (!housing.isPublished()) {
-            if (housing.getOwner().equals(getUser(token))) {
+            if (housing.getOwner().equals(getCurrentUserAsEntity())) {
                 return housingMapper.toDto(housing);
             }
         } else {
@@ -154,16 +153,16 @@ public class HousingService {
         throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
     }
 
-    public List<HousingDTO> getHousingsByOwner(String token) {
-        User owner = getUser(token);
-        List<Housing> housings = this.housingRepository.findByOwner(owner);
-        return housingMapper.toDtos(housings);
+    public List<HousingPreviewDTO> getHousingsByOwner() {
+        User owner = getCurrentUserAsEntity();
+        List<Housing> housings = housingRepository.findByOwner(owner);
+        return housingPreviewMapper.toDtos(housings);
     }
 
     @Transactional
-    public HousingDTO deleteHousing(Long id, String token) {
+    public HousingDTO deleteHousing(Long id) {
         Housing housing = getHousing(id);
-        User user = getUser(token);
+        User user = getCurrentUserAsEntity();
 
         if (!housing.getOwner().equals(user)) {
             throw new AppException("Access denied", HttpStatus.FORBIDDEN);
@@ -178,25 +177,19 @@ public class HousingService {
         return housingRepository.findById(id).orElseThrow(() -> new AppException("Housing#" + id + " not found", HttpStatus.NOT_FOUND));
     }
 
-    private User getUser(String token) {
-        return jwtService.getUserFromBearerToken(token).orElseThrow(
-                () -> new AppException("User not found", HttpStatus.NOT_FOUND));
-    }
-
     public PriceDto getHousingPrices() {
         return housingRepository.getPrices();
     }
 
-    public HousingDTO addHousingToFavourites(String token, Long housingId) {
-        User user = getUser(token);
+    public HousingDTO addHousingToFavourites(Long housingId) {
+        User user = getCurrentUserAsEntity();
         Housing housing = getHousing(housingId);
         user.getFavourites().add(housing);
         userRepository.save(user);
         return housingMapper.toDto(housing);
     }
 
-    public List<HousingDTO> getAllFavourites(String token) {
-        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
-        return housingMapper.toDtos(user.getFavourites());
+    public List<HousingDTO> getAllFavourites() {
+        return housingMapper.toDtos(getCurrentUserAsEntity().getFavourites());
     }
 }

@@ -21,10 +21,9 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/{housingId}")
-    public ResponseEntity<ReviewDTO> addReview(@PathVariable Long housingId, @Valid @RequestBody ReviewDTO reviewDTO,
-                                               @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ReviewDTO> addReview(@PathVariable Long housingId, @Valid @RequestBody ReviewDTO reviewDTO) {
         log.info("REST request to add review");
-        return ResponseEntity.ok().body(reviewService.saveReview(housingId, reviewDTO, token));
+        return ResponseEntity.ok().body(reviewService.saveReview(housingId, reviewDTO));
     }
 
     @GetMapping("/{id}")
@@ -34,17 +33,15 @@ public class ReviewController {
     }
 
     @PutMapping
-    public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO,
-                                                  @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO) {
         log.info("REST request to update review {}", reviewDTO.getId());
-        return ResponseEntity.ok().body(reviewService.updateReview(reviewDTO, token));
+        return ResponseEntity.ok().body(reviewService.updateReview(reviewDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable Long id,
-                                                  @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ReviewDTO> deleteReview(@PathVariable Long id) {
         log.info("REST request to delete review {}", id);
-        return ResponseEntity.ok().body(reviewService.deleteReview(id, token));
+        return ResponseEntity.ok().body(reviewService.deleteReview(id));
     }
 
 }

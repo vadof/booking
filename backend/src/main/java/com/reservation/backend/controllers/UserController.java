@@ -18,15 +18,15 @@ public class UserController {
     private final HousingService housingService;
 
     @PostMapping("/{housingId}")
-    public ResponseEntity<HousingDTO> addToFavourites(@PathVariable Long housingId, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<HousingDTO> addToFavourites(@PathVariable Long housingId) {
         log.info("REST request to add Housing#{} to favourites", housingId);
-        return ResponseEntity.ok(housingService.addHousingToFavourites(token, housingId));
+        return ResponseEntity.ok(housingService.addHousingToFavourites(housingId));
     }
 
     @GetMapping
-    public ResponseEntity<List<HousingDTO>> getAllFavourites(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<List<HousingDTO>> getAllFavourites() {
         log.info("REST request to get all favourites housings");
-        List<HousingDTO> favourites = this.housingService.getAllFavourites(token);
+        List<HousingDTO> favourites = this.housingService.getAllFavourites();
         return ResponseEntity.ok().body(favourites);
     }
 }

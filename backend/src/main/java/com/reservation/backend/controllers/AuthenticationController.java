@@ -3,7 +3,7 @@ package com.reservation.backend.controllers;
 import com.reservation.backend.requests.AuthenticationRequest;
 import com.reservation.backend.requests.RegisterRequest;
 import com.reservation.backend.responses.AuthenticationResponse;
-import com.reservation.backend.services.AuthenticationService;
+import com.reservation.backend.services.security.AuthenticationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

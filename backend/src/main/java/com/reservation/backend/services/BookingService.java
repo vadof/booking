@@ -10,7 +10,7 @@ import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.mapper.BookingMapper;
 import com.reservation.backend.repositories.BookingRepository;
 import com.reservation.backend.repositories.HousingRepository;
-import com.reservation.backend.security.JwtService;
+import com.reservation.backend.services.common.GenericService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,18 +24,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BookingService {
+public class BookingService extends GenericService {
 
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final HousingRepository housingRepository;
-    private final JwtService jwtService;
 
     @Transactional
-    public BookingDTO bookHousing(Long housingId, BookingDTO bookingDTO, String token) {
+    public BookingDTO bookHousing(Long housingId, BookingDTO bookingDTO) {
         Housing housing = housingRepository.findById(housingId).orElseThrow(
                 () -> new AppException("Housing#" + housingId + " not found", HttpStatus.NOT_FOUND));
-        User tenant = jwtService.getUserFromBearerToken(token).orElseThrow();
+        User tenant = getCurrentUserAsEntity();
 
         if (!dateOfHousingAvailableForBooking(housing, bookingDTO.getCheckInDate(), bookingDTO.getCheckOutDate())) {
             throw new AppException("Housing is not available for booking on the specified dates", HttpStatus.BAD_REQUEST);
@@ -59,20 +58,20 @@ public class BookingService {
     }
 
     // Only housing owner or tenant can get Booking
-    public BookingDTO findBookingById(Long id, String token) {
+    public BookingDTO findBookingById(Long id) {
         Booking booking = getBookingById(id);
-        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        User user = getCurrentUserAsEntity();
 
         if (booking.getTenant().equals(user) || booking.getHousing().getOwner().equals(user)) {
-            return this.bookingMapper.toDto(booking);
+            return bookingMapper.toDto(booking);
         } else {
             throw new AppException("Access denied", HttpStatus.FORBIDDEN);
         }
     }
 
-    public BookingDTO deleteBooking(Long id, String token) {
+    public BookingDTO deleteBooking(Long id) {
         Booking booking = getBookingById(id);
-        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        User user = getCurrentUserAsEntity();
 
         if (!user.equals(booking.getTenant())) {
             throw new AppException("Access denied", HttpStatus.FORBIDDEN);
@@ -87,8 +86,8 @@ public class BookingService {
         return bookingMapper.toDto(booking);
     }
 
-    public PaginatedResponseDTO<BookingDTO> findAllUserBookings(BookingSearchDTO bookingSearchDTO, String token) {
-        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+    public PaginatedResponseDTO<BookingDTO> findAllUserBookings(BookingSearchDTO bookingSearchDTO) {
+        User user = getCurrentUserAsEntity();
         bookingSearchDTO.setUserId(user.getId());
         Page<Booking> bookingPage = bookingRepository.findAll(bookingSearchDTO.getSpecification(), bookingSearchDTO.getPageable());
         List<BookingDTO> bookings = bookingMapper.toDtos(bookingPage.getContent());

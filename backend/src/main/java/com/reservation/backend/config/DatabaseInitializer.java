@@ -6,7 +6,7 @@ import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.LocationRepository;
 import com.reservation.backend.repositories.UserRepository;
 import com.reservation.backend.requests.RegisterRequest;
-import com.reservation.backend.services.AuthenticationService;
+import com.reservation.backend.services.security.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

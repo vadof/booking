@@ -18,10 +18,9 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/{housingId}/upload")
-    public ResponseEntity<ImageDTO> uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable Long housingId,
-                                                @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ImageDTO> uploadImage(@RequestParam("imageFile") MultipartFile imageFile, @PathVariable Long housingId) {
         log.info("REST request to upload image to Housing#{}", housingId);
-        return ResponseEntity.ok().body(imageService.addImageToHousing(imageFile, housingId, token));
+        return ResponseEntity.ok().body(imageService.addImageToHousing(imageFile, housingId));
     }
 
     @GetMapping("/{id}")
