@@ -31,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> addToFavourites(@PathVariable Long Id, @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> res = housingService.addHousingToFavourites(token, Id);
+    public ResponseEntity<?> addToFavourites(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        Optional<HousingDTO> res = housingService.addHousingToFavourites(token, id);
         if (res.isPresent()) {
             return ResponseEntity.ok(res.get());
         } else {
