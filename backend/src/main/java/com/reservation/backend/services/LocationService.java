@@ -4,6 +4,7 @@ import com.reservation.backend.dto.LocationDTO;
 import com.reservation.backend.entities.Location;
 import com.reservation.backend.mapper.LocationMapper;
 import com.reservation.backend.repositories.LocationRepository;
+import com.reservation.backend.services.common.GenericService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LocationService {
+public class LocationService extends GenericService {
 
     private final LocationRepository locationRepository;
     private final LocationMapper locationMapper;

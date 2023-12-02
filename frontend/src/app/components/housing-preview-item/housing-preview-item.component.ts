@@ -2,11 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
 import {HousingService} from "../../services/housing.service";
-import {ILocation} from "../../models/ILocation";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {coordinatesValidator} from "../../validators/Coordinates";
 import {positiveNumberValidator} from "../../validators/PositiveNumber";
 import {checkInCheckOutValidator} from "../../validators/CheckIn";
+import {ILocation} from "../../models/ILocation";
 import {HttpHeaders} from "@angular/common/http";
 
 @Component({
@@ -19,7 +19,6 @@ export class HousingPreviewItemComponent implements OnInit {
   @Input() nights: number = 1;
   totalPrice: number = 0;
 
-
   constructor(
     private httpService: HttpService,
     private housingService: HousingService
@@ -28,6 +27,7 @@ export class HousingPreviewItemComponent implements OnInit {
   ngOnInit(): void {
     this.totalPrice = Math.round(this.housing.pricePerNight * this.nights * 100) / 100;
   }
+
   addToFavourites(housingInput: IHousing) {
     if (housingInput && housingInput.id) {
       const headers = new HttpHeaders({
@@ -37,16 +37,13 @@ export class HousingPreviewItemComponent implements OnInit {
       console.log(housingInput.id)
       this.httpService.sendPostRequest(`/v1/favourites/${housingInput.id}`, {}).subscribe(
         response => {
-          // Assuming the response will be the updated housing object
           this.housingService.housing = response as IHousing;
-          // Handle any additional logic or state updates here
-          console.log('Added to favourites successfully');
+          this.housingService.currentStep++;
         }, err => {
           console.error(err);
         }
-      );
+      )
     }
   }
-
 
 }
