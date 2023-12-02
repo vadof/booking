@@ -1,6 +1,7 @@
 package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.HousingDTO;
+import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.services.HousingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +19,9 @@ public class UserController {
     private final HousingService housingService;
 
     @GetMapping
-    public ResponseEntity<List<HousingDTO>> getAllFavourites() {
+    public ResponseEntity<List<HousingPreviewDTO>> getAllFavourites() {
         log.info("REST request to get user's favourites");
-        List<HousingDTO> favourites = this.housingService.getAllFavourites();
+        List<HousingPreviewDTO> favourites = housingService.getAllFavourites();
         return ResponseEntity.ok().body(favourites);
     }
 

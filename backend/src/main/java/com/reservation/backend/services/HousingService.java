@@ -189,8 +189,8 @@ public class HousingService extends GenericService {
         return housingMapper.toDto(housing);
     }
 
-    public List<HousingDTO> getAllFavourites() {
-        return housingMapper.toDtos(getCurrentUserAsEntity().getFavourites());
+    public List<HousingPreviewDTO> getAllFavourites() {
+        return housingPreviewMapper.toDtos(getCurrentUserAsEntity().getFavourites());
     }
 
     public HousingDTO deleteFromFavourites(Long id) {
