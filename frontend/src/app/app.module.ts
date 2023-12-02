@@ -61,7 +61,6 @@ import { MyFavouritesPageComponent } from './pages/my-favourites-page/my-favouri
     HousingPublishFormComponent,
     HousingPreviewDeleteItemComponent,
     HousingDeleteConfirmationComponent,
-    YourPageNameComponent,
     MyFavouritesPageComponent,
   ],
     imports: [
