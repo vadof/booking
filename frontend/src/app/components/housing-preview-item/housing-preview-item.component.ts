@@ -6,8 +6,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {coordinatesValidator} from "../../validators/Coordinates";
 import {positiveNumberValidator} from "../../validators/PositiveNumber";
 import {checkInCheckOutValidator} from "../../validators/CheckIn";
-import {ILocation} from "../../models/ILocation";
-import {HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-housing-preview-item',
@@ -28,20 +26,19 @@ export class HousingPreviewItemComponent implements OnInit {
     this.totalPrice = Math.round(this.housing.pricePerNight * this.nights * 100) / 100;
   }
 
-  addToFavourites(housingInput: IHousing) {
-    if (housingInput && housingInput.id) {
 
-      console.log(housingInput)
-      console.log(housingInput.id)
-      this.httpService.sendPostRequest(`/v1/favourites/${housingInput.id}`, {}).subscribe(
+  addToFavourites(housingInput: IHousing) {
+    if (housingInput) {
+      this.housing = housingInput;
+      this.httpService.sendPostRequest(`/v1/favourites/${this.housing.id}`, null).subscribe(
         response => {
           this.housingService.housing = response as IHousing;
-          this.housingService.currentStep++;
         }, err => {
-          console.error(err);
+          console.log(err);
         }
       )
     }
   }
+
 
 }

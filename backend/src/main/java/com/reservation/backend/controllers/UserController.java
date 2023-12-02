@@ -5,33 +5,18 @@ import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.services.HousingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
 @Slf4j
-@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/favourites")
 public class UserController {
     private final HousingService housingService;
-    private final BookingService bookingService;
-    @PostMapping("/{housingId}")
-    public ResponseEntity<?> addToFavourites(@PathVariable Long housingId, @RequestHeader("Authorization") String token) {
-        Optional<HousingDTO> res = housingService.addHousingToFavourites(token, housingId);
-        if (res.isPresent()) {
-            return ResponseEntity.ok(res.get());
-        } else {
-            return ResponseEntity.badRequest().body("Failed to add housing");
-        }
-    }
-
 
     @GetMapping
     public ResponseEntity<List<HousingPreviewDTO>> getAllFavourites() {
