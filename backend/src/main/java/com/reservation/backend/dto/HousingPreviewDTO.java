@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Data
-@SuperBuilder(toBuilder=true)
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class HousingPreviewDTO {
     private Long id;

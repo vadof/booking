@@ -86,7 +86,7 @@ public class Housing {
         return Objects.equals(this.id, other.id);
     }
 
-    public boolean isPublished(){
+    public boolean isPublished() {
         return published;
     }
 

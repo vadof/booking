@@ -1,23 +1,17 @@
 package com.reservation.backend.controllers;
 
-import com.reservation.backend.dto.*;
-import com.reservation.backend.dto.search.HousingSearchDTO;
-import com.reservation.backend.requests.HousingAddRequest;
-import com.reservation.backend.services.BookingService;
+import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.services.HousingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin
 @RestController
 @Slf4j
-@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/favourites")
 public class UserController {
