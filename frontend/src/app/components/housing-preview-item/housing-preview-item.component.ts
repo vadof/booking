@@ -30,9 +30,7 @@ export class HousingPreviewItemComponent implements OnInit {
 
   addToFavourites(housingInput: IHousing) {
     if (housingInput && housingInput.id) {
-      const headers = new HttpHeaders({
-        'Authorization': 'YourAuthToken' // Replace 'YourAuthToken' with the actual token
-      });
+
       console.log(housingInput)
       console.log(housingInput.id)
       this.httpService.sendPostRequest(`/v1/favourites/${housingInput.id}`, {}).subscribe(
