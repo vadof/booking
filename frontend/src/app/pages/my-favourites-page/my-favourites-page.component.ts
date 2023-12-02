@@ -23,7 +23,7 @@ export class MyFavouritesPageComponent {
     this.locationService.getLocations().then(
       locations => {this.locations = locations;}
     )
-    this.httpService.sendGetRequest('/api/v1/favourites').subscribe(
+    this.httpService.sendGetRequest('/v1/favourites').subscribe(
       response => {
         this.housings = response as IHousing[];
       }

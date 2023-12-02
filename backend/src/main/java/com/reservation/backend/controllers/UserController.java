@@ -17,16 +17,27 @@ import java.util.List;
 public class UserController {
     private final HousingService housingService;
 
-    @PostMapping("/{housingId}")
-    public ResponseEntity<HousingDTO> addToFavourites(@PathVariable Long housingId) {
-        log.info("REST request to add Housing#{} to favourites", housingId);
-        return ResponseEntity.ok(housingService.addHousingToFavourites(housingId));
+    @GetMapping
+    public ResponseEntity<List<HousingDTO>> getAllFavourites(@RequestHeader("Authorization") String token) {
+        log.info("REST request to get user's favourites");
+        List<HousingDTO> favourites = this.housingService.getAllFavourites(token);
+        return ResponseEntity.ok().body(favourites);
     }
 
-    @GetMapping
-    public ResponseEntity<List<HousingDTO>> getAllFavourites() {
-        log.info("REST request to get all favourites housings");
-        List<HousingDTO> favourites = this.housingService.getAllFavourites();
-        return ResponseEntity.ok().body(favourites);
+    @PostMapping("/{id}")
+    public ResponseEntity<?> addToFavourites(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        Optional<HousingDTO> res = housingService.addHousingToFavourites(token, id);
+        if (res.isPresent()) {
+            return ResponseEntity.ok(res.get());
+        } else {
+            return ResponseEntity.badRequest().body("Failed to add housing");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HousingDTO> deleteHousingFromFavourites(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        log.info("REST request to delete housing with id {} from user's favourites", id);
+        HousingDTO deletedFromFavourites = housingService.deleteFromFavourites(id, token);
+        return ResponseEntity.ok().body(deletedFromFavourites);
     }
 }

@@ -192,4 +192,28 @@ public class HousingService extends GenericService {
     public List<HousingDTO> getAllFavourites() {
         return housingMapper.toDtos(getCurrentUserAsEntity().getFavourites());
     }
+
+    public Optional<HousingDTO> addHousingToFavourites(String token, Long housingId) {
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        Housing housing = housingRepository.findById(housingId).orElseThrow();
+        if (!user.getFavourites().contains(housing)) {
+            user.getFavourites().add(housing);
+        }
+        userRepository.save(user);
+        return Optional.of(this.housingMapper.toDto(housing));
+    }
+
+    public HousingDTO deleteFromFavourites(Long id, String token) {
+        User user = jwtService.getUserFromBearerToken(token).orElseThrow();
+        Housing housing = housingRepository.findById(id).get();
+        HousingDTO dto = housingMapper.toDto(housing);
+        if (user.getFavourites().contains(housing)) {
+            user.getFavourites().remove(housing);
+            userRepository.save(user);
+            return dto;
+        } else {
+            throw new AppException("Not in user's favourites", HttpStatus.NOT_FOUND);
+        }
+
+    }
 }

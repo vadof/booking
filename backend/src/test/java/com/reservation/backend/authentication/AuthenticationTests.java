@@ -59,7 +59,7 @@ public class AuthenticationTests {
     @Mock
     private AuthenticationManager authenticationManager;
 
-    User user = new User(1L, "test", "test", "test@gmail.com", "test1234", LocalDate.now(), Role.USER);
+    User user = new User(1L, "test", "test", "test@gmail.com", "test1234", List.of(), LocalDate.now(), Role.USER);
 
     @Test
     public void registerUser_Success() throws Exception {
