@@ -41,7 +41,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Housing> favourites;
 
     @JsonIgnore
