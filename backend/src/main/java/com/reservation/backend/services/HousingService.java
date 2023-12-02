@@ -41,7 +41,7 @@ public class HousingService {
     private final LocationRepository locationRepository;
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public PaginatedResponseDTO<HousingPreviewDTO> getAllHousings(HousingSearchDTO housingSearchDTO) {
         Page<Housing> housingPage = this.housingRepository.findAll(housingSearchDTO.getSpecification(), housingSearchDTO.getPageable());
@@ -216,7 +216,9 @@ public class HousingService {
     public Optional<HousingDTO> addHousingToFavourites(String token, Long housingId) {
         User user = jwtService.getUserFromBearerToken(token).orElseThrow();
         Housing housing = housingRepository.findById(housingId).orElseThrow();
-        user.getFavourites().add(housing);
+        if (!user.getFavourites().contains(housing)) {
+            user.getFavourites().add(housing);
+        }
         userRepository.save(user);
         return Optional.of(this.housingMapper.toDto(housing));
     }

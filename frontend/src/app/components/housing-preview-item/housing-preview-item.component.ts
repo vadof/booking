@@ -30,7 +30,7 @@ export class HousingPreviewItemComponent implements OnInit {
   addToFavourites(housingInput: IHousing) {
     if (housingInput) {
       this.housing = housingInput;
-      this.httpService.sendPostRequest(`/v1/favourites${this.housing.id}`, null).subscribe(
+      this.httpService.sendPostRequest(`/v1/favourites/${this.housing.id}`, null).subscribe(
         response => {
           this.housingService.housing = response as IHousing;
         }, err => {
