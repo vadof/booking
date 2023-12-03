@@ -1,5 +1,6 @@
 package com.reservation.backend.dto.search;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -31,6 +32,7 @@ public abstract class SearchDTO<T> {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Sort.Direction sortDirection = Sort.DEFAULT_DIRECTION;
 
+    @JsonIgnore
     public Specification<T> getSpecification() {
         return (root, query, criteriaBuilder) -> {
             query.distinct(true);
@@ -42,10 +44,12 @@ public abstract class SearchDTO<T> {
         };
     }
 
+    @JsonIgnore
     public Pageable getPageable() {
         return PageRequest.of(page, size, getSortSpec());
     }
 
+    @JsonIgnore
     public Sort getSortSpec() {
         String[] sortingFields = this.sortingFields.split(",");
         return (sortDirection == Sort.Direction.DESC) ?
