@@ -63,7 +63,8 @@ public class ImageService extends GenericService {
 
     @SneakyThrows
     public byte[] getImage(Long id) {
-        Image image = imageRepository.findById(id).orElseThrow();
+        Image image = imageRepository.findById(id).orElseThrow(
+                () -> new AppException("Image#" + id + " not found", HttpStatus.NOT_FOUND));
         return decompressImage(image.getBytes());
     }
 
