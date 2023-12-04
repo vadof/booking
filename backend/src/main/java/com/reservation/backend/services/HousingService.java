@@ -184,8 +184,10 @@ public class HousingService extends GenericService {
     public HousingDTO addHousingToFavourites(Long housingId) {
         User user = getCurrentUserAsEntity();
         Housing housing = getHousing(housingId);
-        user.getFavourites().add(housing);
-        userRepository.save(user);
+        if (!user.getFavourites().contains(housing)) {
+            user.getFavourites().add(housing);
+            userRepository.save(user);
+        }
         return housingMapper.toDto(housing);
     }
 
