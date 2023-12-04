@@ -43,7 +43,7 @@ public class UserController {
     })
     @PostMapping("/{id}")
     public ResponseEntity<HousingDTO> addToFavourites(@PathVariable Long id) {
-        log.info("REST request to get add Housing#{} to favourites", id);
+        log.info("REST request to add Housing#{} to favourites", id);
         return ResponseEntity.ok().body(housingService.addHousingToFavourites(id));
     }
 
@@ -55,7 +55,7 @@ public class UserController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<HousingDTO> deleteHousingFromFavourites(@PathVariable Long id) {
-        log.info("REST request to delete housing with id {} from user's favourites", id);
+        log.info("REST request to delete Housing#{} from user's favourites", id);
         HousingDTO deletedFromFavourites = housingService.deleteFromFavourites(id);
         return ResponseEntity.ok().body(deletedFromFavourites);
     }

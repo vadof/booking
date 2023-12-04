@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {HousingDeleteConfirmationComponent} from "../housing-delete-confirmation/housing-delete-confirmation.component";
 import {HttpService} from "../../services/http.service";
 
@@ -21,7 +21,8 @@ export class HousingPreviewDeleteItemComponent {
     this.totalPrice = Math.round(this.housing.pricePerNight * this.nights * 100) / 100;
   }
 
-  constructor(public dialog: MatDialog, private httpService: HttpService) { }
+  constructor(public dialog: MatDialog, private httpService: HttpService) {
+  }
 
   openDeleteConfirmationDialog(): void {
     const dialogRef = this.dialog.open(HousingDeleteConfirmationComponent, {
@@ -35,6 +36,7 @@ export class HousingPreviewDeleteItemComponent {
     });
   }
 
+  // TODO delete housing from page if housing was deleted
   deleteItem() {
     this.httpService.sendDeleteRequest(`/v1/housings/${this.housing.id}`).subscribe(
       response => {

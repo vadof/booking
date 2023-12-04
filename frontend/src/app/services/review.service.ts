@@ -1,16 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {IReviewDTO} from "../models/IReviewDTO";
-import {getNumberOfCurrencyDigits} from "@angular/common";
-import {IBooking} from "../models/IBooking"; // Assuming you have a ReviewDTO interface
+import {IBooking} from "../models/IBooking";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewService {
 
-  constructor(private http: HttpClient, private httpService: HttpService) {}
+  constructor(private http: HttpClient, private httpService: HttpService) {
+  }
 
 
   async postReview(data: IBooking, text: any, id: number): Promise<IReviewDTO> {

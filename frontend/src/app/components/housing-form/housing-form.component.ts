@@ -21,7 +21,8 @@ export class HousingFormComponent implements OnInit {
 
   constructor(private locationService: LocationService,
               private httpService: HttpService,
-              private housingService: HousingService) {}
+              private housingService: HousingService) {
+  }
 
   ngOnInit(): void {
     this.locationService.getLocations().then(

@@ -1,6 +1,4 @@
-import {LocationService} from "../../services/location.service";
 import {Component, OnInit} from "@angular/core";
-import {ILocation} from "../../models/ILocation";
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
 
@@ -11,21 +9,16 @@ import {HttpService} from "../../services/http.service";
   styleUrls: ['./my-publications-page.component.scss']
 })
 
-export class MyPublicationsPageComponent implements OnInit{
+export class MyPublicationsPageComponent implements OnInit {
 
-  locations: ILocation[] = [];
   housings: IHousing[] = [];
 
   constructor(
-    private httpService: HttpService,
-    private locationService: LocationService
+    private httpService: HttpService
   ) {
   }
 
   ngOnInit() {
-    this.locationService.getLocations().then(
-      locations => {this.locations = locations;}
-    )
     this.httpService.sendGetRequest('/v1/housings/my').subscribe(
       response => {
         this.housings = response as IHousing[];

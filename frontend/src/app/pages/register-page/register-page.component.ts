@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../auth/auth.service";
 import {TokenStorageService} from "../../auth/token-storage.service";
@@ -44,7 +44,7 @@ export class RegisterPageComponent {
           this.storage.saveEmail(this.registerForm.value.email as string);
           this.router.navigate(['']);
         },
-        error =>  {
+        error => {
           console.log(error);
         })
     } else {

@@ -3,17 +3,15 @@ import {IBooking} from "../../models/IBooking";
 import {HttpService} from "../../services/http.service";
 import {BookingService} from "../../services/booking.service";
 import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
-import { MatDialog } from '@angular/material/dialog';
-import { ReviewDialogComponent } from '../../review-dialog/review-dialog.component'; // This is your custom component for the review dialog
+import {MatDialog} from '@angular/material/dialog';
 
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-booking-history-page',
   templateUrl: './booking-history-page.component.html',
   styleUrls: ['./booking-history-page.component.scss']
 })
-export class BookingHistoryPageComponent implements OnInit{
+export class BookingHistoryPageComponent implements OnInit {
   bookings: IBooking[] = [];
   private result: any;
 
@@ -31,6 +29,7 @@ export class BookingHistoryPageComponent implements OnInit{
       }
     )
   }
+
   cancelBooking(bookingId: number) {
     return this.httpService.sendDeleteRequest(`/v1/bookings/${bookingId}`).subscribe(
       response => {
@@ -40,17 +39,17 @@ export class BookingHistoryPageComponent implements OnInit{
     );
   }
 
-  openReviewDialog(booking: IBooking): void {
-    const dialogRef = this.dialog.open(ReviewDialogComponent, {
-      width: '650px',
-      data: booking
-    });
-
-    // @ts-ignore
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed' + result.data);
-    });
-  }
+  // openReviewDialog(booking: IBooking): void {
+  //   const dialogRef = this.dialog.open(ReviewDialogComponent, {
+  //     width: '650px',
+  //     data: booking
+  //   });
+  //
+  //   // @ts-ignore
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed' + result.data);
+  //   });
+  // }
 
   canDeleteBooking(booking: IBooking): boolean {
     const currentDate = new Date();
@@ -75,11 +74,11 @@ export class BookingHistoryPageComponent implements OnInit{
     }
 
     const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // Month is zero-indexed in JavaScript
+    const month = parseInt(parts[1], 10) - 1;
     const year = parseInt(parts[2], 10);
 
     if (isNaN(day) || isNaN(month) || isNaN(year)) {
-      return null; // Not a valid date
+      return null;
     }
 
     return new Date(year, month, day);
