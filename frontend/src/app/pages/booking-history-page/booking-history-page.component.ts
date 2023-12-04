@@ -43,7 +43,7 @@ export class BookingHistoryPageComponent implements OnInit{
   openReviewDialog(booking: IBooking): void {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       width: '650px',
-      data: {booking: booking}
+      data: booking
     });
 
     // @ts-ignore
