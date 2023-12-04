@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {TokenStorageService} from "../auth/token-storage.service";
 import {Observable} from "rxjs";
@@ -19,7 +19,8 @@ export class HttpService {
   constructor(
     private http: HttpClient,
     private storage: TokenStorageService
-  ) { }
+  ) {
+  }
 
   public sendPostRequest(url: string, body: any): Observable<any> {
     return this.http.post(this.API_URL + url, body, this.httpOptions)

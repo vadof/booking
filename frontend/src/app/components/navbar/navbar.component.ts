@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private tokenStorage: TokenStorageService,
     private router: Router
-    ) {
+  ) {
   }
 
   logout() {

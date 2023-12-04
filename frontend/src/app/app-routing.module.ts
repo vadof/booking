@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {LoginPageComponent} from "./pages/login-page/login-page.component";
 import {AuthGuard} from "./auth/AuthGuard";
@@ -16,16 +16,16 @@ const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginPageComponent},
   {path: 'register', component: RegisterPageComponent},
-  {path: 'housing/add', component: HousingAddPageComponent},
-  {path: 'housing/:id', component: HousingPageComponent},
-  {path: 'mypublications', component: MyPublicationsPageComponent},
-  {path: 'housing/:id', component: HousingPageComponent},
-  {path: 'booking/history', component: BookingHistoryPageComponent},
-  {path: 'favourites', component: MyFavouritesPageComponent}
+  {path: 'housing/add', component: HousingAddPageComponent, canActivate: [AuthGuard]},
+  {path: 'housing/:id', component: HousingPageComponent, canActivate: [AuthGuard]},
+  {path: 'publications', component: MyPublicationsPageComponent, canActivate: [AuthGuard]},
+  {path: 'bookings', component: BookingHistoryPageComponent, canActivate: [AuthGuard]},
+  {path: 'favourites', component: MyFavouritesPageComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes), MatDialogModule, FormsModule],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

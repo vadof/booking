@@ -14,7 +14,8 @@ export class HousingImagesFormComponent implements OnInit {
   constructor(private httpClient: HttpClient,
               private housingService: HousingService,
               private httpService: HttpService,
-              private tokenStorage: TokenStorageService) { }
+              private tokenStorage: TokenStorageService) {
+  }
 
   files: File[] = [];
   images: Image[] = [];
@@ -62,13 +63,13 @@ export class HousingImagesFormComponent implements OnInit {
         uploadedImageData.append('imageFile', file);
 
         this.httpClient.post<IImage>(`http://localhost:8080/api/v1/images/${housingId}/upload`,
-          uploadedImageData, { observe: 'response', headers }).subscribe(
-            response => {
-              images.push(response.body!);
-              if (file === this.selectedPreviewFile) {
-                this.setPreviewImage(response.body!.id, housingId)
-              }
-            }, error => {
+          uploadedImageData, {observe: 'response', headers}).subscribe(
+          response => {
+            images.push(response.body!);
+            if (file === this.selectedPreviewFile) {
+              this.setPreviewImage(response.body!.id, housingId)
+            }
+          }, error => {
             console.log(error)
           })
       })

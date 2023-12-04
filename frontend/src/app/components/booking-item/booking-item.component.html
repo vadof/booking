@@ -1,6 +1,8 @@
 <div class="booking-detail">
   <app-housing-preview-item [housing]="booking.housing"></app-housing-preview-item>
-  <p><strong>Check-In Date:</strong> {{ booking.checkInDate }}</p>
-  <p><strong>Check-Out Date:</strong> {{ booking.checkOutDate }}</p>
-  <p><strong>Guest Name:</strong> {{ booking.nights }}</p>
+  <div class="booking-info mt-3">
+    <p><strong>Check-In Date:</strong> {{ booking.checkInDate }}</p>
+    <p><strong>Check-Out Date:</strong> {{ booking.checkOutDate }}</p>
+    <p><strong>Nights:</strong> {{ booking.nights }}</p>
+  </div>
 </div>
