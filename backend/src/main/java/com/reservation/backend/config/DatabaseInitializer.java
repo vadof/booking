@@ -90,7 +90,7 @@ public class DatabaseInitializer {
 
     @Bean
     public void initializeHousings() {
-        if (housingRepository.findById(1L).isEmpty()) {
+        if (housingRepository.findAll().isEmpty()) {
             housingRepository.save(new Housing(null, "Hotel 1", null, "32.312312,31.321312", new BigDecimal(420), 14, null, new Time(12, 0, 0), new Time(14, 0, 0), 25, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eros ipsum, laoreet id purus vel, suscipit scelerisque tellus. In lobortis ante eget libero auctor, vitae rutrum est porttitor", 7, 139, 2, true, locationRepository.findById(31L).get(), userRepository.findById(1L).get(), null, null, null));
             housingRepository.save(new Housing(null, "Hotel 2", null, "32.312312,31.321312", new BigDecimal(224), 8, null, new Time(12, 0, 0), new Time(14, 0, 0), 20, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eros ipsum, laoreet id purus vel, suscipit scelerisque tellus. In lobortis ante eget libero auctor, vitae rutrum est porttitor", 4, 80, 1, true, locationRepository.findById(27L).get(), userRepository.findById(1L).get(), null, null, null));
             housingRepository.save(new Housing(null, "Hotel 3", null, "32.312312,31.321312", new BigDecimal(460), 20, null, new Time(12, 0, 0), new Time(14, 0, 0), 17, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eros ipsum, laoreet id purus vel, suscipit scelerisque tellus. In lobortis ante eget libero auctor, vitae rutrum est porttitor", 10, 199, 1, true, locationRepository.findById(45L).get(), userRepository.findById(1L).get(), null, null, null));

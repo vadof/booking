@@ -2,7 +2,6 @@ package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
-import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.BookingService;
 import com.reservation.backend.services.HousingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,23 +47,23 @@ public class HousingController {
             @ApiResponse(responseCode = "400", description = "Invalid Housing data", content = @Content(mediaType = "*/*")),
     })
     @PostMapping
-    public ResponseEntity<HousingDTO> addHousing(@RequestBody HousingAddRequest housingForm) {
-        log.info("REST request to add housing {}", housingForm);
-        return ResponseEntity.ok().body(housingService.addHousing(housingForm));
+    public ResponseEntity<HousingDTO> addHousing(@RequestBody @Valid HousingDTO housingDTO) {
+        log.info("REST request to add housing {}", housingDTO);
+        return ResponseEntity.ok().body(housingService.addHousing(housingDTO));
     }
 
     @Operation(summary = "Update Housing")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Housing updated",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = HousingPreviewDTO.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = HousingDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid Housing data", content = @Content(mediaType = "*/*")),
             @ApiResponse(responseCode = "403", description = "Access denied", content = @Content(mediaType = "*/*")),
             @ApiResponse(responseCode = "404", description = "Housing not found", content = @Content(mediaType = "*/*")),
     })
-    @PutMapping("/{id}")
-    public ResponseEntity<HousingPreviewDTO> updateHousing(@PathVariable Long id, @RequestBody HousingAddRequest housingAddRequest) {
-        log.info("REST request to update housing {}", housingAddRequest);
-        return ResponseEntity.ok().body(housingService.updateHousing(id, housingAddRequest));
+    @PutMapping
+    public ResponseEntity<HousingDTO> updateHousing(@RequestBody @Valid HousingDTO housingDTO) {
+        log.info("REST request to update housing {}", housingDTO);
+        return ResponseEntity.ok().body(housingService.updateHousing(housingDTO));
     }
 
     @Operation(summary = "Change Housing Preview Image")
