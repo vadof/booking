@@ -1,23 +1,25 @@
 <app-navbar></app-navbar>
-<p class="my-bookings-title">My Bookings</p>
-
-<div class="booking-items">
-  <ng-container *ngIf="bookings.length; else noBookings">
-    <div class="booking-items" *ngFor="let booking of bookings">
+<div class="container">
+  <h2 class="text-center">My Bookings</h2>
+  <div class="booking-items">
+    <div class="booking-items mb-3" *ngFor="let booking of bookings">
       <app-booking-item
         [booking]="booking"
         (bookingDeleted)="handleBookingDeleted($event)">
       </app-booking-item>
-      <button *ngIf="canDeleteBooking(booking)" class="btn-danger btn" (click)="cancelBooking(booking.id)">Delete Booking</button>
-      <button class="btn btn-primary" (click)="openReviewDialog(booking)">
-        Add Review
-      </button>
+      <div *ngIf="canDeleteBooking(booking)" class="d-flex justify-content-end">
+        <button class="btn-danger btn" (click)="cancelBooking(booking.id)">Cancel Booking</button>
+      </div>
+      <!--      TODO fix-->
+      <!--      <button class="btn btn-primary" (click)="openReviewDialog(booking)">-->
+      <!--        Add Review-->
+      <!--      </button>-->
     </div>
-  </ng-container>
 
-  <ng-template #noBookings>
-    <p>You have no bookings.</p>
-  </ng-template>
+    <ng-template #noBookings>
+      <h3 class="text-center">You have no bookings</h3>
+    </ng-template>
+  </div>
 </div>
 
 

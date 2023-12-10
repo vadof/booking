@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-import {ILocation} from "../../models/ILocation";
+import {Component} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
-import {HttpService} from "../../services/http.service";
-import {LocationService} from "../../services/location.service";
+import {HousingService} from "../../services/housing.service";
 
 @Component({
   selector: 'app-my-favourites-page',
@@ -10,23 +8,14 @@ import {LocationService} from "../../services/location.service";
   styleUrls: ['./my-favourites-page.component.scss']
 })
 export class MyFavouritesPageComponent {
-  locations: ILocation[] = [];
   housings: IHousing[] = [];
 
   constructor(
-    private httpService: HttpService,
-    private locationService: LocationService
+    private housingService: HousingService,
   ) {
   }
 
   ngOnInit() {
-    this.locationService.getLocations().then(
-      locations => {this.locations = locations;}
-    )
-    this.httpService.sendGetRequest('/v1/favourites').subscribe(
-      response => {
-        this.housings = response as IHousing[];
-      }
-    )
+    this.housingService.getFavourites().then(res => this.housings = res);
   }
 }

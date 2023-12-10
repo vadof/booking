@@ -1,10 +1,8 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HousingService} from "../../services/housing.service";
-import {MatDateRangePicker} from "@angular/material/datepicker";
-import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-housing-page',
@@ -18,7 +16,8 @@ export class HousingPageComponent implements OnInit {
               private housingService: HousingService,
               private router: Router,
               private route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     if (!this.housing) {

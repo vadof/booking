@@ -36,7 +36,8 @@ public class ImageService extends GenericService {
     @Transactional
     public ImageDTO addImageToHousing(MultipartFile imageFile, Long housingId) {
         User user = getCurrentUserAsEntity();
-        Housing housing = housingRepository.findById(housingId).orElseThrow();
+        Housing housing = housingRepository.findById(housingId).orElseThrow(() ->
+            new AppException("Housing#" + housingId + " not found", HttpStatus.NOT_FOUND));
         if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
             Image image = saveImage(imageFile, housing);
             housing.getImages().add(image);

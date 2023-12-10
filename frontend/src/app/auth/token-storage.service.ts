@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 const TOKEN_KEY = 'AuthToken'
 const EMAIL_KEY = 'AuthEmail'
@@ -8,7 +8,8 @@ const EMAIL_KEY = 'AuthEmail'
 })
 export class TokenStorageService {
 
-  constructor() { }
+  constructor() {
+  }
 
   public saveToken(token: string) {
     localStorage.removeItem(TOKEN_KEY);

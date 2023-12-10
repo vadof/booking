@@ -18,7 +18,8 @@
   <div class="mb-3 row">
     <label for="coordinates" class="col-lg-4 col-form-label">Coordinates <span class="text-danger">*</span></label>
     <div class="col-lg-8">
-      <input type="text" class="form-control" id="coordinates" formControlName="coordinates" placeholder="59.393985,24.673309">
+      <input type="text" class="form-control" id="coordinates" formControlName="coordinates"
+             placeholder="59.393985,24.673309">
       <div *ngIf="housingForm.controls.coordinates.invalid
                   && (housingForm.controls.coordinates.dirty || housingForm.controls.coordinates.touched)"
            class="text-danger mt-2 fw-bold">
@@ -30,7 +31,8 @@
   </div>
 
   <div class="mb-3 row">
-    <label for="pricePerNight" class="col-lg-4 col-form-label">Price per night <span class="text-danger">*</span></label>
+    <label for="pricePerNight" class="col-lg-4 col-form-label">Price per night <span
+      class="text-danger">*</span></label>
     <div class="col-lg-8">
       <input type="text" class="form-control" id="pricePerNight" formControlName="pricePerNight" placeholder="43.65">
       <div *ngIf="housingForm.controls.pricePerNight.invalid
@@ -130,7 +132,8 @@
   <div class="mb-3 row">
     <label for="description" class="col-lg-4 col-form-label">Description <span class="text-danger">*</span></label>
     <div class="col-lg-8">
-      <textarea [maxLength]="5000" class="form-control" id="description" rows="3" formControlName="description"></textarea>
+      <textarea [maxLength]="5000" class="form-control" id="description" rows="3"
+                formControlName="description"></textarea>
     </div>
   </div>
 
@@ -138,7 +141,7 @@
     <button type="submit" class="btn save-btn">Next</button>
   </div>
 
-<!--  TODO make error message on the same height as button-->
+  <!--  TODO make error message on the same height as button-->
   <div class="error-message text-danger fw-bold text-center mt-3" *ngIf="errorMessage">
     {{ errorMessage }}
   </div>

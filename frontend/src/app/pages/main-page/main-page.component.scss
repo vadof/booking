@@ -69,6 +69,7 @@ $border-style: 3px solid var(--blue-color);
 
       .disabled-minus {
         cursor: not-allowed;
+
         &:hover {
           background-color: var(--white-color);
         }
@@ -78,9 +79,11 @@ $border-style: 3px solid var(--blue-color);
 
   .location-name-input {
     font-weight: 500;
+
     &:focus {
       outline: 0;
     }
+
     border: 0;
     width: 100%;
   }
@@ -100,6 +103,7 @@ $border-style: 3px solid var(--blue-color);
   .search-btn {
     padding: 0;
     margin: 0;
+
     .btn {
       background-color: var(--blue-color);
       border: 0;
@@ -188,6 +192,7 @@ $border-style: 3px solid var(--blue-color);
 
   .price-numbers {
     width: 90%;
+
     input {
       text-align: center;
       max-width: 70px;
@@ -205,6 +210,7 @@ $border-style: 3px solid var(--blue-color);
   ul {
     li:first-child a {
       border-radius: 10px 10px 0 0;
+
       &:hover {
         border-radius: 5px 5px 0 0;
       }
@@ -212,6 +218,7 @@ $border-style: 3px solid var(--blue-color);
 
     li:last-child a {
       border-radius: 0 0 10px 10px;
+
       &:hover {
         border-radius: 0 0 5px 5px;
       }

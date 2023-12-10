@@ -3,13 +3,13 @@ package com.reservation.backend.authentication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reservation.backend.entities.User;
 import com.reservation.backend.enums.Role;
-import com.reservation.backend.exceptions.UserRegisterException;
+import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.repositories.UserRepository;
 import com.reservation.backend.requests.AuthenticationRequest;
 import com.reservation.backend.requests.RegisterRequest;
 import com.reservation.backend.responses.AuthenticationResponse;
 import com.reservation.backend.security.JwtService;
-import com.reservation.backend.services.AuthenticationService;
+import com.reservation.backend.services.security.AuthenticationService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -89,7 +89,7 @@ public class AuthenticationTests {
         rr.setEmail("test@gmail.com");
         rr.setPassword("test1234");
 
-        assertThrows(UserRegisterException.class, () -> authenticationService.register(rr));
+        assertThrows(AppException.class, () -> authenticationService.register(rr));
 
         Mockito.verify(userRepository, Mockito.times(0)).save(user);
     }

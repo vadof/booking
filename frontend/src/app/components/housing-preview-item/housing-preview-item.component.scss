@@ -59,6 +59,26 @@
       }
     }
   }
+
+  .favourites-button {
+    cursor: pointer;
+
+    svg {
+      margin-top: -4px;
+      transition: 0.5s ease;
+      fill: var(--blue-color);
+
+      path {
+        stroke: #3057c0;
+      }
+    }
+
+    &:hover {
+      svg {
+        scale: 1.2;
+      }
+    }
+  }
 }
 
 @media (max-width: 767px) {

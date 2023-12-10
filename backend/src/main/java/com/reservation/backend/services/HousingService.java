@@ -11,9 +11,7 @@ import com.reservation.backend.mapper.HousingPreviewMapper;
 import com.reservation.backend.mapper.ImageMapper;
 import com.reservation.backend.repositories.HousingRepository;
 import com.reservation.backend.repositories.ImageRepository;
-import com.reservation.backend.repositories.LocationRepository;
 import com.reservation.backend.repositories.UserRepository;
-import com.reservation.backend.requests.HousingAddRequest;
 import com.reservation.backend.services.common.GenericService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -32,7 +29,6 @@ public class HousingService extends GenericService {
     private final HousingPreviewMapper housingPreviewMapper;
     private final HousingMapper housingMapper;
     private final HousingRepository housingRepository;
-    private final LocationRepository locationRepository;
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
     private final UserRepository userRepository;
@@ -52,64 +48,28 @@ public class HousingService extends GenericService {
     }
 
     @Transactional
-    public HousingDTO addHousing(HousingAddRequest housingAddRequest) {
-        User owner = getCurrentUserAsEntity();
-
-        if (allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
-            Housing housing = new Housing();
-            saveHousing(housingAddRequest, housing, owner);
-            return housingMapper.toDto(housing);
-        } else {
-            throw new AppException("Invalid housing data", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    private boolean locationInDataBase(String name) {
-        return (locationRepository.findByName(name).isPresent());
+    public HousingDTO addHousing(HousingDTO housingDTO) {
+        Housing housing = housingMapper.toEntity(housingDTO);
+        housing.setId(null);
+        housing.setOwner(getCurrentUserAsEntity());
+        housing.setPublished(false);
+        housing.setCoordinates(housing.getCoordinates().replaceAll(" ", ""));
+        housingRepository.save(housing);
+        return housingMapper.toDto(housing);
     }
 
     @Transactional
-    public HousingPreviewDTO updateHousing(Long id, HousingAddRequest housingAddRequest) {
-        Housing housing = getHousing(id);
+    public HousingDTO updateHousing(HousingDTO housingDTO) {
+        Housing housing = getHousing(housingDTO.getId());
         User owner = getCurrentUserAsEntity();
 
-        if (housing.getOwner().equals(owner)
-                && allHousingAddRequestFieldsAreCorrect(housingAddRequest)) {
-            saveHousing(housingAddRequest, housing, owner);
-            log.info("Housing with id {} updated successfully", id);
-            return housingPreviewMapper.toDto(housing);
+        if (housing.getOwner().equals(owner)) {
+            housingMapper.update(housing, housingDTO);
+            housingRepository.saveAndFlush(housing);
+            return housingMapper.toDto(housing);
         } else {
             throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
         }
-    }
-
-    private boolean allHousingAddRequestFieldsAreCorrect(HousingAddRequest housingAddRequest) {
-        return locationInDataBase(housingAddRequest.getLocation().getName())
-                && (housingAddRequest.getPricePerNight().compareTo(BigDecimal.ZERO) >= 0)
-                && (housingAddRequest.getPeople() >= 1)
-                && (housingAddRequest.getMinAgeToRent() > 0)
-                && (housingAddRequest.getRooms() > 0)
-                && (housingAddRequest.getM2() > 0)
-                && (housingAddRequest.getMinNights() >= 1);
-    }
-
-    private void saveHousing(HousingAddRequest housingAddRequest, Housing housing, User owner) {
-        housing.setCheckIn(housingAddRequest.getCheckIn());
-        housing.setCheckOut(housingAddRequest.getCheckOut());
-        housing.setMinRentalAge(housingAddRequest.getMinAgeToRent());
-        housing.setRooms(housingAddRequest.getRooms());
-        housing.setM2(housingAddRequest.getM2());
-        housing.setMinNights(housingAddRequest.getMinNights());
-        housing.setDescription(housingAddRequest.getDescription());
-        housing.setOwner(owner);
-        housing.setLocation(locationRepository.findByName(housingAddRequest.getLocation().getName()).orElseThrow());
-        housing.setPricePerNight(housingAddRequest.getPricePerNight());
-        housing.setPeople(housingAddRequest.getPeople());
-        housing.setCoordinates(housingAddRequest.getCoordinates().replaceAll(" ", ""));
-        housing.setName(housingAddRequest.getName());
-        housing.setPublished(false);
-
-        housingRepository.save(housing);
     }
 
     public ImageDTO changeImagePreview(Long housingId, Long imageId) {
@@ -184,8 +144,10 @@ public class HousingService extends GenericService {
     public HousingDTO addHousingToFavourites(Long housingId) {
         User user = getCurrentUserAsEntity();
         Housing housing = getHousing(housingId);
-        user.getFavourites().add(housing);
-        userRepository.save(user);
+        if (!user.getFavourites().contains(housing)) {
+            user.getFavourites().add(housing);
+            userRepository.save(user);
+        }
         return housingMapper.toDto(housing);
     }
 

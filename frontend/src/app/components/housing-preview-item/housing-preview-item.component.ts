@@ -2,10 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
 import {HousingService} from "../../services/housing.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {coordinatesValidator} from "../../validators/Coordinates";
-import {positiveNumberValidator} from "../../validators/PositiveNumber";
-import {checkInCheckOutValidator} from "../../validators/CheckIn";
 
 @Component({
   selector: 'app-housing-preview-item',
@@ -20,22 +16,22 @@ export class HousingPreviewItemComponent implements OnInit {
   housings: IHousing[] = [];
   errorMessage: string = '';
 
-
-  constructor(private httpService: HttpService, private housingService: HousingService) { }
+  constructor(private httpService: HttpService, private housingService: HousingService) {
+  }
 
   ngOnInit(): void {
     this.totalPrice = Math.round(this.housing.pricePerNight * this.nights * 100) / 100;
-    this.getFavourites().subscribe(favoriteHousings => {
-      this.isFavourite = favoriteHousings.some((favHousing: { id: number; }) => favHousing.id === this.housing.id);
+    this.housingService.getFavourites().then(res => {
+      this.isFavourite = res.some(h => h.id === this.housing.id)
     });
   }
 
-  addToFavourites(housingInput: IHousing) {
-    if (housingInput) {
-      this.housing = housingInput;
+  addToFavourites(housing: IHousing) {
+    if (housing) {
       this.httpService.sendPostRequest(`/v1/favourites/${this.housing.id}`, null).subscribe(
         response => {
-          this.housingService.housing = response as IHousing;
+          this.isFavourite = true;
+          this.housingService.addToFavourites(response as IHousing);
         }, err => {
           console.log(err);
         }
@@ -43,14 +39,11 @@ export class HousingPreviewItemComponent implements OnInit {
     }
   }
 
-  getFavourites() {
-    return this.httpService.sendGetRequest('/v1/favourites');
-  }
-
   removeFromFavourites() {
     this.httpService.sendDeleteRequest(`/v1/favourites/${this.housing.id}`).subscribe(
       response => {
-        console.log("Deleted successfully");
+        this.isFavourite = false;
+        this.housingService.removeFromFavourites(response as IHousing);
       },
       error => {
         console.error('Error deleting housing:', error);
@@ -64,11 +57,9 @@ export class HousingPreviewItemComponent implements OnInit {
       const confirmRemove = window.confirm('Are you sure you want to remove this item from favorites?');
       if (confirmRemove) {
         this.removeFromFavourites()
-        this.isFavourite = false;
       }
     } else {
       this.addToFavourites(this.housing)
-      this.isFavourite = true
     }
   }
 }

@@ -1,5 +1,3 @@
-import {IHousing} from "../models/IHousing";
-
 export interface IHousingPaginatedResponse {
   page: number;
   totalPages: number;

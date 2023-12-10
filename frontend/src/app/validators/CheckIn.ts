@@ -4,7 +4,7 @@ export function checkInCheckOutValidator(control: AbstractControl): { [key: stri
   const pattern = /^(\d{2}:\d{2})\s?-\s?(\d{2}:\d{2})$/;
 
   if (!pattern.test(control.value)) {
-    return { invalidCheckRange: true };
+    return {invalidCheckRange: true};
   }
 
   return null;
