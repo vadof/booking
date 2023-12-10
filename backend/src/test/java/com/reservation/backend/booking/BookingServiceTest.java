@@ -22,10 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -313,5 +310,23 @@ class BookingServiceTest extends GenericTest {
         Assertions.assertThrows(AppException.class, () -> bookingService.deleteBooking(bookingId), "Access denied");
 
         verify(bookingRepository, times(0)).delete(booking);
+    }
+
+    @Test
+    @DisplayName("Find All User Bookings - Success")
+    void findAllUserBookingsSuccess() {
+        // TODO
+        User user = UserMock.getUserMock(1L);
+        mockAuthenticatedUser(user);
+        BookingSearchDTO bookingSearchDTO = new BookingSearchDTO();
+
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Booking> bookingPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
+        when(bookingRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(bookingPage);
+
+        PaginatedResponseDTO<BookingDTO> result = bookingService.findAllUserBookings(bookingSearchDTO);
+
+        verify(bookingRepository).findAll(any(Specification.class), eq(pageable));
+        assertThat(result).isNotNull();
     }
 }
