@@ -61,8 +61,8 @@ public class ReviewService extends GenericService {
             throw new AppException("Access to update review denied", HttpStatus.FORBIDDEN);
         }
 
-        review.setText(review.getText());
-        review.setRating(review.getRating());
+        review.setText(reviewDTO.getText());
+        review.setRating(reviewDTO.getRating());
         reviewRepository.save(review);
 
         updateHousingRating(review.getHousing());
