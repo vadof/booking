@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LocationTests {
+class LocationTests {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,7 +44,7 @@ public class LocationTests {
     private LocationService locationService;
 
     @Test
-    public void testGetAllLocations() {
+    void testGetAllLocations() {
         Location location1 = new Location("Tallinn");
         Location location2 = new Location("Tartu");
         List<Location> locationList = Arrays.asList(location1, location2);
@@ -79,6 +79,4 @@ public class LocationTests {
 
 
     }
-
-
 }

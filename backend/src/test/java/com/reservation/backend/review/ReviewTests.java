@@ -40,7 +40,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ReviewTests extends GenericTest {
+class ReviewTests extends GenericTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -100,6 +100,7 @@ public class ReviewTests extends GenericTest {
         housing.setReviews(new ArrayList<>());
         housing.setOwner(owner);
         Housing housing2 = Housing.builder().id(2L).build();
+        Long housing2Id = 2L;
 
         mockAuthenticatedUser(reviewer);
         Mockito.when(housingRepository.findByIdAndPublishedTrue(housing.getId())).thenReturn(Optional.of(housing));
@@ -107,7 +108,7 @@ public class ReviewTests extends GenericTest {
 
         AppException exception = assertThrows(
                 AppException.class,
-                () -> reviewService.saveReview(housing2.getId(), reviewDTO)
+                () -> reviewService.saveReview(housing2Id, reviewDTO)
         );
 
         assertEquals("Housing with id 2 not found", exception.getMessage());
@@ -126,6 +127,7 @@ public class ReviewTests extends GenericTest {
         User owner = User.builder().id(1L).email("email2").build();
 
         Housing housing = Housing.builder().id(1L).build();
+        Long housingId = 1L;
         housing.setReviews(new ArrayList<>());
         housing.setOwner(owner);
 
@@ -135,7 +137,7 @@ public class ReviewTests extends GenericTest {
 
         AppException exception = assertThrows(
                 AppException.class,
-                () -> reviewService.saveReview(housing.getId(), reviewDTO)
+                () -> reviewService.saveReview(housingId, reviewDTO)
         );
 
         assertEquals("The owner cannot leave reviews", exception.getMessage());
@@ -157,6 +159,7 @@ public class ReviewTests extends GenericTest {
 
 
         Housing housing = Housing.builder().id(1L).build();
+        Long housingId = 1L;
         Review review = new Review(1L, "uus", 9, LocalDate.now(), reviewer, housing);
         housing.setReviews(List.of(review));
         housing.setOwner(owner);
@@ -167,7 +170,7 @@ public class ReviewTests extends GenericTest {
 
         AppException exception = assertThrows(
                 AppException.class,
-                () -> reviewService.saveReview(housing.getId(), reviewDTO)
+                () -> reviewService.saveReview(housingId, reviewDTO)
         );
 
         assertEquals("Review has already been left", exception.getMessage());
@@ -180,7 +183,7 @@ public class ReviewTests extends GenericTest {
 
 
     @Test
-    public void testFindReviewById() {
+    void testFindReviewById() {
         Long reviewId = 1L;
         UserDTO reviewerDTO = new UserDTO(1L, "test", "test", "test@gmail.com");
         User reviewer = new User(1L, "test", "test", "test@gmail.com", "test1234", List.of(), LocalDate.now(), Role.USER);
@@ -199,7 +202,8 @@ public class ReviewTests extends GenericTest {
     }
 
     @Test
-    public void testFindReviewByIdCanNotFind() {
+    void testFindReviewByIdCanNotFind() {
+        Long id = 1L;
         UserDTO reviewerDTO = new UserDTO(1L, "test", "test", "test@gmail.com");
         User reviewer = new User(1L, "test", "test", "test@gmail.com", "test1234", List.of(), LocalDate.now(), Role.USER);
         Housing housing = new Housing();
@@ -209,7 +213,7 @@ public class ReviewTests extends GenericTest {
 
         AppException exception = assertThrows(
                 AppException.class,
-                () -> reviewService.findReviewById(review.getId())
+                () -> reviewService.findReviewById(id)
         );
 
         assertEquals("Review with id 1 not found", exception.getMessage());
@@ -220,7 +224,7 @@ public class ReviewTests extends GenericTest {
 
     @Test
     @Transactional
-    public void testUpdateReview() {
+    void testUpdateReview() {
         User reviewer = User.builder().id(2L).firstname("test").lastname("test").email("email1").build();
         User owner = User.builder().id(1L).email("email2").build();
         UserDTO reviewerDTO = new UserDTO(2L, "test", "test", "email1");
@@ -247,7 +251,7 @@ public class ReviewTests extends GenericTest {
 
     @Test
     @Transactional
-    public void testUpdateReviewOnlyReviewerCanChangeTheReview() {
+    void testUpdateReviewOnlyReviewerCanChangeTheReview() {
         User reviewer = User.builder().id(2L).firstname("test").lastname("test").email("email1").build();
         User randomUser = User.builder().id(3L).build();
         User owner = User.builder().id(1L).email("email2").build();
@@ -280,7 +284,7 @@ public class ReviewTests extends GenericTest {
 
     @Test
     @Transactional
-    public void testDeleteReview() {
+    void testDeleteReview() {
         User reviewer = User.builder().id(2L).firstname("test").lastname("test").email("email1").build();
         User owner = User.builder().id(1L).email("email2").build();
         UserDTO reviewerDTO = new UserDTO(2L, "test", "test", "email1");
@@ -308,7 +312,8 @@ public class ReviewTests extends GenericTest {
 
     @Test
     @Transactional
-    public void testDeleteReviewUnauthorizedUserCanNotDelete() {
+    void testDeleteReviewUnauthorizedUserCanNotDelete() {
+        Long reviewId = 1L;
         User reviewer = User.builder().id(2L).firstname("test").lastname("test").email("email1").build();
         User owner = User.builder().id(1L).email("email2").build();
         UserDTO reviewerDTO = new UserDTO(2L, "test", "test", "email1");
@@ -327,7 +332,7 @@ public class ReviewTests extends GenericTest {
 
         AppException exception = assertThrows(
                 AppException.class,
-                () -> reviewService.deleteReview(review.getId())
+                () -> reviewService.deleteReview(reviewId)
         );
 
         assertEquals("Access to delete review denied", exception.getMessage());
@@ -338,6 +343,3 @@ public class ReviewTests extends GenericTest {
         verify(reviewMapper, never()).toDto(any());
     }
 }
-
-
-
