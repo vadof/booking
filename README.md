@@ -1,9 +1,10 @@
-Sleep in Eesti
+**Sleep in Eesti**
 
-Introduction
+**Introduction**
+
 This is a simple web store project made using Spring Boot. Our web application, SleepinEesti, offers a seamless housing booking experience across every town in Estonia. Customers can effortlessly reserve accommodations through our user-friendly platform. Additionally, users are empowered to contribute by adding their own accommodations, which are displayed on the website upon publication. Our app provides users with the convenience of accessing their booking history, viewing published accommodations, and leaving reviews for the places they've stayed in.
 
-Authors
+**Authors**
 
 Vadim Filonov
 
@@ -14,7 +15,7 @@ Edwin Smagin
 Katarina Zemljanski
 
 
-Technologies Used
+**Technologies Used**
 
 Java 17+
 
@@ -35,18 +36,18 @@ Angular
 SonarLint
 
 
-Setting up the development environment
+**Setting up the development environment**
 
 These instructions will help you set up the project on your local machine for development and testing purposes.
 
-Prerequisites
+**Prerequisites**
 
 Java version 17 or later
 
 PostgreSQL version 16 or later (Database running)
 
 
-Setup
+**Setup**
 
 Clone the repository:
 
