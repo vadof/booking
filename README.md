@@ -6,40 +6,62 @@ This is a simple web store project made using Spring Boot. Our web application, 
 Authors
 
 Vadim Filonov
+
 Ida Tuule Jõgi
+
 Edwin Smagin
+
 Katarina Zemljanski
 
 
 Technologies Used
 
 Java 17+
+
 Spring Boot 3.1.5
+
 PostgreSQL 16
+
 MapStruct 1.5.5
+
 Spring Security 6.2.0
+
 Liquibase 4.25.0
+
 Lombok 1.18.30
+
 Angular
+
 SonarLint
 
 
 Setting up the development environment
+
 These instructions will help you set up the project on your local machine for development and testing purposes.
 
 Prerequisites
 
 Java version 17 or later
+
 PostgreSQL version 16 or later (Database running)
 
 
 Setup
+
 Clone the repository:
+
 git clone [https://gitlab.cs.taltech.ee/vafilo/iti0302-2023.git]
+
 Navigate to the project directory:
+
 cd [iti0302-2023]
+
 Locate application.properties in the src/main/resources/  directory and fill it with the correct database connection data and other necessary configurations.
+
 Build the project (this will also download the necessary dependencies):
+
 ./mvn clean install
+
 Run the application:
+
 ./mvn package
