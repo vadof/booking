@@ -10,6 +10,7 @@ import com.reservation.backend.entities.User;
 import com.reservation.backend.exceptions.AppException;
 import com.reservation.backend.mapper.*;
 import com.reservation.backend.mocks.dto.BookingDtoMock;
+import com.reservation.backend.mocks.entity.BookingMock;
 import com.reservation.backend.mocks.entity.HousingMock;
 import com.reservation.backend.mocks.entity.UserMock;
 import com.reservation.backend.repositories.BookingRepository;
@@ -315,18 +316,22 @@ class BookingServiceTest extends GenericTest {
     @Test
     @DisplayName("Find All User Bookings - Success")
     void findAllUserBookingsSuccess() {
-        // TODO
         User user = UserMock.getUserMock(1L);
         mockAuthenticatedUser(user);
         BookingSearchDTO bookingSearchDTO = new BookingSearchDTO();
 
+        Booking booking = BookingMock.getBookingMock(1L);
+
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Booking> bookingPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
-        when(bookingRepository.findAll(any(Specification.class), eq(pageable))).thenReturn(bookingPage);
+        Page<Booking> bookingPage = new PageImpl<>(List.of(booking), pageable, 0);
+        when(bookingRepository.findAll(any(Specification.class), any(Pageable.class))).thenReturn(bookingPage);
 
         PaginatedResponseDTO<BookingDTO> result = bookingService.findAllUserBookings(bookingSearchDTO);
 
-        verify(bookingRepository).findAll(any(Specification.class), eq(pageable));
         assertThat(result).isNotNull();
+        assertThat(result.getTotalPages()).isEqualTo(1);
+        assertThat(result.getData().size()).isEqualTo(1);
+        assertThat(result.getData().get(0).getCheckInDate()).isEqualTo(booking.getCheckInDate());
+        assertThat(result.getSortDirection()).isEqualTo("ASC");
     }
 }
