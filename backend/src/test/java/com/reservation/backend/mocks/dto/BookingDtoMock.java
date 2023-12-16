@@ -8,9 +8,13 @@ public class BookingDtoMock {
     public static BookingDTO getBookingDtoMock(Long id) {
         return BookingDTO.builder()
                 .id(id)
+                .additionalInfo("No info")
+                .nights(1)
                 .checkInDate(LocalDate.of(LocalDate.now().getYear() + 1, 12, 3))
                 .checkOutDate(LocalDate.of(LocalDate.now().getYear() + 1, 12, 4))
-                .additionalInfo("No info")
+                .tenant(UserDtoMock.getUserDtoMock(id, "email" + id + "@gmail.com"))
+                .totalPrice(BigDecimal.valueOf(100))
+                .housing(HousingPreviewDtoMock.getHousingPreviewDtoMock(id))
                 .build();
     }
 }

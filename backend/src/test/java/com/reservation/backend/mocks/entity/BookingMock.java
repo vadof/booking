@@ -15,8 +15,8 @@ public class BookingMock {
                 .totalPrice(BigDecimal.valueOf(100))
                 .housing(HousingMock.getHousingMock(id))
                 .tenant(UserMock.getUserMock(id, "email" + id + "@gmail.com"))
-                .checkInDate(LocalDate.of(2023, 12, 3))
-                .checkOutDate(LocalDate.of(2023, 12, 4))
+                .checkInDate(LocalDate.of(LocalDate.now().getYear() + 1, 12, 3))
+                .checkOutDate(LocalDate.of(LocalDate.now().getYear() + 1, 12, 4))
                 .build();
     }
 

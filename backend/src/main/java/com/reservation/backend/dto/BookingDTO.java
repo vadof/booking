@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 public class BookingDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
