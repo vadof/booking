@@ -2,7 +2,6 @@ package com.reservation.backend.mocks.dto;
 
 import com.reservation.backend.dto.BookingDTO;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class BookingDtoMock {
