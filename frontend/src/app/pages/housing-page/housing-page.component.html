@@ -4,20 +4,36 @@
   <div class="housing-wrapper d-flex">
 
     <div class="sidebar">
-      <div class="sidebar-area">
-        <div class="check-in-date option">
+      <div class="sidebar-area mb-3">
+        <div class="check-in-date option" (click)="datePicker.open()">
           <label>Check-in date</label>
-          <div>Saturday 28 October 2023</div>
+          <div class="date">{{ range.controls.start.value | date:'EEE d MMM' }}</div>
         </div>
 
-        <div class="check-out-date option">
+        <div class="check-out-date option" (click)="datePicker.open()">
           <label>Check-out date</label>
-          <div>Saturday 28 October 2023</div>
+          <div class="date">{{ range.controls.end.value | date:'EEE d MMM' }}</div>
         </div>
 
-        <div class="nights">1 night · 2 people</div>
+        <div class="nights">{{ nights + (nights === 1 ? ' night' : ' nights')}} · {{ housing?.people }} people</div>
 
         <div class="save-options-button btn btn-primary">Save</div>
+      </div>
+
+      <div class="reservation-form mb-3">
+        <form [formGroup]="reservationForm" (ngSubmit)="reserve()" class="text-color-primary">
+
+          <div class="mb-3">
+            <label for="additionalInfo" class="form-label">Additional Info</label>
+            <textarea type="text" class="form-control" id="additionalInfo" formControlName="additionalInfo" rows="3"></textarea>
+          </div>
+
+          <div *ngIf="errorMessage" class="mb-3 text-danger">
+            <strong>{{errorMessage}}</strong>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Reserve</button>
+        </form>
       </div>
 
     </div>
@@ -38,4 +54,15 @@
 
   </div>
 
+</div>
+
+<div class="calendar">
+  <mat-form-field>
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [dateFilter]="dateFilter">
+      <input matStartDate formControlName="start" placeholder="Start date" class="disabled">
+      <input matEndDate formControlName="end" placeholder="End date" class="disabled">
+    </mat-date-range-input>
+    <mat-date-range-picker #picker touchUi></mat-date-range-picker>
+
+  </mat-form-field>
 </div>

@@ -45,7 +45,7 @@ export class RegisterPageComponent {
           this.router.navigate(['']);
         },
         error => {
-          console.log(error);
+          this.errorMessage = error.error;
         })
     } else {
       this.errorMessage = 'Fill in the empty fields!';

@@ -1,4 +1,9 @@
 .housing-wrapper {
+  .sidebar {
+    textarea {
+      max-width: 250px;
+    }
+  }
   .sidebar-area {
     margin-right: 20px;
     width: 250px;
@@ -29,11 +34,20 @@
       }
     }
   }
+  .date {
+    min-height: 34px;
+  }
 }
 
 @media (max-width: 992px) {
   .housing-wrapper {
     flex-direction: column;
+
+    .sidebar {
+      textarea {
+        max-width: 100%;
+      }
+    }
 
     .sidebar-area {
       width: 100%;
@@ -65,3 +79,6 @@
   }
 }
 
+.calendar {
+  display: none;
+}

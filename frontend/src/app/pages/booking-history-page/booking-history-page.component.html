@@ -10,10 +10,31 @@
       <div *ngIf="canDeleteBooking(booking)" class="d-flex justify-content-end">
         <button class="btn-danger btn" (click)="cancelBooking(booking.id)">Cancel Booking</button>
       </div>
-      <!--      TODO fix-->
-      <!--      <button class="btn btn-primary" (click)="openReviewDialog(booking)">-->
-      <!--        Add Review-->
-      <!--      </button>-->
+
+      <div class="review text-end mt-2" *ngIf="canAddReview(booking)">
+        <button *ngIf="showReview !== booking.id" class="btn btn-primary" (click)="openReviewArea(booking)">Add Review</button>
+        <form *ngIf="showReview === booking.id" [formGroup]="reviewForm" (ngSubmit)="addReview(booking)" class="text-color-primary">
+
+          <div class="mb-3 text-start">
+            <label for="text" class="form-label">Text</label>
+            <textarea type="text" class="form-control" id="text" formControlName="text" rows="3"></textarea>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label for="rating" class="form-label">Rating 1-10</label>
+            <input type="number" class="form-control" id="rating" formControlName="rating" min="1" max="10">
+          </div>
+
+          <div class="mb-3 text-danger text-start" *ngIf="errorMessage">
+            <strong>{{ errorMessage }}</strong>
+          </div>
+
+          <div class="buttons d-flex justify-content-between">
+            <button class="btn btn-danger" (click)="closeReviewArea()">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <ng-template #noBookings>

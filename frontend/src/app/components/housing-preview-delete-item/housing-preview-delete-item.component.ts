@@ -15,6 +15,7 @@ export class HousingPreviewDeleteItemComponent {
   totalPrice: number = 0;
   imageUrl = 'assets/delete.png';
   errorMessage: string = '';
+  deleted: boolean = false;
 
 
   ngOnInit(): void {
@@ -36,10 +37,10 @@ export class HousingPreviewDeleteItemComponent {
     });
   }
 
-  // TODO delete housing from page if housing was deleted
   deleteItem() {
     this.httpService.sendDeleteRequest(`/v1/housings/${this.housing.id}`).subscribe(
-      response => {
+      () => {
+        this.deleted = true;
         console.log("Deleted successfully");
       },
       error => {
