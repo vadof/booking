@@ -55,7 +55,7 @@ git clone [https://gitlab.cs.taltech.ee/vafilo/iti0302-2023.git]
 
 Navigate to the project directory:
 
-cd [iti0302-2023]
+cd iti0302-2023
 
 Locate application.properties in the src/main/resources/  directory and fill it with the correct database connection data and other necessary configurations.
 
