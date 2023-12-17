@@ -10,7 +10,9 @@ build:
   tags:
     - server
   script:
+    - pwd
     - cd backend
+    - pwd
     - chmod +x mvnw
     - ./mvnw clean package
     - docker build -t backend .
