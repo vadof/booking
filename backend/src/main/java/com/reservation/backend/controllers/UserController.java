@@ -2,6 +2,8 @@ package com.reservation.backend.controllers;
 
 import com.reservation.backend.dto.HousingDTO;
 import com.reservation.backend.dto.HousingPreviewDTO;
+import com.reservation.backend.dto.PaginatedResponseDTO;
+import com.reservation.backend.dto.search.HousingSearchDTO;
 import com.reservation.backend.services.HousingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,13 +27,23 @@ import java.util.List;
 public class UserController {
     private final HousingService housingService;
 
-    @Operation(summary = "Get list of favourite Housings")
-    @ApiResponse(responseCode = "200", description = "Return List of Housings",
+    //@Operation(summary = "Get list of favourite Housings")
+    //@ApiResponse(responseCode = "200", description = "Return List of Housings",
+    //        content = @Content(mediaType = "application/json", schema = @Schema(implementation = HousingPreviewDTO.class)))
+    //@GetMapping
+    //public ResponseEntity<List<HousingPreviewDTO>> getAllFavourites() {
+    //    log.info("REST request to get user's favourites");
+    //    List<HousingPreviewDTO> favourites = housingService.getAllFavourites();
+    //    return ResponseEntity.ok().body(favourites);
+    //}
+
+    @Operation(summary = "Get list of favourite Housings as paginated response")
+    @ApiResponse(responseCode = "200", description = "Return List of Housings as paginated response",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = HousingPreviewDTO.class)))
     @GetMapping
-    public ResponseEntity<List<HousingPreviewDTO>> getAllFavourites() {
+    public ResponseEntity<PaginatedResponseDTO<HousingPreviewDTO>> getAllFavourites(HousingSearchDTO housingSearchDTO) {
         log.info("REST request to get user's favourites");
-        List<HousingPreviewDTO> favourites = housingService.getAllFavourites();
+        PaginatedResponseDTO<HousingPreviewDTO> favourites = housingService.getAllFavourites(housingSearchDTO);
         return ResponseEntity.ok().body(favourites);
     }
 

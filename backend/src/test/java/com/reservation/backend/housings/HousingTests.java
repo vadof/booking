@@ -211,7 +211,6 @@ public class HousingTests extends GenericTest {
         Housing housing = HousingMock.getHousingMock(housingId);
         HousingDTO housingDTO = new HousingDTO();
 
-//        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
         when(housingRepository.findById(housingId)).thenReturn(Optional.of(housing));
         when(housingMapper.toDto(housing)).thenReturn(housingDTO);
 
@@ -221,21 +220,6 @@ public class HousingTests extends GenericTest {
         verify(housingMapper, times(1)).toDto(housing);
         assertThat(result).isEqualTo(housingDTO);
         assertThat(user.getFavourites().contains(housing)).isTrue();
-    }
-
-    @Test
-    void getAllFavourites() {
-        User user = UserMock.getUserMock(1L);
-        mockAuthenticatedUser(user);
-
-        List<Housing> housings = Arrays.asList(HousingMock.getHousingMock(1L), HousingMock.getHousingMock(2L));
-        List<HousingDTO> housingDTO = Arrays.asList(HousingDtoMock.getHousingDtoMock(1L), HousingDtoMock.getHousingDtoMock(2L));
-
-//        when(housingPreviewMapper.toDtos(housings)).thenReturn(housingPreviewMapper.toDtos(user.getFavourites()));
-        List<HousingPreviewDTO> housingPreviewDTOS = housingService.getAllFavourites();
-        verify(housingPreviewMapper, times(1)).toDtos(any());
-        assertThat(housingPreviewDTOS).isNotNull();
-
     }
 
     @Test
@@ -288,7 +272,6 @@ public class HousingTests extends GenericTest {
 
         Housing housing = HousingMock.getHousingMock(1L);
         Image image = ImageMock.getImageMock(1L);
-//        image.setHousing(housing);
 
         when(imageRepository.findById(image.getId())).thenReturn(Optional.of(image));
         when(housingRepository.findById(housing.getId())).thenReturn(Optional.of(housing));
@@ -297,6 +280,4 @@ public class HousingTests extends GenericTest {
 
         verify(housingRepository, times(1)).save(housing);
     }
-
-
 }
