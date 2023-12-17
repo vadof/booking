@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Housing", description = "API operations with Housing")
@@ -154,5 +155,18 @@ public class HousingController {
         log.info("REST request to get housing prices");
         PriceDto priceDto = housingService.getHousingPrices();
         return ResponseEntity.ok().body(priceDto);
+    }
+
+    @Operation(summary = "Get already booked dates")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Return List of dates",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = LocalDate.class))),
+            @ApiResponse(responseCode = "404", description = "Housing not found", content = @Content(mediaType = "*/*")),
+    })
+    @GetMapping("/{housingId}/booked-dates")
+    public ResponseEntity<List<LocalDate>> getBookedDates(@PathVariable Long housingId) {
+        log.info("REST request to get Housing#{} booked dates", housingId);
+        List<LocalDate> dates = housingService.getHousingBookedDays(housingId);
+        return ResponseEntity.ok().body(dates);
     }
 }

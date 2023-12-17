@@ -72,6 +72,7 @@ class ReviewTests extends GenericTest {
     @Transactional
     void testSaveReviewSuccessful() {
         ReviewDTO reviewDTO = new ReviewDTO();
+        reviewDTO.setRating(10);
 
         User reviewer = User.builder().id(2L).email("email1").build();
         User owner = User.builder().id(1L).email("email2").build();

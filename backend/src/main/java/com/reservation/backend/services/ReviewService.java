@@ -43,6 +43,7 @@ public class ReviewService extends GenericService {
         review.setReviewer(reviewer);
 
         reviewRepository.save(review);
+        housing.getReviews().add(review);
         updateHousingRating(housing);
         return reviewMapper.toDto(review);
     }
