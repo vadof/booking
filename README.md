@@ -51,7 +51,7 @@ PostgreSQL version 16 or later (Database running)
 
 Clone the repository:
 
-git clone [https://gitlab.cs.taltech.ee/vafilo/iti0302-2023.git]
+git clone https://gitlab.cs.taltech.ee/vafilo/iti0302-2023.git
 
 Navigate to the project directory:
 
