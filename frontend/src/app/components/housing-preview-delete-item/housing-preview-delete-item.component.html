@@ -29,7 +29,7 @@
           <div class="housing-price">{{ totalPrice }} €</div>
           <a class="housing-details-button btn btn-primary" [routerLink]="'/housing/' + housing.id">See details
             &#10148;</a>
-          <a class="housing-delete-button btn btn-delete" (click)="openDeleteConfirmationDialog()">Delete
+          <a class="housing-delete-button btn btn-delete" [ngClass]="deleted ? 'disabled': ''" (click)="openDeleteConfirmationDialog()">Delete
             <img class="delete-sign" [src]="imageUrl" alt="">
           </a>
         </div>

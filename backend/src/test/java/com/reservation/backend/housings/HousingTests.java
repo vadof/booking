@@ -5,6 +5,7 @@ import com.reservation.backend.dto.HousingPreviewDTO;
 import com.reservation.backend.dto.PaginatedResponseDTO;
 import com.reservation.backend.dto.PriceDto;
 import com.reservation.backend.dto.search.HousingSearchDTO;
+import com.reservation.backend.entities.Booking;
 import com.reservation.backend.entities.Housing;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -13,6 +14,7 @@ import com.reservation.backend.entities.User;
 import com.reservation.backend.mapper.*;
 import com.reservation.backend.mocks.dto.HousingDtoMock;
 import com.reservation.backend.mocks.dto.HousingPreviewDtoMock;
+import com.reservation.backend.mocks.entity.BookingMock;
 import com.reservation.backend.mocks.entity.HousingMock;
 import com.reservation.backend.mocks.entity.ImageMock;
 import com.reservation.backend.mocks.entity.UserMock;
@@ -31,6 +33,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -288,7 +291,6 @@ public class HousingTests extends GenericTest {
 
         Housing housing = HousingMock.getHousingMock(1L);
         Image image = ImageMock.getImageMock(1L);
-//        image.setHousing(housing);
 
         when(imageRepository.findById(image.getId())).thenReturn(Optional.of(image));
         when(housingRepository.findById(housing.getId())).thenReturn(Optional.of(housing));
@@ -296,6 +298,20 @@ public class HousingTests extends GenericTest {
         housingService.changeImagePreview(housing.getId(), image.getId());
 
         verify(housingRepository, times(1)).save(housing);
+    }
+
+    @Test
+    void getBookedDaysSuccess() {
+        Housing housing = HousingMock.getHousingMock(1L);
+        Booking booking = BookingMock.getBookingMock(1L);
+        housing.getBookings().add(booking);
+
+        when(housingRepository.findById(housing.getId())).thenReturn(Optional.of(housing));
+
+        List<LocalDate> dates = housingService.getHousingBookedDays(housing.getId());
+
+        assertThat(dates.size()).isEqualTo(1);
+        assertThat(dates.get(0)).isEqualTo(booking.getCheckInDate());
     }
 
 

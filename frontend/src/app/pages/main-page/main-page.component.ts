@@ -5,8 +5,9 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {ILocation} from "../../models/ILocation";
 import {IHousing} from "../../models/IHousing";
 import {HttpService} from "../../services/http.service";
-import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
+import {IHousingPaginatedResponse} from "../../responses/IHousingPaginatedResponse";
 import {SortType} from "../../enums/SortType";
+import {DateService} from "../../services/date.service";
 
 @Component({
   selector: 'app-main-page',
@@ -46,7 +47,8 @@ export class MainPageComponent implements OnInit {
 
   constructor(
     private httpService: HttpService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private dateService: DateService
   ) {
   }
 
@@ -79,6 +81,11 @@ export class MainPageComponent implements OnInit {
 
       if (start && end && start >= end) {
         end.setDate(end.getDate() + 1);
+      }
+
+      if (start && end) {
+        this.dateService.checkInDate = start;
+        this.dateService.checkOutDate = end;
       }
     })
   }
@@ -120,7 +127,6 @@ export class MainPageComponent implements OnInit {
       params.push(`checkOutDate=${this.dateToFormattedString(endDate)}`)
     }
 
-    // TODO add price filter section
     if (this.minPrice) params.push(`minPrice=${this.minPrice}`)
     if (this.maxPrice) params.push(`maxPrice=${this.maxPrice}`)
 

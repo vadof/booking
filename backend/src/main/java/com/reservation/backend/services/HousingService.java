@@ -2,6 +2,7 @@ package com.reservation.backend.services;
 
 import com.reservation.backend.dto.*;
 import com.reservation.backend.dto.search.HousingSearchDTO;
+import com.reservation.backend.entities.Booking;
 import com.reservation.backend.entities.Housing;
 import com.reservation.backend.entities.Image;
 import com.reservation.backend.entities.User;
@@ -20,7 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -166,5 +168,18 @@ public class HousingService extends GenericService {
             throw new AppException("Housing#" + id + " not in user's favourites", HttpStatus.NOT_FOUND);
         }
 
+    }
+
+    public List<LocalDate> getHousingBookedDays(Long housingId) {
+        Housing housing = getHousing(housingId);
+        List<LocalDate> dates = new ArrayList<>();
+        for (Booking booking : housing.getBookings()) {
+
+            LocalDate checkIn = booking.getCheckInDate();
+            LocalDate checkOut = booking.getCheckOutDate();
+
+            dates.addAll(checkIn.datesUntil(checkOut).toList());
+        }
+        return dates;
     }
 }

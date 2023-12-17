@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {IBooking} from "../../models/IBooking";
 import {HttpService} from "../../services/http.service";
-import {BookingService} from "../../services/booking.service";
-import {IHousingPaginatedResponse} from "../../reponses/IHousingPaginatedResponse";
-import {MatDialog} from '@angular/material/dialog';
+import {IHousingPaginatedResponse} from "../../responses/IHousingPaginatedResponse";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -13,10 +13,16 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class BookingHistoryPageComponent implements OnInit {
   bookings: IBooking[] = [];
-  private result: any;
 
+  showReview: number = 0;
+  errorMessage: string = '';
 
-  constructor(private httpService: HttpService, private bookingService: BookingService, private dialog: MatDialog) {
+  reviewForm = new FormGroup({
+    text: new FormControl<string>('', Validators.required),
+    rating: new FormControl<number>(1, Validators.required)
+  })
+
+  constructor(private httpService: HttpService, private router: Router) {
 
   }
 
@@ -25,9 +31,22 @@ export class BookingHistoryPageComponent implements OnInit {
       response => { // json
         let response1 = response as IHousingPaginatedResponse
         this.bookings = response1.data as IBooking[]
-        console.log(this.bookings)
       }
     )
+  }
+
+  addReview(booking: IBooking) {
+    if (this.reviewForm.valid) {
+      let obj = {
+        text: this.reviewForm.controls.text.value,
+        rating: this.reviewForm.controls.rating.value
+      }
+
+      this.httpService.sendPostRequest(`/v1/reviews/${booking.housing.id}`, obj).subscribe(
+        () => this.router.navigate([`/housing/${booking.housing.id}`]),
+          err => this.errorMessage = err.error
+      )
+    }
   }
 
   cancelBooking(bookingId: number) {
@@ -39,32 +58,22 @@ export class BookingHistoryPageComponent implements OnInit {
     );
   }
 
-  // openReviewDialog(booking: IBooking): void {
-  //   const dialogRef = this.dialog.open(ReviewDialogComponent, {
-  //     width: '650px',
-  //     data: booking
-  //   });
-  //
-  //   // @ts-ignore
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed' + result.data);
-  //   });
-  // }
+  openReviewArea(booking: IBooking) {
+    this.showReview = booking.id;
+    this.errorMessage = '';
+  }
 
   canDeleteBooking(booking: IBooking): boolean {
     const currentDate = new Date();
-    const parsedDate = this.parseDate(booking.checkInDate);
+    const bookingDate = this.parseDate(booking.checkInDate);
 
-    if (!parsedDate) {
+    if (!bookingDate) {
       return false;
     }
 
-    const checkInDate = new Date(parsedDate);
+    const checkInDate = new Date(bookingDate);
 
-    currentDate.setHours(0, 0, 0, 0);
-    checkInDate.setHours(0, 0, 0, 0);
-
-    return currentDate.getTime() !== checkInDate.getTime();
+    return currentDate > checkInDate;
   }
 
   parseDate(dateString: string): Date | null {
@@ -86,5 +95,19 @@ export class BookingHistoryPageComponent implements OnInit {
 
   handleBookingDeleted(bookingId: number) {
     this.bookings = this.bookings.filter(booking => booking.id !== bookingId);
+  }
+
+  closeReviewArea() {
+    this.showReview = 0;
+    this.errorMessage = '';
+  }
+
+  canAddReview(booking: IBooking): boolean {
+    let date = this.parseDate(booking.checkOutDate);
+
+    if (date) {
+      return date <= new Date();
+    }
+    return false;
   }
 }
