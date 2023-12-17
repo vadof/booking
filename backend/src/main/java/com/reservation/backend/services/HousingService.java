@@ -151,33 +151,8 @@ public class HousingService extends GenericService {
         return housingMapper.toDto(housing);
     }
 
-    //public List<HousingPreviewDTO> getAllFavourites() {
-    //    return housingPreviewMapper.toDtos(getCurrentUserAsEntity().getFavourites());
-    //}
-
-    public PaginatedResponseDTO<HousingPreviewDTO> getAllFavourites(HousingSearchDTO housingSearchDTO) {
-        User user = getCurrentUserAsEntity();
-
-        int page = housingSearchDTO.getPage();
-        int pageSize = housingSearchDTO.getSize();
-
-        List<Housing> favouriteHousings = user.getFavourites();
-        int totalFavourites = favouriteHousings.size();
-
-        int fromIndex = page * pageSize;
-        int toIndex = Math.min(fromIndex + pageSize, totalFavourites);
-
-        List<Housing> paginatedFavourites = favouriteHousings.subList(fromIndex, toIndex);
-        List<HousingPreviewDTO> favouritesPreview = housingPreviewMapper.toDtos(paginatedFavourites);
-
-        return PaginatedResponseDTO.<HousingPreviewDTO>builder()
-               .page(page)
-                .totalPages((int) Math.ceil((double) totalFavourites / pageSize))
-                .size(favouritesPreview.size())
-                .sortingFields(housingSearchDTO.getSortingFields())
-                .sortDirection(housingSearchDTO.getSortDirection().toString())
-                .data(favouritesPreview)
-                .build();
+    public List<HousingPreviewDTO> getAllFavourites() {
+        return housingPreviewMapper.toDtos(getCurrentUserAsEntity().getFavourites());
     }
 
     public HousingDTO deleteFromFavourites(Long id) {
