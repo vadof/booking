@@ -11,9 +11,9 @@ RUN     npm install -g @angular/cli
 #EXPOSE  4200
 
 #CMD     ["ng", "serve", "--host", "0.0.0.0"]
-RUN     ng build --prod
+RUN     ng build
 
-FROM nginx:latest
+FROM    nginx:latest
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /usr/src/app/dist/* /usr/share/nginx/html
+COPY    nginx.conf /etc/nginx/nginx.conf
+COPY    --from=build /usr/src/app/dist/* /usr/share/nginx/html
