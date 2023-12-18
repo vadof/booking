@@ -4,6 +4,7 @@ import {HousingService} from "../../services/housing.service";
 import {HttpService} from "../../services/http.service";
 import {TokenStorageService} from "../../auth/token-storage.service";
 import {IImage} from "../../models/IImage";
+import {API_URL} from "../../config/constants";
 
 @Component({
   selector: 'app-housing-images-form',
@@ -62,7 +63,7 @@ export class HousingImagesFormComponent implements OnInit {
         let uploadedImageData = new FormData()
         uploadedImageData.append('imageFile', file);
 
-        this.httpClient.post<IImage>(`http://localhost:8080/api/v1/images/${housingId}/upload`,
+        this.httpClient.post<IImage>(`${API_URL}/v1/images/${housingId}/upload`,
           uploadedImageData, {observe: 'response', headers}).subscribe(
           response => {
             images.push(response.body!);

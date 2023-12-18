@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {TokenStorageService} from "../auth/token-storage.service";
 import {Observable} from "rxjs";
+import {API_URL} from "../config/constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  private API_URL = 'http://localhost:8080/api'
+  private API_URL = API_URL
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

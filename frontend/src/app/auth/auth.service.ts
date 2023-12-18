@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthResponse} from "./AuthResponse";
 import {Observable} from "rxjs";
+import {API_URL} from "../config/constants";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,8 +15,8 @@ const httpOptions = {
 })
 export class AuthService {
 
-  private loginUrl = 'http://localhost:8080/api/v1/auth/login'
-  private registerUrl = 'http://localhost:8080/api/v1/auth/register'
+  private loginUrl = `${API_URL}/v1/auth/login`
+  private registerUrl = `${API_URL}/v1/auth/register`
 
   constructor(private http: HttpClient) {
   }
