@@ -164,7 +164,7 @@ public class HousingService extends GenericService {
     public HousingDTO deleteFromFavourites(Long id) {
         User user = getCurrentUserAsEntity();
         Housing housing = getHousing(id);
-        if (user.getFavourites().contains(housing)) {
+        if (user.getFavourites() != null && user.getFavourites().contains(housing)) {
             user.getFavourites().remove(housing);
             userRepository.save(user);
             return housingMapper.toDto(housing);
