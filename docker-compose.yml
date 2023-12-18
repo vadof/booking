@@ -16,9 +16,7 @@ services:
     image: frontend
     restart: always
     ports:
-      - '80:80'
-    expose:
-      - 80
+      - '4200:4200'
     networks:
       - reservation
   postgres:
