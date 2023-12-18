@@ -22,14 +22,21 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret.key}")
-    private String secretKey;
+    private final String secretKey;
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
+    private final Long expiration;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public JwtService(
+            @Value("${jwt.secret.key}") String secretKey,
+            @Value("${jwt.expiration}") Long expiration,
+            UserRepository userRepository
+    ) {
+        this.secretKey = secretKey;
+        this.expiration = expiration;
+        this.userRepository = userRepository;
+    }
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
