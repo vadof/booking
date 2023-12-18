@@ -34,6 +34,7 @@ public class HousingService extends GenericService {
     private final ImageRepository imageRepository;
     private final ImageMapper imageMapper;
     private final UserRepository userRepository;
+    private static final String APP_EXCEPTION_FORBIDDEN = "Forbidden";
 
     public PaginatedResponseDTO<HousingPreviewDTO> getAllHousings(HousingSearchDTO housingSearchDTO) {
         Page<Housing> housingPage = housingRepository.findAll(housingSearchDTO.getSpecification(), housingSearchDTO.getPageable());
@@ -55,7 +56,7 @@ public class HousingService extends GenericService {
         housing.setId(null);
         housing.setOwner(getCurrentUserAsEntity());
         housing.setPublished(false);
-        housing.setCoordinates(housing.getCoordinates().replaceAll(" ", ""));
+        housing.setCoordinates(housing.getCoordinates().replace(" ", ""));
         housingRepository.save(housing);
         return housingMapper.toDto(housing);
     }
@@ -70,7 +71,7 @@ public class HousingService extends GenericService {
             housingRepository.saveAndFlush(housing);
             return housingMapper.toDto(housing);
         } else {
-            throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
+            throw new AppException(APP_EXCEPTION_FORBIDDEN, HttpStatus.FORBIDDEN);
         }
     }
 
@@ -85,7 +86,7 @@ public class HousingService extends GenericService {
             housingRepository.save(housing);
             return imageMapper.toDto(image);
         } else {
-            throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
+            throw new AppException(APP_EXCEPTION_FORBIDDEN, HttpStatus.FORBIDDEN);
         }
     }
 
@@ -98,7 +99,7 @@ public class HousingService extends GenericService {
             housingRepository.save(housing);
             return housingPreviewMapper.toDto(housing);
         } else {
-            throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
+            throw new AppException(APP_EXCEPTION_FORBIDDEN, HttpStatus.FORBIDDEN);
         }
     }
 
@@ -112,7 +113,7 @@ public class HousingService extends GenericService {
             return housingMapper.toDto(housing);
         }
 
-        throw new AppException("Forbidden", HttpStatus.FORBIDDEN);
+        throw new AppException(APP_EXCEPTION_FORBIDDEN, HttpStatus.FORBIDDEN);
     }
 
     public List<HousingPreviewDTO> getHousingsByOwner() {

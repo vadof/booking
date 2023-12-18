@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class ImageTests extends GenericTest {
+class ImageTests extends GenericTest {
 
     @Mock
     ImageRepository repository;
@@ -83,6 +83,7 @@ public class ImageTests extends GenericTest {
     @Test
     @DisplayName("Add Image Not Owner")
     void addFailure2() {
+        Long housingId = 1L;
         Image image = ImageMock.getImageMock(1L);
         MultipartFile multipartFile = new MockMultipartFile(image.getName(), image.getName(), image.getContentType(), new byte[5]);
 
@@ -90,7 +91,7 @@ public class ImageTests extends GenericTest {
         when(housingRepository.findById(image.getHousing().getId())).thenReturn(Optional.of(image.getHousing()));
 
         AppException ex = Assertions.assertThrows(AppException.class,
-                () -> service.addImageToHousing(multipartFile, image.getHousing().getId()));
+                () -> service.addImageToHousing(multipartFile, housingId));
 
         assertThat(ex.getHttpStatus()).isEqualTo(HttpStatus.FORBIDDEN);
 

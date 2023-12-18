@@ -51,9 +51,9 @@ public abstract class SearchDTO<T> {
 
     @JsonIgnore
     public Sort getSortSpec() {
-        String[] sortingFields = this.sortingFields.split(",");
+        String[] fieldsToSort = this.sortingFields.split(",");
         return (sortDirection == Sort.Direction.DESC) ?
-                Sort.by(sortingFields).descending() : Sort.by(sortingFields).ascending();
+                Sort.by(fieldsToSort).descending() : Sort.by(fieldsToSort).ascending();
     }
 
     protected void addFilters(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder, List<Predicate> filters) {
@@ -70,7 +70,7 @@ public abstract class SearchDTO<T> {
 
     public void setSortingFields(String sortingFields) {
         this.sortingFields = StringUtils.isNotBlank(sortingFields)
-                ? sortingFields.replaceAll(" ", "") : DEFAULT_SORTING_FIELDS;
+                ? sortingFields.replace(" ", "") : DEFAULT_SORTING_FIELDS;
     }
 
     public void setSortDirection(Sort.Direction sortDirection) {

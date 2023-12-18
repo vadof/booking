@@ -88,7 +88,7 @@ public class ReviewService extends GenericService {
 
     private void updateHousingRating(Housing housing) {
         Long ratingFromAllReviews = 0L;
-        if (housing.getReviews().size() == 0) {
+        if (housing.getReviews().isEmpty()) {
             housing.setRating(null);
         } else {
             for (Review review : housing.getReviews()) {
