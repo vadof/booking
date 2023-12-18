@@ -8,6 +8,8 @@ services:
       - '8080:8080'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=admin
     depends_on:
       - postgres
     networks:
