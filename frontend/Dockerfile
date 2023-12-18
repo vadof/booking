@@ -1,15 +1,12 @@
-FROM    node:latest AS build
+FROM    node:latest
 
 WORKDIR /app
 
-COPY    package*.json ./
-
-RUN     npm install
-RUN     npx ngcc --properties es2023 browser module main --first-only --create-ivy-entry-points
+COPY    package.json package-lock.json
 COPY    . .
 
-RUN     npm run build
-FROM    nginx:stable
-COPY    --from=build /app/frontend/ /usr/share/nginx/html
+RUN     npm install
+RUN     npm install -g @angular/cli
 
-EXPOSE  80
+EXPOSE  4200
+CMD     ["ng", "serve", "--host", "0.0.0.0"]

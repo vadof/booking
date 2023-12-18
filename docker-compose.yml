@@ -8,6 +8,8 @@ services:
       - '8080:8080'
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
       - postgres
     networks:
@@ -16,9 +18,7 @@ services:
     image: frontend
     restart: always
     ports:
-      - '80:80'
-    expose:
-      - 80
+      - '4200:4200'
     networks:
       - reservation
   postgres:
