@@ -31,14 +31,14 @@ public class ImageService extends GenericService {
     private final HousingRepository housingRepository;
     private final ImageMapper imageMapper;
 
-    public static int BITE_SIZE = 4 * 1024;
+    public static final int BITE_SIZE = 4 * 1024;
 
     @Transactional
     public ImageDTO addImageToHousing(MultipartFile imageFile, Long housingId) {
         User user = getCurrentUserAsEntity();
         Housing housing = housingRepository.findById(housingId).orElseThrow(() ->
             new AppException("Housing#" + housingId + " not found", HttpStatus.NOT_FOUND));
-        if (user.equals(housing.getOwner()) && imageFile.getContentType().startsWith("image/")) {
+        if (user.equals(housing.getOwner()) &&  imageFile.getContentType() != null && imageFile.getContentType().startsWith("image/")) {
             Image image = saveImage(imageFile, housing);
             housing.getImages().add(image);
             housingRepository.save(housing);

@@ -106,6 +106,7 @@ class BookingServiceTest extends GenericTest {
     @Test
     @DisplayName("Book Housing CheckIn equals CheckOut Failure")
     void bookFailure1() {
+        Long housingId = 1L;
         Housing housing = HousingMock.getHousingMock(1L);
         User tenant = UserMock.getUserMock(1L);
 
@@ -120,7 +121,7 @@ class BookingServiceTest extends GenericTest {
                 bookingToSave.getCheckOutDate())).thenReturn(new ArrayList<>());
 
         AppException ex = assertThrows(AppException.class,
-                () -> bookingService.bookHousing(housing.getId(), bookingToSave));
+                () -> bookingService.bookHousing(housingId, bookingToSave));
 
         assertThat(ex.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 
@@ -131,6 +132,7 @@ class BookingServiceTest extends GenericTest {
     @Test
     @DisplayName("Book Housing Dates are not available Failure")
     void bookFailure2() {
+        Long housingId = 1L;
         Housing housing = HousingMock.getHousingMock(1L);
         User tenant = UserMock.getUserMock(1L);
 
@@ -143,7 +145,7 @@ class BookingServiceTest extends GenericTest {
                 bookingToSave.getCheckOutDate())).thenReturn(Collections.singletonList(new Booking()));
 
         AppException ex = assertThrows(AppException.class,
-                () -> bookingService.bookHousing(housing.getId(), bookingToSave));
+                () -> bookingService.bookHousing(housingId, bookingToSave));
 
         assertThat(ex.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 
@@ -154,6 +156,7 @@ class BookingServiceTest extends GenericTest {
     @Test
     @DisplayName("Book Housing CheckOut before CheckIn Failure")
     void bookFailure3() {
+        Long housingId = 1L;
         Housing housing = HousingMock.getHousingMock(1L);
         User tenant = UserMock.getUserMock(1L);
 
@@ -165,7 +168,7 @@ class BookingServiceTest extends GenericTest {
         bookingToSave.setCheckOutDate(bookingToSave.getCheckInDate().minusDays(1));
 
         AppException ex = assertThrows(AppException.class,
-                () -> bookingService.bookHousing(housing.getId(), bookingToSave));
+                () -> bookingService.bookHousing(housingId, bookingToSave));
 
         assertThat(ex.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 
@@ -176,6 +179,7 @@ class BookingServiceTest extends GenericTest {
     @Test
     @DisplayName("Book Housing CheckIn before Current Date Failure")
     void bookFailure4() {
+        Long housingId = 1L;
         Housing housing = HousingMock.getHousingMock(1L);
         User tenant = UserMock.getUserMock(1L);
 
@@ -187,7 +191,7 @@ class BookingServiceTest extends GenericTest {
         bookingToSave.setCheckInDate(LocalDate.now().minusDays(1));
 
         AppException ex = assertThrows(AppException.class,
-                () -> bookingService.bookHousing(housing.getId(), bookingToSave));
+                () -> bookingService.bookHousing(housingId, bookingToSave));
 
         assertThat(ex.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
 
@@ -330,7 +334,7 @@ class BookingServiceTest extends GenericTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getTotalPages()).isEqualTo(1);
-        assertThat(result.getData().size()).isEqualTo(1);
+        assertEquals(1, result.getData().size());
         assertThat(result.getData().get(0).getCheckInDate()).isEqualTo(booking.getCheckInDate());
         assertThat(result.getSortDirection()).isEqualTo("ASC");
     }

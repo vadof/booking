@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class HousingTests extends GenericTest {
+class HousingTests extends GenericTest {
     @Spy
     HousingPreviewMapper housingPreviewMapper = new HousingPreviewMapperImpl();
     @Spy
@@ -96,7 +96,7 @@ public class HousingTests extends GenericTest {
         assertThat(savedEntity.getCoordinates()).isEqualTo(housingDTO1.getCoordinates());
         assertThat(savedEntity.getPublished()).isEqualTo(housingDTO1.getPublished());
         assertThat(savedEntity.getOwner()).isEqualTo(user);
-        assertThat(savedEntity.getPreviewImage()).isEqualTo(housingDTO1.getPreviewImage());
+        assertThat(imageMapper.toDto(savedEntity.getPreviewImage())).isEqualTo(housingDTO1.getPreviewImage());
         assertThat(savedEntity.getLocation().getName()).isEqualTo(housingDTO1.getLocation().getName());
 
         assertThat(savedHousing.getPublished()).isFalse();
@@ -119,7 +119,7 @@ public class HousingTests extends GenericTest {
 
         PaginatedResponseDTO<HousingPreviewDTO> response = housingService.getAllHousings(housingSearchDTO);
 
-        assertThat(response.getData().size()).isEqualTo(0);
+        assertEquals(0, response.getData().size());
         verify(housingPreviewMapper, times(1)).toDtos(page.getContent());
 
     }
@@ -147,7 +147,7 @@ public class HousingTests extends GenericTest {
         assertThat(savedEntity.getCoordinates()).isEqualTo(housingDTO1.getCoordinates());
         assertThat(savedEntity.getPublished()).isEqualTo(housingDTO1.getPublished());
         assertThat(savedEntity.getOwner()).isEqualTo(user);
-        assertThat(savedEntity.getPreviewImage()).isEqualTo(housingDTO1.getPreviewImage());
+        assertThat(imageMapper.toDto(savedEntity.getPreviewImage())).isEqualTo(housingDTO1.getPreviewImage());
         assertThat(savedEntity.getLocation().getName()).isEqualTo(housingDTO1.getLocation().getName());
 
         Mockito.verify(housingMapper, times(1)).toDto(savedEntity);
@@ -177,7 +177,7 @@ public class HousingTests extends GenericTest {
         List<HousingPreviewDTO> housingPreviewDTOs = housingService.getHousingsByOwner();
 
         verify(housingPreviewMapper, times(1)).toDtos(housings);
-        assertThat(housingPreviewDTOs.size()).isEqualTo(housings.size());
+        assertEquals(housingPreviewDTOs.size(), housings.size());
         for (int i = 0; i < housings.size(); i++) {
             assertThat(housingPreviewDTOs.get(i).getName()).isEqualTo(housings.get(i).getName());
         }
@@ -223,7 +223,7 @@ public class HousingTests extends GenericTest {
         verify(userRepository, times(1)).save(user);
         verify(housingMapper, times(1)).toDto(housing);
         assertThat(result).isEqualTo(housingDTO);
-        assertThat(user.getFavourites().contains(housing)).isTrue();
+        assertTrue(user.getFavourites().contains(housing));
     }
 
     @Test
@@ -260,7 +260,7 @@ public class HousingTests extends GenericTest {
         verify(userRepository, times(2)).save(user);
         verify(housingMapper, times(2)).toDto(housing);
         assertThat(result).isEqualTo(housingDTO);
-        assertThat(user.getFavourites().contains(housing)).isFalse();
+        assertFalse(user.getFavourites().contains(housing));
     }
 
     @Test
@@ -310,7 +310,7 @@ public class HousingTests extends GenericTest {
 
         List<LocalDate> dates = housingService.getHousingBookedDays(housing.getId());
 
-        assertThat(dates.size()).isEqualTo(1);
+        assertEquals(1, dates.size());
         assertThat(dates.get(0)).isEqualTo(booking.getCheckInDate());
     }
 

@@ -103,7 +103,7 @@ public class BookingService extends GenericService {
     }
 
     private boolean dateOfHousingAvailableForBooking(Housing housing, LocalDate checkIn, LocalDate checkOut) {
-        return bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).size() == 0;
+        return bookingRepository.findAllByDateRangeAndHousing(housing.getId(), checkIn, checkOut).isEmpty();
     }
 
     private Booking getBookingById(Long id) {

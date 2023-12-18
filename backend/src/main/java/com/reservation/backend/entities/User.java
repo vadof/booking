@@ -42,7 +42,7 @@ public class User implements UserDetails {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Housing> favourites;
+    private transient List<Housing> favourites;
 
     @JsonIgnore
     @DateTimeFormat(pattern = Constants.DATE_FORMAT_DD_MM_YYYY)
