@@ -11,6 +11,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
 import {MyPublicationsPageComponent} from "./pages/my-publications-page/my-publications-page.component";
 import {MyFavouritesPageComponent} from "./pages/my-favourites-page/my-favourites-page.component";
+import {ReviewPageComponent} from "./pages/review-page/review-page.component";
 
 const routes: Routes = [
   {path: '', component: MainPageComponent, canActivate: [AuthGuard]},
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'housing/:id', component: HousingPageComponent, canActivate: [AuthGuard]},
   {path: 'publications', component: MyPublicationsPageComponent, canActivate: [AuthGuard]},
   {path: 'bookings', component: BookingHistoryPageComponent, canActivate: [AuthGuard]},
-  {path: 'favourites', component: MyFavouritesPageComponent, canActivate: [AuthGuard]}
+  {path: 'favourites', component: MyFavouritesPageComponent, canActivate: [AuthGuard]},
+  {path: 'reviews', component: ReviewPageComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

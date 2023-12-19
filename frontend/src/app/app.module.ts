@@ -39,6 +39,7 @@ import {MatSliderModule} from "@angular/material/slider";
 import {BookingHistoryPageComponent} from './pages/booking-history-page/booking-history-page.component';
 import {BookingItemComponent} from "./components/booking-item/booking-item.component";
 import { MyFavouritesPageComponent } from './pages/my-favourites-page/my-favourites-page.component';
+import {ReviewPageComponent} from "./pages/review-page/review-page.component";
 
 
 
@@ -64,6 +65,7 @@ import { MyFavouritesPageComponent } from './pages/my-favourites-page/my-favouri
     HousingPreviewDeleteItemComponent,
     HousingDeleteConfirmationComponent,
     MyFavouritesPageComponent,
+    ReviewPageComponent
   ],
   imports: [
     BrowserModule,
