@@ -30,6 +30,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @PostMapping()
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
+        log.info("REST request to create user: {}", userDTO);
+        UserDTO newUser = userService.createUser(userDTO);
+        return ResponseEntity.ok().body(newUser);
+    }
+
     @Operation(summary = "Add review to Housing")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Review added",
@@ -40,13 +47,6 @@ public class ReviewController {
     })
 
 
-
-        @PostMapping("/{id}")
-        public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-            log.info("REST request to create user: {}", userDTO);
-            UserDTO newUser = userService.createUser(userDTO);
-            return ResponseEntity.ok().body(newUser);
-        }
 
     @PostMapping("/{housingId}")
     public ResponseEntity<ReviewDTO> addReviewNew(@PathVariable Long housingId, @Valid @RequestBody ReviewDTO reviewDTO) {
