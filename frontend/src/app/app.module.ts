@@ -40,6 +40,7 @@ import {BookingHistoryPageComponent} from './pages/booking-history-page/booking-
 import {BookingItemComponent} from "./components/booking-item/booking-item.component";
 import { MyFavouritesPageComponent } from './pages/my-favourites-page/my-favourites-page.component';
 import {ReviewPageComponent} from "./pages/review-page/review-page.component";
+import { CountryPageComponent } from './pages/country-page/country-page.component';
 
 
 
@@ -65,7 +66,8 @@ import {ReviewPageComponent} from "./pages/review-page/review-page.component";
     HousingPreviewDeleteItemComponent,
     HousingDeleteConfirmationComponent,
     MyFavouritesPageComponent,
-    ReviewPageComponent
+    ReviewPageComponent,
+    CountryPageComponent
   ],
   imports: [
     BrowserModule,

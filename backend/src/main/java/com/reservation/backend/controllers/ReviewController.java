@@ -3,7 +3,7 @@ package com.reservation.backend.controllers;
 import com.reservation.backend.dto.ReviewDTO;
 import com.reservation.backend.dto.UserDTO;
 import com.reservation.backend.services.ReviewService;
-import com.reservation.backend.services.UserService;
+import com.reservation.backend.services.UserReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,16 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RequiredArgsConstructor
 public class ReviewController {
-    private final UserService userService;
-
     private final ReviewService reviewService;
-
-    @PostMapping()
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-        log.info("REST request to create user: {}", userDTO);
-        UserDTO newUser = userService.createUser(userDTO);
-        return ResponseEntity.ok().body(newUser);
-    }
 
     @Operation(summary = "Add review to Housing")
     @ApiResponses(value = {

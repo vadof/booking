@@ -6,5 +6,7 @@
     <includeAll path="/db/changelog/0.0.1/"/>
     <includeAll path="/db/changelog/0.0.2/"/>
     <includeAll path="/db/changelog/0.0.3/"/>
+    <includeAll path="/db/changelog/0.0.4/"/>
+    <includeAll path="/db/changelog/0.0.5/"/>
 
 </databaseChangeLog>
